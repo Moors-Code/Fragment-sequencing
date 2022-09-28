@@ -86,5 +86,3 @@ res.sum <- group_by(res, From, To) %>%
 pmat <- xtabs(Score ~ From + To,data=res.sum)
 cellCellContactMap(pmat)
 cellCellContactMap(pmat,order=levels(factor(res.sum$From)))
-ggsave("./figures/4.3/Contacts_PV-CV.pdf",width = 12, height = 10)
-ggsave("./figures/4.3/Contacts_PV-CV.svg",width = 12, height = 10)
