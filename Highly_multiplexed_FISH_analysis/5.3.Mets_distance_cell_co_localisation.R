@@ -80,10 +80,10 @@ res.list <- lapply(unique(pD$Slide), function(SLIDE) {
 res <- do.call(rbind,res.list)
 
 ###We can visualize this now by summing across the slides the ones that were significant at alpha = 0.01 & more than 30% difference
-res$FC <- (res$Edges + res$EdgeDiff_To_noMets) / res$Edges
+res$FC <- (res$Edges + res$EdgeDiff_To_far) / res$Edges
 res$FC[is.nan(res$FC)] <- 0
 res.sum <- group_by(res, From, To) %>%
-  summarize(Score = sum((Pval <= 0.01 & abs(FC) > 1.3) * sign(EdgeDiff_To_noMets))/n())
+  summarize(Score = sum((Pval <= 0.01 & abs(FC) > 1.3) * sign(EdgeDiff_To_far))/n())
 
 ###Triangle plotting
 pmat <- xtabs(Score ~ From + To,data=res.sum)
