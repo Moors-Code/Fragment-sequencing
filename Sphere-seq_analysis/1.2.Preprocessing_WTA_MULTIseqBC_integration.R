@@ -121,7 +121,7 @@ spleen1<- CreateSeuratObject(counts = spleen1, project = "S1", min.cells = 3, mi
 
 MULTIseq_WTA_integration_10X(
   "./data_files_generated/classified_table_Spleen_sample1.Rda",
-  spleenS1,
+  spleen1,
   "./data_files_generated/SpS_Spleen_Sample1.Rda"
 )
 
@@ -131,7 +131,7 @@ spleen2<- CreateSeuratObject(counts = spleen2, project = "S2", min.cells = 3, mi
 
 MULTIseq_WTA_integration_10X(
   "./data_files_generated/classified_table_Spleen_sample2.Rda",
-  spleenS2,
+  spleen2,
   "./data_files_generated/SpS_Spleen_Sample2.Rda"
 )
 
