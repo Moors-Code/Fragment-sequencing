@@ -13,6 +13,12 @@ source("./functions_and_packages/5.Functions_cell_co_localisation.R")
 ###Load data 
 merged <- readRDS(file = "./data_files_generated/Resolve_seurat_anno.rds")
 
+#remove Cholangiocytes, they is not Cholangiocytes in the CV areas and therefore it is not relevant 
+#also remove Neutrophils, very little amount of cells 
+Idents(merged) <- "annotation"
+merged <- subset(merged, idents = c("Metastasis","Hepatocytes_CV","Kupffer","Monocytes","Hepatocytes_PV","LECs",
+                                    "Stellate","T","Fibroblasts","B"))
+
 #only consider CV and PV areas 
 Idents(merged) <- "vein"
 veins <- subset(merged, idents = c("CV","PV"))
