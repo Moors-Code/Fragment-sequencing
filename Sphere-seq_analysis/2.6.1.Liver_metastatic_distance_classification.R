@@ -80,6 +80,26 @@ p <- DimPlot(metastasis, reduction = "umap", label = TRUE, pt.size = 0.5, group.
 p + ggsave("./figures/2.6.1/Split_plot_mets_noMets.pdf", width = 15, height = 10)
 p + ggsave("./figures/2.6.1/Split_plot_mets_noMets.svg", width = 15, height = 10)
 
+########## Metastatic cells per sphere ##########
+###subset close area 
+Idents(metastasis) <- "Mets_distance"
+mets_spheres <- subset(metastasis,idents = "close")
+
+###subset metastasis cells from close area
+Idents(mets_spheres) <- "annotation"
+mets_spheres_mets_cells <- subset(mets_spheres, idents = "Metastasis")
+
+###plot counts in boxplot in decreasing order
+mets_spheres_mets_cells_df <- as.data.frame(table(mets_spheres_mets_cells$sphere))
+p <- ggplot(mets_spheres_mets_cells_df, aes( y=Freq, x=reorder(Var1,-Freq), Var1)) + theme_classic() +
+  geom_bar( stat="identity", fill = "#F90606") + 
+  xlab("Sphere") + ylab("Cell count") +ggtitle("Amount of metastastatic cells per sphere") + 
+  theme(axis.text = element_text(size = 10)) +  theme(axis.text.x = element_text(angle = 90)) +
+  theme(axis.title= element_text(size = 25)) + 
+  theme(plot.title = element_text(size = 25, face = "bold")) + 
+  theme(legend.title = element_text(size = 30), legend.text = element_text(size = 30)) 
+p + ggsave("./figures/2.6.1/barplot_mets_cells_per_sphere.pdf", width = 12, height = 10)
+p + ggsave("./figures/2.6.1/barplot_mets_cells_per_sphere.svg", width = 12, height = 10)
 
 
 
