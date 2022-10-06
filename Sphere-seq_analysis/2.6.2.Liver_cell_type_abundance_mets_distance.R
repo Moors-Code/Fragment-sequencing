@@ -28,7 +28,7 @@ top <- top %>%
 
 p <- ggplot(top, aes(x=logFC, y=-log10(PValue))) +
   geom_point(aes(color = Expression),size=5) +
-  geom_text(data=top[top$PValue<0.05 & abs(top$logFC) > 0.3,], aes(label=Gene),size=8) +
+  geom_text(data=top[top$PValue<1 & abs(top$logFC) > 0,], aes(label=Gene),size=8)  +
   xlab("logFC") + 
   ylab("-log10(PValue)") + ggtitle("Cell type prop - Sphere-seq (PValue ≤ 0.05, logFC >0.3") + 
   scale_color_manual(values = c("dodgerblue3", "firebrick3", "gray50"),guide = "none") + theme_classic() + 
@@ -60,7 +60,7 @@ top <- top %>%
 
 p <- ggplot(top, aes(x=logFC, y=-log10(PValue))) +
   geom_point(aes(color = Expression),size=5) +
-  geom_text(data=top[top$PValue<0.05 & abs(top$logFC) > 0.4,], aes(label=Gene),size=8) +
+  geom_text(data=top[top$PValue<1 & abs(top$logFC) > 0,], aes(label=Gene),size=8)  +
   xlab("logFC") + 
   ylab("-log10(PValue)") + ggtitle("Monocytes subtype prop - Sphere-seq (PValue ≤ 0.05, logFC >0.5") + 
   scale_color_manual(values = c("dodgerblue3", "gray50"),guide = "none") + theme_classic() + 
