@@ -15,8 +15,9 @@ merged <- readRDS(file = "./data_files_generated/Resolve_seurat_anno.rds")
 
 #remove Cholangiocytes, they is not Cholangiocytes in the CV areas and therefore it is not relevant 
 #also remove Neutrophils, very little amount of cells 
+#and remove Metastatic cells they are only within metastatic areas 
 Idents(merged) <- "annotation"
-merged <- subset(merged, idents = c("Metastasis","Hepatocytes_CV","Kupffer","Monocytes","Hepatocytes_PV","LECs",
+merged <- subset(merged, idents = c("Hepatocytes_CV","Kupffer","Monocytes","Hepatocytes_PV","LECs",
                                     "Stellate","T","Fibroblasts","B"))
 
 #only consider CV and PV areas 
