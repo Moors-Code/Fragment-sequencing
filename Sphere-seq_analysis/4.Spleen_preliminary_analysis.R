@@ -93,7 +93,20 @@ merged_cl$annotation <- plyr::mapvalues(x = merged_cl$seurat_clusters, from = cu
 Idents(merged_cl) <- "annotation"
 merged_cl <- subset(merged_cl, idents = c("B","B_CD21_high", "CD8_T","CD4_T","Mono_Ly6c_low","NK","Mono_Ly6c_high","Macrophages","Neutrophils","pDC"))
 
-###Plot umap 
+#T cell areas: red colours:  CD4 T , CD8 T , NK 
+#B cell areas: Blue colours:  B, B CD21 high, PC 
+#Marginal zones MZ: purple colours: Mono Ly6c low, mono ly6c high, Mac, pDC, Neut
+
+current.cluster.ids <- c("B","B_CD21_high", "CD8_T","CD4_T","Mono_Ly6c_low","NK","Mono_Ly6c_high","Macrophages","Neutrophils","pDC")
+new.cluster.ids <- c("B","B", "T","T","MZ","T","MZ","MZ","MZ","MZ")
+merged_cl$zone <- plyr::mapvalues(x = merged_cl$annotation, from = current.cluster.ids, to = new.cluster.ids)
+
+#remove RBCs
+Idents(merged_cl) <- "zone"
+merged_cl <- subset(merged_cl, idents = c("B","T","MZ"))
+
+#add zone into meta data based on cell type presence 
+DimPlot(merged_cl, group.by = "zone",label = TRUE) + ggsave("./figures/4/zone_umap.pdf")
 p <- DimPlot(merged_cl, group.by = "annotation",label = TRUE, cols = c("#1C3EE5","#EA32EA","#1CA7E5", "#D2E51C",  "#B50926",
                                                                        "#F9AFC0","#E5A21C",
                                                                        "#EFCD8B","#F2EB08","#EFEF8B" )) 
