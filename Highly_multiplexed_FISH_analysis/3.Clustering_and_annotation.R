@@ -156,18 +156,6 @@ merged <- subset(merged, idents = c("Metastasis","Hepatocytes_CV","Kupffer","Mon
 
 ########## plot Marker genes in DotPlot ##########
 Idents(merged) <- "annotation"
-marker_genes <- c("Pglyrp1","Gpx2","App","Spp1","Mecom","Jup", #Metastasis
-                  "Cyp2e1","Cyp1a2" , #Hepatocytes CV 
-                  "Fgb","Cyp2f2","Cfh",  #Hepatocytes PV
-                  "Clec4f","Vsig4", #Kupffer cells
-                  "Lyz2","Csf3r","C1qc","Tgfbi","Cx3cr1", #Monocytes, Neutrophils Csf3r top  
-                  "Galnt15","Acer2","Pecam1","Dll4","Cd36", #LECs
-                  "App", "Pglyrp1","Spp1","Fn1","Dhrs3", #Cholangiocytes
-                  "Tgfbi","Plvap","Lrat","Cyp2e1","Vcam1","Cyp1a2", #Stellate cells
-                  "Il2rb","Ighm","Ccl5","Sema4d","Itgb1", #T cells
-                  "Cald1","Fn1","Tgfbi","Spp1", #Fibroblasts
-                  "Ighm","Itga4","Il2rb" #B cells
-)
 
 marker_genes <- c("Pglyrp1","Gpx2", #Metastasis
                   "Cyp2e1","Cyp1a2" , #Hepatocytes CV 
