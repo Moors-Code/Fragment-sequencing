@@ -237,3 +237,67 @@ p + ggsave("./figures/3/split_plot_pv_cv_hep.svg",width = 15, height = 10)
 ########## save R object ########## 
 saveRDS(merged,file = "./data_files_generated/Resolve_seurat_anno.rds")
 
+########## Get annotation of cell types per slide and for each cell ##########
+#this is used for the overlay with the Dapi image in ImageJ 
+setwd("./data_files_generated/annotation_file_for_ImageJ")
+Idents(merged) <- "Slide"
+
+cell_types_mets <- c("Metastasis","Hepatocytes_CV","Kupffer","Monocytes","Hepatocytes_PV","LECs","Cholangiocytes",
+                     "Stellate","NK_T","Fibroblasts","B","Neutrophils")
+cell_types_noMets <- c("Hepatocytes_CV","Kupffer","Monocytes","Hepatocytes_PV","LECs","Cholangiocytes",
+                       "Stellate","NK_T","Fibroblasts","B","Neutrophils")
+
+A1_1 <- subset(merged, idents = "Slide1_A1-1")
+Idents(A1_1) <- "annotation"
+for (i in cell_types_mets) {
+  text_file_generation_anno_resolve(A1_1,i,"^Slide1_A1-1_Cell","A1_1")
+}
+
+A2_1 <- subset(merged, idents = "Slide1_A2-1")
+Idents(A2_1) <- "annotation"
+for (i in cell_types_noMets) {
+  text_file_generation_anno_resolve(A2_1,i,"^Slide1_A2-1_Cell","A2_1")
+}
+
+A2_2 <- subset(merged, idents = "Slide1_A2-2")
+Idents(A2_2) <- "annotation"
+for (i in cell_types_noMets) {
+  text_file_generation_anno_resolve(A2_2,i,"^Slide1_A2-2_Cell","A2_2")
+}
+
+B1_1 <- subset(merged, idents = "Slide1_B1-1")
+Idents(B1_1) <- "annotation"
+for (i in cell_types_mets) {
+  text_file_generation_anno_resolve(B1_1,i,"^Slide1_B1-1_Cell","B1_1")
+}
+
+B1_2 <- subset(merged, idents = "Slide1_B1-2")
+Idents(B1_2) <- "annotation"
+for (i in cell_types_mets) {
+  text_file_generation_anno_resolve(B1_2,i,"^Slide1_B1-2_Cell","B1_2")
+}
+
+B2_1 <- subset(merged, idents = "Slide1_B2-1")
+Idents(B2_1) <- "annotation"
+for (i in cell_types_noMets) {
+  text_file_generation_anno_resolve(B2_1,i,"^Slide1_B2-1_Cell","B2_1")
+}
+
+##per slide all cell types 
+Idents(merged) <- "Slide"
+merged_slides <- c("^Slide1_A1-1_Cell","^Slide1_A2-1_Cell","^Slide1_A2-2_Cell","^Slide1_B1-1_Cell",
+                   "^Slide1_B1-2_Cell","^Slide1_B2-1_Cell")
+
+slides_names <- as.data.frame(table(merged$Slide))$Var1
+
+text_file_generation_per_slide_resolve(merged,"Slide1_A1-1","^Slide1_A1-1_Cell")
+text_file_generation_per_slide_resolve(merged,"Slide1_A2-1","^Slide1_A2-1_Cell")
+text_file_generation_per_slide_resolve(merged,"Slide1_A2-2","^Slide1_A2-2_Cell")
+text_file_generation_per_slide_resolve(merged,"Slide1_B1-1","^Slide1_B1-1_Cell")
+text_file_generation_per_slide_resolve(merged,"Slide1_B1-2","^Slide1_B1-2_Cell")
+text_file_generation_per_slide_resolve(merged,"Slide1_B2-1","^Slide1_B2-1_Cell")
+
+
+
+
+
