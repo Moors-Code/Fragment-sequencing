@@ -7,6 +7,7 @@ setwd("/mnt/khandler/R_projects/Sphere-sequencing/Highly_multiplexed_FISH_analys
 
 ###Load packages and functions 
 source("./functions_and_packages/1.Packages.R")
+source("./functions_and_packages/2.Functions_Feature_area_integration.R")
 
 ###Load data 
 #mets_samples = with visible metastasis, noMets_samples = no visible metastasis
