@@ -23,8 +23,8 @@ top <- read.csv("./data_files_generated/Mets_distance_Monocytes_DGE_hmFISH.csv")
 
 top <- top %>% 
   mutate(
-    Expression = case_when(logFC >=0.5 & PValue <= 0.05 ~ "High in distal",
-                           logFC <= -0.5 & PValue <= 0.05 ~ "High in proximal",
+    Expression = case_when(logFC >=0.5 & PValue <= 0.05 ~ "High in proximal",
+                           logFC <= -0.5 & PValue <= 0.05 ~ "High in distal",
                            TRUE ~ "Non sig.")
   )
 
