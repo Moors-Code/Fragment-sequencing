@@ -58,7 +58,7 @@ DimPlot(sub_celltype, reduction = "umap", label = TRUE, group.by = "sub.cluster"
 
 p <- DotPlot(sub_celltype, features = c("S100a4", "Itgax", "Crip1","Naaa","Adgre1","Axl","Mafb","Cx3cr1","C5ar1","Chil3","Sell","Gm9733", # general monocyte-derived cells
                                         "Pglyrp1","Spn","Trem3", #Patrolling monocytes  
-                                        "Clec9a","Cd24a","Xcr1", #cDC1: cluster 5
+                                        "Clec9a","Cd24a", #cDC1: cluster 5
                                         "Cd209a","Mgl2","Clec10a","Cd7","Tnfsf9" , #cDC2: cluster 4
                                         "Siglech","Cox6a2",#pDCs: cluster 6
                                         "Clec4f","Vsig4" #Kupffer cells: cluster 7
@@ -91,7 +91,7 @@ p <- DotPlot(sub_celltype, features = c("Pglyrp1","Spn","Trem3","Ly6c1", #Patrol
                                         "Tgfb2","Cbr2", #Peritoneal Macrophages
                                         "Gpnmb","Trem2","Lgals1","Ftl1", #Bile-duct LAMs (lipid associated macrophages)
                                         "Clec4f","Vsig4", #Kupffer cells 
-                                        "Thbs1","Clec4l","Cd209a", #Thbs1+ macrophages Qi 2022 et al, Nature Communication (Thbs1 activates M1-like TAMS ) 
+                                        "Thbs1","Cd209a", #Thbs1+ macrophages Qi 2022 et al, Nature Communication (Thbs1 activates M1-like TAMS ) 
                                         "Vcan","Anpep", #Vcan+ macrophages Qi 2022 et al, Nature Communication
                                         "Ly6c2","Lyz2", #Ly6c+ macrophages: cluster 1 
                                         "C1qc","C1qb","C1qa" #C1q+ macrophages: cluster 3 
@@ -313,7 +313,7 @@ DimPlot(sub_celltype, reduction = "umap", label = TRUE, group.by = "sub.cluster"
 #(KC1 = CD206(low), ESAM(negative) and KC2 = CD206(high), ESAM(positive) 
 p <- DotPlot(sub_celltype, features = c("Clec4f","Vsig4","Timd4","Itgal","Cd5l", "Slc16a9","Slc40a1", #Kupffer cells (KC1): cluster 1,3,4
                                         "Esam","Mrc1", "Cd36","Cd63", "Cd81", "Lamp1", #Kupffer cells 2 (KC2) 
-                                        "Ldb2","Rasip1","Ddx19b","Champ1","Tmem88","Cxcr4","Igfbp7","Clex4g" #Endothelial
+                                        "Ldb2","Rasip1","Ddx19b","Champ1","Tmem88","Cxcr4","Igfbp7","Clec4g" #Endothelial
 )) 
 #Kupffer_Endo: cluster 2 (no so clear if these are KC2 or KC/LECs doublets therefore annotate as Kupffer_Endo doublets), remove cluster 5 
 p + theme(legend.title = element_text(size = 6), legend.text = element_text(size = 6)) + 
@@ -371,15 +371,15 @@ Idents(merged_cl_subCl) <- "sub.cluster"
 sub_celltype <- subset(merged_cl_subCl,idents = c("T_1","T_2","T_3","T_4","T_5"))
 DimPlot(sub_celltype, reduction = "umap", label = TRUE, group.by = "sub.cluster", label.size = 3) 
 
-#Cd59b = Itga2, Cd11b = Itgam, Cd11c = Itgax, Tcrb = Trb, Cd11a = Itgal, Cd278 = Icos, Cd73 = Nt5e, Cd62l = Sell , Cd43 = Spn, Cd49d = Klra32
+#Cd59b = Itga2, Cd11b = Itgam, Cd11c = Itgax, Cd11a = Itgal, Cd278 = Icos, Cd73 = Nt5e, Cd62l = Sell , Cd43 = Spn
 p <- DotPlot(sub_celltype, features = c( "Trac", "Trbc1", "Trbc2","Cd3d","Themis" ,#T cells general 
-                                         "Klra8","Cma1","Ncr1","Itga2","Itgam","Klra32",#NK cells
+                                         "Klra8","Cma1","Ncr1","Itga2","Itgam",#NK cells
                                          "Itgax", #NKT cells: 4
                                          "Gzmc","Klrb1b", #ILC1s 
-                                         "Cd5","Trb","Cd4", #CD4+ T cells: clusters 2,1,5
-                                         "Itgal","Cd90", #Th1s
+                                         "Cd4", #CD4+ T cells: clusters 2,1,5
+                                         "Itgal", #Th1s
                                          "Icos","Nt5e","Itgb8", #Th17
-                                         "Cd8a","Sell","Cd8b", #CD+8 T cells: cluster 3
+                                         "Cd8a","Sell", #CD+8 T cells: cluster 3
                                          "Ly6c1","Spn" #TEMs
 ))
 
