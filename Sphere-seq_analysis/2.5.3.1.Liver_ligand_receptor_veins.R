@@ -39,7 +39,7 @@ cv_S5 <- subset(cv, idents = "4M2")
 cv_S6 <- subset(cv, idents = "M5")
 cv_S7 <- subset(cv, idents = "6M1")
 cv_S8 <- subset(cv, idents = "6M2")
-cv_S9 <- subset(cv, idents = "WTCre")
+cv_S9 <- subset(cv, idents = "6M3")
 
 Idents(pv) <- "orig.ident"
 pv_S1 <- subset(pv, idents = "M1")
@@ -50,7 +50,7 @@ pv_S5 <- subset(pv, idents = "4M2")
 pv_S6 <- subset(pv, idents = "M5")
 pv_S7 <- subset(pv, idents = "6M1")
 pv_S8 <- subset(pv, idents = "6M2")
-pv_S9 <- subset(pv, idents = "WTCre")
+pv_S9 <- subset(pv, idents = "6M3")
 
 #input file generation 
 Input_files_CellPhoneDB_generation(cv,'annotation.broad',"cv","./CellPhoneDB/Vein/") 
