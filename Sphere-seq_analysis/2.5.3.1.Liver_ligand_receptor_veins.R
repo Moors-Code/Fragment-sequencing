@@ -75,6 +75,8 @@ Input_files_CellPhoneDB_generation(pv_S7,'annotation.broad',"pv_S7","./CellPhone
 Input_files_CellPhoneDB_generation(pv_S8,'annotation.broad',"pv_S8","./CellPhoneDB/Vein/") 
 Input_files_CellPhoneDB_generation(pv_S9,'annotation.broad',"pv_S9","./CellPhoneDB/Vein/") 
 
+########## Run CellPhoneDB_veins.sh ##########
+#/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/2.5.3.2.CellPHoneDB_veins.sh
 
 ########## Comparison of L-R interactions between CV and PV of Kupffer cells and T cells ##########
 ###Matrix generation of interacting cells of interest 
