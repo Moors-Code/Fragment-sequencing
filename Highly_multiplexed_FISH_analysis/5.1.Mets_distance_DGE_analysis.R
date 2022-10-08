@@ -44,7 +44,7 @@ p <- ggplot(top, aes(x=logFC, y=-log10(PValue))) +
   geom_text_repel(aes(label=ifelse(top$genelabels, top$Gene,"")),size=8) +
   xlab("logFC") + 
   ylab("-log10(PValue)") + ggtitle("linear model Monocytes (pval 0.05, logFC 0.5)- hmFISH") + 
-  scale_color_manual(values = c("dodgerblue3", "firebrick3", "gray50"),guide = "none") + theme_classic() + 
+  scale_color_manual(values = c( "firebrick3","dodgerblue3", "gray50"),guide = "none") + theme_classic() + 
   theme(axis.title= element_text(size = 25)) + theme(axis.text = element_text(size = 30))  + 
   theme(plot.title = element_text(size = 25, face = "bold"))  + guides(colour = guide_legend(override.aes = list(size=1.5))) + 
   theme(legend.title = element_text(size = 15), legend.text = element_text(size = 15)) +  
