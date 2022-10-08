@@ -151,7 +151,7 @@ p + ggsave("./figures/3.5/Orgnoid_Mixing_species_per_sphere.svg",width = 12, hei
 ########## Barplot of fraction of cells that are wrongly and correctly assigned ##########
 all_cells_amount <- length(org_mix_ensemble@active.ident)
 wrong <- length(wrong_total)
-correct <- all_cells_amount - wrong_cells_amount
+correct <- all_cells_amount - wrong
 condition <- c("correct","wrong")
 cell_number <- c(correct,wrong)
 
