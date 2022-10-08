@@ -21,8 +21,8 @@ top <- read.csv("./figures/2.6.2/Mets_distance_all_cells_cell_type_abundance_Sph
 
 top <- top %>% 
   mutate(
-    Expression = case_when(logFC >= 0.3 & PValue <= 0.05 ~ "High in distal",
-                           logFC <= -0.3 & PValue <= 0.05 ~ "High in proximal",
+    Expression = case_when(logFC >= 0.3 & PValue <= 0.05 ~ "High in proximal",
+                           logFC <= -0.3 & PValue <= 0.05 ~ "High in distal",
                            TRUE ~ "Non sig.")
   )
 
@@ -31,7 +31,7 @@ p <- ggplot(top, aes(x=logFC, y=-log10(PValue))) +
   geom_text(data=top[top$PValue<1 & abs(top$logFC) > 0,], aes(label=Gene),size=8) +
   xlab("logFC") + 
   ylab("-log10(PValue)") + ggtitle("Cell type prop - Sphere-seq (PValue ≤ 0.05, logFC >0.3") + 
-  scale_color_manual(values = c("dodgerblue3", "firebrick3", "gray50"),guide = "none") + theme_classic() + 
+  scale_color_manual(values = c( "firebrick3","dodgerblue3", "gray50"),guide = "none") + theme_classic() + 
   theme(axis.title= element_text(size = 25)) + theme(axis.text = element_text(size = 30))  + 
   theme(plot.title = element_text(size = 25, face = "bold"))  + 
   guides(colour = guide_legend(override.aes = list(size=1.5))) + 
@@ -53,8 +53,8 @@ top <- read.csv("./figures/2.6.2/Mets_distance_mono_subtypes_cell_type_abundance
 
 top <- top %>% 
   mutate(
-    Expression = case_when(logFC >= 0.4 & PValue <= 0.05 ~ "High in distal",
-                           logFC <= -0.4 & PValue <= 0.05 ~ "High in proximal",
+    Expression = case_when(logFC >= 0.4 & PValue <= 0.05 ~ "High in proximal",
+                           logFC <= -0.4 & PValue <= 0.05 ~ "High in distal",
                            TRUE ~ "Non sig.")
   )
 
@@ -63,7 +63,7 @@ p <- ggplot(top, aes(x=logFC, y=-log10(PValue))) +
   geom_text(data=top[top$PValue<1 & abs(top$logFC) > 0,], aes(label=Gene),size=8) +
   xlab("logFC") + 
   ylab("-log10(PValue)") + ggtitle("Monocytes subtype prop - Sphere-seq (PValue ≤ 0.05, logFC >0.5") + 
-  scale_color_manual(values = c("dodgerblue3", "gray50"),guide = "none") + theme_classic() + 
+  scale_color_manual(values = c("firebrick3", "gray50"),guide = "none") + theme_classic() + 
   theme(axis.title= element_text(size = 25)) + theme(axis.text = element_text(size = 30))  + 
   theme(plot.title = element_text(size = 25, face = "bold"))  + 
   guides(colour = guide_legend(override.aes = list(size=1.5))) +  
