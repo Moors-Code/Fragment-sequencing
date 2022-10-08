@@ -63,7 +63,7 @@ Score_matrix_generation_interacting_pair_oi_per_mouse(
 ###DE analysis between proximal and distal of interacting cells of interest 
 DE_CellPhoneDB("./CellPhoneDB/Mets_distance/proximal_per_mouse_Monocytes.T.csv","./CellPhoneDB/Mets_distance/distal_per_mouse_Monocytes.T.csv",
                c("proximal_S4","proximal_S6","proximal_S7"),
-               c("far_S4","far_S6","far_S7"),
+               c("distal_S4","distal_S6","distal_S7"),
                "proximal","distal","./CellPhoneDB/Mets_distance/","Monocytes.T","mets_distance")
 
 ########## Plotting of DE analysis in Barplot with proximal on the left side and distal on the right side ##########
