@@ -2,6 +2,7 @@
 
 This repository contains code from data analysis of sphere-sequencing, Highly multiplexed FISH (Molecular Cartography) and Visium from the following publication.  
 
+
 ## Citation 
 
 The code in this repository pertains to publication: 
@@ -16,6 +17,7 @@ Data for the above publication can be found at GEO with the access number: … a
 
 
 ## Code description: 
+
 
 ### Sphere-seq_analysis:
 
@@ -82,6 +84,7 @@ Data for the above publication can be found at GEO with the access number: … a
 5.Crohn_preliminary_analysis.R: This part analysies preliminary Crohn’s disease sphere-seq data. 
 
 
+
 ### Highly_multiplexed_FISH_analysis (Molecular Cartography)
 
 #### functions_and_packages 
@@ -113,6 +116,8 @@ Data for the above publication can be found at GEO with the access number: … a
 5.2.Mets_distance_cell_type_abundance.R: This part validates findings of cell type abundance analysis of sphere-seq between proximal and distal metastatic areas. 
 
 5.3.Mets_distance_cell_co_localisation.R: This part does cell colocalization analysis comapring proximal and distal areas. 
+
+
 
 ### Visium_analysis 
 
