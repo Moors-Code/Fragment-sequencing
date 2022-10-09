@@ -9,8 +9,8 @@ setwd("/mnt/khandler/R_projects/Sphere-sequencing/Visium_analysis/")
 source("./functions_and_packages/1.Packages.R")
 
 ###load R object 
-V1 <- Load10X_Spatial("./data_files_generated/Visium_sample1.rds")
-V2 <- Load10X_Spatial("./data_files_generated/Visium_sample2.rds")
+V1 <- readRDS("./data_files_generated/Visium_sample1.rds")
+V2 <- readRDS("./data_files_generated/Visium_sample2.rds")
 
 ########## Merging of samples ##########
 merged <- merge(V1, c(V2))
