@@ -296,5 +296,53 @@ text_file_generation_per_slide_resolve(merged,"Slide1_B1-1","^Slide1_B1-1_Cell")
 text_file_generation_per_slide_resolve(merged,"Slide1_B1-2","^Slide1_B1-2_Cell")
 text_file_generation_per_slide_resolve(merged,"Slide1_B2-1","^Slide1_B2-1_Cell")
 
+########## Subclustering of monocytes ##########
+merged <- readRDS(file = "./data_files_generated/Resolve_seurat_anno.rds")
+
+###subset monocytes
+Idents(merged) <- "annotation"
+mono <- subset(merged, idents = "Monocytes")
+
+###cluster
+mono <- FindVariableFeatures(mono, selction.method = "vst", nfeatures = 100)
+all.genes <- rownames(mono)
+mono <- ScaleData(mono,features = all.genes)
+mono <- RunPCA(object = mono, features = VariableFeatures(object = mono),approx=FALSE)
+ElbowPlot(mono)
+mono <- FindNeighbors(object = mono, dims = 1:10, reduction = "pca")
+mono <- FindClusters(mono, resolution = 0.2, random.seed = 2, algorithm = 4, graph.name = "originalexp_snn")
+mono <- RunUMAP(mono, dims = 1:10, seed.use = 5, reduction = "pca")
+DimPlot(mono, reduction = "umap", label = TRUE)
+
+DotPlot(mono, features = c("Spp1","Dab2","C1qb","C1qc","Tgfbi","Lyz2","Il6ra","Tnfrsf1b"))
+DimPlot(mono, group.by = "seurat_clusters",split.by = "Mets_distance")
+
+###annotate 
+current.cluster.ids <- c(1:2)
+new.cluster.ids <- c("Mac_C1q","Mac_Ly6c")
+mono$annotation <- plyr::mapvalues(x = mono$seurat_clusters, from = current.cluster.ids, to = new.cluster.ids)
+DimPlot(mono, reduction = "umap", label = TRUE, group.by = "annotation", label.size = 3)
+
+###splitplot between proximal and distal areas 
+p <- DimPlot(mono, reduction = "umap", label = TRUE, pt.size = 2, group.by = "annotation",split.by = "Mets_distance",
+             cols = c("#19E80F","#566B44")) + 
+  theme(title = element_text(size = 25))+ theme(axis.text = element_text(size = 30)) +
+  ggtitle("Annotation")
+p + ggsave("./figures/3/Split_plot_mono.pdf", width = 15, height = 10)
+p + ggsave("./figures/3/Split_plot_mono.svg", width = 15, height = 10)
+
+###plot marker genes in annotated Dotplot 
+###plot CV (Cyp2e1,"Cyp1a2) and PV (Cyp2f2,Alb) landmark genes in Dotplot 
+Idents(mono) <- "annotation"
+p <- DotPlot(mono, features = c("Spp1","Dab2","C1qb","C1qc","Tgfbi","Lyz2","Il6ra","Tnfrsf1b"), dot.scale = 20) + 
+  theme(legend.title = element_text(size = 22), legend.text = element_text(size = 22)) + 
+  theme(title = element_text(size = 25))+ theme(axis.text = element_text(size = 30)) +
+  ggtitle("Landmark genes in monocytes")  +  theme(axis.text.x = element_text(angle = 90)) 
+p + ggsave("./figures/3/mono_anno_dotplot.pdf",width = 12, height = 10)
+p + ggsave("./figures/3/mono_anno_dotplot.svg",width = 12, height = 10)
+
+
+
+
 
 
