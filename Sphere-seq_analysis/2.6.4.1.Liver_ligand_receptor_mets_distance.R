@@ -91,7 +91,7 @@ df_proximal$interaction_score <- -(df_proximal$interaction_score)
 df_proximal2 <- merge(df_proximal,top)
 
 df_distal <- df[,c("interacting_pair","distal")]
-df_distal$Mets_distance <- "far"
+df_distal$Mets_distance <- "distal"
 colnames(df_distal) <- c("interacting_pair","interaction_score","condition")
 df_distal2 <- merge(df_distal,top)
 
