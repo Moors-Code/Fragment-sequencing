@@ -65,14 +65,14 @@ top <- read.csv("./figures/2.6.3/MacC1q_vs_MacLy6c_DGE.csv")
 
 top <- top %>% 
   mutate(
-    Expression = case_when(logFC >= 0.5 & PValue <= 0.05 ~ "High in Mac_Ly6c_high",
-                           logFC <= -0.5 & PValue <= 0.05 ~ "High in Mac_C1q",
+    Expression = case_when(logFC >= 0.5 & FDR <= 0.05 ~ "High in Mac_Ly6c_high",
+                           logFC <= -0.5 & FDR <= 0.05 ~ "High in Mac_C1q",
                            TRUE ~ "Non sig.")
   )
 
 #highlight specific genes 
 top$genelabels <- ifelse(top$Gene == "Spp1"
-                         |top$Gene == "C1qc"
+                         |top$Gene == "C1qbp"
                          |top$Gene == "Dab2"
                          |top$Gene == "Mrc1"
                          |top$Gene == "Folr2"
@@ -84,7 +84,6 @@ top$genelabels <- ifelse(top$Gene == "Spp1"
                          |top$Gene == "Thbs1"
                          |top$Gene == "Lyz2"
                          |top$Gene == "Il6ra"
-                         |top$Gene == "C1qb"
                          |top$Gene == "Tgfbi"
                          |top$Gene == "Cd36"
                          |top$Gene == "Lpl"
@@ -94,11 +93,11 @@ top$genelabels <- ifelse(top$Gene == "Spp1"
                          |top$Gene == "Trem2",
                          TRUE,FALSE)
 
-p <- ggplot(top, aes(x=logFC, y=-log10(PValue))) +
+p <- ggplot(top, aes(x=logFC, y=-log10(FDR))) +
   geom_point(aes(color = Expression),size=3) +
   geom_text_repel(aes(label=ifelse(top$genelabels, top$Gene,"")),size=8,max.overlaps = Inf) +
   xlab("logFC") + 
-  ylab("-log10(PValue)") + ggtitle("MacC1q vs. MacLy6c (PValue ≤ 0.05, logFC >0.5") + 
+  ylab("-log10(FDR)") + ggtitle("MacC1q vs. MacLy6c (FDR ≤ 0.05, logFC >0.5") + 
   scale_color_manual(values = c("dodgerblue3", "firebrick3", "gray50"),guide = "none") + theme_classic() + 
   theme(axis.title= element_text(size = 25)) + theme(axis.text = element_text(size = 30))  + 
   theme(plot.title = element_text(size = 25, face = "bold"))  + 
