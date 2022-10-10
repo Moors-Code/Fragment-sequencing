@@ -17,9 +17,9 @@ Idents(merged) <- "samples"
 mets_samples <- subset(merged, idents = "mets")
 
 ########## DA abundance analysis ##########
-DA_analysis_cell_type_abundance_Mets_distance_hmFISH(mets_samples,"././figures/5.2/")
+DA_analysis_cell_type_abundance_Mets_distance_hmFISH(mets_samples,"./figures/5.2/")
 
-top <- read.csv("./figures/5.2//Cell_type_abundance_Mets_distance_hmFISH.csv")
+top <- read.csv("./figures/5.2/Cell_type_abundance_Mets_distance_hmFISH.csv")
 
 top <- top %>% 
   mutate(
