@@ -94,10 +94,10 @@ DE_CellPhoneDB("./CellPhoneDB/Vein/CV_per_mouse_Kupffer.T.csv","./CellPhoneDB/Ve
                "CV","PV","./CellPhoneDB/Vein/","Kupffer.T","vein")
 
 ########## Plotting of DE analysis in Barplot with CV on the left side and PV on the right side ##########
-#include Pvalue from DE analysis
+#include Pvalue FDR from DE analysis
 top <- read.csv("./CellPhoneDB/Vein/Kupffer.T_vein_comp_LM.csv")
-top <- top[, colnames(top) %in% c("X","PValue")]
-colnames(top) <- c("interacting_pair","PValue")
+top <- top[, colnames(top) %in% c("X","FDR")]
+colnames(top) <- c("interacting_pair","FDR")
 
 ###compare sig scores of CV and PV 
 file1 <- "./CellPhoneDB/Vein/cv/significant_means.txt"
@@ -125,12 +125,12 @@ df_pv2 <- merge(df_pv,top)
 df1 <- rbind(df_cv2,df_pv2)
 
 ##make barplot 
-#plot until p val 0.5
-df2 <- df1[df1$PValue <=0.5,]
+#plot until p val 0.7
+df2 <- df1[df1$FDR <=0.7,]
 
-p <- ggplot(df2, aes(x=interaction_score, y=reorder(interacting_pair,-PValue),fill = PValue)) + theme_classic() +
+p <- ggplot(df2, aes(x=interaction_score, y=reorder(interacting_pair,-FDR),fill = FDR)) + theme_classic() +
   geom_bar(stat = "identity",position = "identity") + 
-  scale_fill_gradientn(colours = c("darkblue","grey","darkred"),limits = c(0,0.5),breaks = c(0,0.01,0.03,0.05,0.1,0.3,0.5)) + 
+  scale_fill_gradientn(colours = c("darkblue","grey","darkred"),limits = c(0,1),breaks = c(0,0.1,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1)) + 
   theme(axis.text = element_text(size = 15))  + theme(axis.text.x = element_text(angle = 90)) +
   theme(axis.title= element_text(size = 25)) + 
   ggtitle("L-R interactions - CellPhoneDB (Kupffer|T)") + xlab("Significant interaction score") + 
