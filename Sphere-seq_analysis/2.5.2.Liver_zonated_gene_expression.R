@@ -100,43 +100,8 @@ boxplot_zonation_genes_LECs_injected(Injected,"Galnt15","darkgoldenrod2","./figu
 ###Kupffer cells 
 DE_zonated_genes(Injected,"annotation.broad","Kupffer","./data/","Injected")
 
-##plot results of DE analysis in vulcano plot
-#read in results 
+#read in results to get FDR adjusted P-value for boxplot 
 top <- read.csv("./data/Injected_Kupffer_LM_zonated_genes.csv")
-
-top <- top %>% 
-  mutate(
-    Expression = case_when(logFC >= 0.5 & FDR <= 0.05 ~ "High in PV",
-                           logFC <= -0.5 & FDR <= 0.05 ~ "High in CV",
-                           TRUE ~ "Non sig.")
-  )
-
-#highlight interesting genes 
-top$genelabels <- ifelse(top$Gene == "Vcam1"
-                         |top$Gene == "Ccl5"
-                         |top$Gene == "Asb2"
-                         |top$Gene == "Ccl24"
-                         |top$Gene == "Marco"
-                         |top$Gene == "Ccl2"
-                         |top$Gene == "Cxcl13"
-                         |top$Gene == "Il6"
-                         |top$Gene == "Cxcl1"
-                         |top$Gene == "Cd207",
-                         TRUE,FALSE)
-
-p <- ggplot(top, aes(x=logFC, y=-log10(FDR))) +
-  geom_point(aes(color = Expression),size=3) +
-  geom_text_repel(aes(label=ifelse(top$genelabels, top$Gene,"")),size=8, max.overlaps = 100) +
-  xlab("logFC") + 
-  ylab("-log10(FDR)") + ggtitle("Kupffer - Sphere-seq (FDR ≤ 0.05, logFC >0.5") + 
-  scale_color_manual(values = c("red", "darkgoldenrod2", "gray50"),guide = "none") + theme_classic() + 
-  theme(axis.title= element_text(size = 25)) + theme(axis.text = element_text(size = 30))  + 
-  theme(plot.title = element_text(size = 25, face = "bold"))  + 
-  guides(colour = guide_legend(override.aes = list(size=1.5))) + 
-  theme(legend.title = element_text(size = 15), legend.text = element_text(size = 15)) + 
-  geom_vline(xintercept = c(-0.5,0.5), linetype = "dashed", color = "gray50")
-p + ggsave("./figures/2.5.2/Kupffer_CV_PV_SpS_vulcano.pdf",width = 12, height = 10)
-p + ggsave("./figures/2.5.2/Kupffer_CV_PV_SpS_vulcano.svg",width = 12, height = 10)  
 
 ##plot Vcam1 in boxplot 
 boxplot_zonation_genes_KCs_injected(Injected,"Vcam1","purple","./figures/2.5.2/","Injected",".pdf")
