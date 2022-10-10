@@ -48,11 +48,11 @@ genes_known <- c(PV_genes,CV_genes)
 #remove known zonation specific genes 
 top <- top[!(top$Gene %in% genes_known),]
 
-#apply significant cutoff of PValue and logFC to highlight significant ones in vulcano plot  
+#apply significant cutoff of FDR and logFC to highlight significant ones in vulcano plot  
 top <- top %>% 
   mutate(
-    Expression = case_when(logFC >= 0.5 & PValue <= 0.05 ~ "High in PV",
-                           logFC <= -0.5 & PValue <= 0.05 ~ "High in CV",
+    Expression = case_when(logFC >= 0.5 & FDR <= 0.05 ~ "High in PV",
+                           logFC <= -0.5 & FDR <= 0.05 ~ "High in CV",
                            TRUE ~ "Non sig.")
   )
 
@@ -70,11 +70,11 @@ top$genelabels <- ifelse(top$Gene == "Galnt15"
                          |top$Gene == "Acer2",
                          TRUE,FALSE)
 
-p <- ggplot(top, aes(x=logFC, y=-log10(PValue))) +
+p <- ggplot(top, aes(x=logFC, y=-log10(FDR))) +
   geom_point(aes(color = Expression),size=3) +
   geom_text_repel(aes(label=ifelse(top$genelabels, top$Gene,"")),size=8) +
   xlab("logFC") + 
-  ylab("-log10(PValue)") + ggtitle("LECs - Sphere-seq (PValue ≤ 0.05, logFC >0.5") + 
+  ylab("-log10(FDR)") + ggtitle("LECs - Sphere-seq (FDR ≤ 0.05, logFC >0.5") + 
   scale_color_manual(values = c("red", "darkgoldenrod2", "gray50"),guide = "none") + theme_classic() + 
   theme(axis.title= element_text(size = 25)) + theme(axis.text = element_text(size = 30))  + 
   theme(plot.title = element_text(size = 25, face = "bold"))  + 
@@ -106,8 +106,8 @@ top <- read.csv("./data/Injected_Kupffer_LM_zonated_genes.csv")
 
 top <- top %>% 
   mutate(
-    Expression = case_when(logFC >= 0.5 & PValue <= 0.05 ~ "High in PV",
-                           logFC <= -0.5 & PValue <= 0.05 ~ "High in CV",
+    Expression = case_when(logFC >= 0.5 & FDR <= 0.05 ~ "High in PV",
+                           logFC <= -0.5 & FDR <= 0.05 ~ "High in CV",
                            TRUE ~ "Non sig.")
   )
 
@@ -124,11 +124,11 @@ top$genelabels <- ifelse(top$Gene == "Vcam1"
                          |top$Gene == "Cd207",
                          TRUE,FALSE)
 
-p <- ggplot(top, aes(x=logFC, y=-log10(PValue))) +
+p <- ggplot(top, aes(x=logFC, y=-log10(FDR))) +
   geom_point(aes(color = Expression),size=3) +
   geom_text_repel(aes(label=ifelse(top$genelabels, top$Gene,"")),size=8, max.overlaps = 100) +
   xlab("logFC") + 
-  ylab("-log10(PValue)") + ggtitle("Kupffer - Sphere-seq (PValue ≤ 0.05, logFC >0.5") + 
+  ylab("-log10(FDR)") + ggtitle("Kupffer - Sphere-seq (FDR ≤ 0.05, logFC >0.5") + 
   scale_color_manual(values = c("red", "darkgoldenrod2", "gray50"),guide = "none") + theme_classic() + 
   theme(axis.title= element_text(size = 25)) + theme(axis.text = element_text(size = 30))  + 
   theme(plot.title = element_text(size = 25, face = "bold"))  + 
