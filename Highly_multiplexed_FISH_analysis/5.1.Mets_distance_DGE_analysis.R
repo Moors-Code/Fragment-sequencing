@@ -29,8 +29,7 @@ top <- top %>%
   )
 
 #highlight specific genes 
-top$genelabels <- ifelse(top$Gene == "Spp1"
-                         |top$Gene == "C1qc"
+top$genelabels <- ifelse(|top$Gene == "C1qc"
                          |top$Gene == "C1qb"
                          |top$Gene == "Dab2"
                          |top$Gene == "Lyz2"
