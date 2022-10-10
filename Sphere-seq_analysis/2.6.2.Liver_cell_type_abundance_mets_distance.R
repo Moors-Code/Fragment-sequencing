@@ -48,29 +48,8 @@ mono <- subset(metastasis, idents = "Monocytes")
 ###run DA analysis 
 DA_analysis_cell_type_abundance_Mets_distance(mono,mono$annotation,"./figures/2.6.2/","mono_subtypes")
 
-###plot results of DA analysis in vulcano plot 
+###read top to get FDR P value for boxplots
 top <- read.csv("./figures/2.6.2/Mets_distance_mono_subtypes_cell_type_abundance_Sphere_seq.csv")
-
-top <- top %>% 
-  mutate(
-    Expression = case_when(logFC >= 0.4 & FDR <= 0.05 ~ "High in proximal",
-                           logFC <= -0.4 & FDR <= 0.05 ~ "High in distal",
-                           TRUE ~ "Non sig.")
-  )
-
-p <- ggplot(top, aes(x=logFC, y=-log10(FDR))) +
-  geom_point(aes(color = Expression),size=5) +
-  geom_text(data=top[top$FDR<1 & abs(top$logFC) > 0,], aes(label=Gene),size=8) +
-  xlab("logFC") + 
-  ylab("-log10(FDR)") + ggtitle("Monocytes subtype prop - Sphere-seq (FDR ≤ 0.05, logFC >0.5") + 
-  scale_color_manual(values = c("firebrick3", "gray50"),guide = "none") + theme_classic() + 
-  theme(axis.title= element_text(size = 25)) + theme(axis.text = element_text(size = 30))  + 
-  theme(plot.title = element_text(size = 25, face = "bold"))  + 
-  guides(colour = guide_legend(override.aes = list(size=1.5))) +  
-  geom_vline(xintercept = c(-0.4,0.4), linetype = "dashed", color = "gray50") +
-  theme(legend.title = element_text(size = 15), legend.text = element_text(size = 15)) 
-p + ggsave("./figures/2.6.2/Cell_type_abundance_mets_distance_monocytes_sphereSeq.pdf",width = 12, height = 10)
-p + ggsave("./figures/2.6.2/Cell_type_abundance_mets_distance_monocytes_sphereSeq.svg",width = 12, height = 10)
 
 ########## Plot proportions in boxplots proximal vs. distal of cell types ##########
 ###create table of cell type proportions per sample 
