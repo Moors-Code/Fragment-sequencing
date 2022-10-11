@@ -31,7 +31,7 @@ p <- ggplot(top, aes(x=logFC, y=-log10(FDR))) +
   geom_text(data=top[top$FDR<1 & abs(top$logFC) > 0,], aes(label=Gene),size=8) +
   xlab("logFC") + 
   ylab("-log10(FDR)") + ggtitle("Cell type prop - Sphere-seq (FDR ≤ 0.05, logFC >0.3") + 
-  scale_color_manual(values = c( "firebrick3","dodgerblue3", "gray50"),guide = "none") + theme_classic() + 
+  scale_color_manual(values = c("firebrick3","dodgerblue3", "gray50"),guide = "none") + theme_classic() + 
   theme(axis.title= element_text(size = 25)) + theme(axis.text = element_text(size = 30))  + 
   theme(plot.title = element_text(size = 25, face = "bold"))  + 
   guides(colour = guide_legend(override.aes = list(size=1.5))) + 
@@ -48,7 +48,7 @@ mono <- subset(metastasis, idents = "Monocytes")
 ###run DA analysis 
 DA_analysis_cell_type_abundance_Mets_distance(mono,mono$annotation,"./figures/2.6.2/","mono_subtypes")
 
-###read top to get FDR P value for boxplots
+###read result for p-values in boxplot 
 top <- read.csv("./figures/2.6.2/Mets_distance_mono_subtypes_cell_type_abundance_Sphere_seq.csv")
 
 ########## Plot proportions in boxplots proximal vs. distal of cell types ##########
@@ -126,4 +126,6 @@ boxplot_cell_prop(df_all, "Mac_Ly6c","#566B44","./figures/2.6.2/",".svg")
 #Patrolling monocytes
 boxplot_cell_prop(df_all, "Mono_patrolling","#B5EDB2","./figures/2.6.2/",".pdf")
 boxplot_cell_prop(df_all, "Mono_patrolling","#B5EDB2","./figures/2.6.2/",".svg")
+
+
 
