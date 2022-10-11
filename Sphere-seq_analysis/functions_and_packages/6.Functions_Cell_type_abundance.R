@@ -19,7 +19,6 @@ DA_analysis_cell_type_abundance_Mets_distance <- function(
   y.ab <- DGEList(cluster.counts, samples = extra.info)
   
   y.ab$samples$Mets_distance <- factor(y.ab$samples$Mets_distance)
-  y.ab$samples$Mets_distance <- ordered(y.ab$samples$Mets_distance)
 
   ###Defining the model matrix
   #account for variability in samples with '~ factor(orig.ident) + ...'
