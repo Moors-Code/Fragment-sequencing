@@ -51,14 +51,14 @@ MULTIseq_bar_table_generation10X <- function (
 ) {
   #load barcode reference file 
   MULTI_seq_barcodes_and_indices <- readxl::read_excel(MULTIseq_BC_reference_directory)
-  #extract only barcode sequences 
+  #extract barcode sequences 
   bar.ref <- MULTI_seq_barcodes_and_indices$`Barcode Sequence`
-  #load 10X feature bc matrix 
+  #load 10X filtered feature bc matrix 
   data <- Read10X(data.dir = feature_bc_matrix_10X_directory)
-  #extraction of cell IDs 
+  #extract cell IDs 
   cell.id.vec <- data@Dimnames[[2]]
   cell.id.vec <- str_sub(cell.id.vec, 1, str_length(cell.id.vec)-2)
-  #extract required information from FASTQ files of MULTI-seq library 
+  #extract required information from FASTQ files from MULTI-seq library 
   #Cell ID position 1:16, UMI position 17:26, MULTI-seq ID position 1:8 (tag)
   readTable <- MULTIseq.preProcess(R1 = MULTIseq_R1_fastq_file_directory, 
                                    R2 =  MULTIseq_R2_fastq_file_directory, 
@@ -71,10 +71,10 @@ MULTIseq_bar_table_generation10X <- function (
 ###Function to change ensemble IDs of zUMI outputs to gene name IDs - Mouse 
 Annotation_mouse <- function(zUMI_output) {
   ##load ensemble gene ID data from mmusculus 
-  #ensembl<-useEnsembl(biomart="ensembl")
-  #list<-listDatasets(ensembl)
-  #mart <- useEnsembl(biomart="ensembl", dataset="mmusculus_gene_ensembl",version = 95)
-  #attributes<-listAttributes(mart)
+  ensembl<-useEnsembl(biomart="ensembl")
+  list<-listDatasets(ensembl)
+  mart <- useEnsembl(biomart="ensembl", dataset="mmusculus_gene_ensembl",version = 95)
+  attributes<-listAttributes(mart)
   #add GFP and mCherry, it was added to the STAR index with the ID "CellTagUTR" and "sLPmCherry"
   #rename to "GFP" and "mCherry" 
   gfp_id <- data.frame(ensembl_gene_id_version = "CellTagUTR",external_gene_name= "GFP")
