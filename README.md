@@ -39,7 +39,8 @@ Data for the above publication can be found at GEO with the access number: … a
 
 6.Functions_Cell_type_abundance.R: Code contains function for cell type abundance analysis: Differential abundance analysis between two conditions and plotting of cell type proportion of interest between two conditions.  
 
-7.Functions_ligand_receptor_analysis.R: Code contains function for L-R interaction analysis: Generation of input files for CellPhoneDB analysis; Generation of a matrix that contains significant interaction scores from CellPhoneDB per sample from two interacting cell types of interest; Differential expression analysis of L-R pairs between two conditions; Merging of CellPhoneDB significant interaction score outputs of two interacting cell types of interest from two conditions; 
+7.Functions_ligand_receptor_analysis.R: Code contains function for L-R interaction analysis: Generation of input files for CellPhoneDB analysis; Generation of a matrix that contains interaction scores and p-values from CellPhoneDB comparing two conditions of interacting cell types of interest. 
+
 
 #### Main analysis: 
 
@@ -103,7 +104,11 @@ Data for the above publication can be found at GEO with the access number: … a
 
 #### Main analysis 
 
-1.Cell_segmentation_Cellpose_and_SCE_object_generation.R: This part uses Cellpose to segment Molecular Cartography images into single cells based on DAPI images. And then single cells of all slides are combined in a SCE object. 
+1.1.Cell_segmentation_Cellpose.sh: This part does cell segmentation of Molecular Cartography images using the python package Cellpose. 
+
+1.2.Process_Segmentation.sh: This part generates count matrices of genes per single cell. 
+
+1.3.Build_SCE_Object.R: This part produces a single cell experiment object of counts per segmented cell. 
 
 2.Preprocessing_Feature_integration.R: This part does preprocessing of SCE object and integrates x and y coordinates of manually drawn spatial areas (CV, PV, Metastasis).
 
