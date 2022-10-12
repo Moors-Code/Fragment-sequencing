@@ -1,6 +1,10 @@
 # Sphere-sequencing unveils local tissue microenvionments at single cell resolution  
 
-This repository contains code from data analysis of sphere-sequencing, Highly multiplexed FISH (Molecular Cartography) and Visium from the following publication.  
+This repository contains code from data analysis of sphere-sequencing split into 3 parts: 
+
+- Sphere-sequencing analysis 
+- Analysis of Highly multiplexed FISH (Molecular Cartography(TM)) data for validation of findings from sphere-sequencing
+- Visium data analysis to compare sphere-sequencing
 
 
 ## Citation 
@@ -63,11 +67,9 @@ Data for the above publication can be found at GEO with the access number: … a
 
 2.6.2.Liver_cell_type_abundance_mets_distance.R: This part compares liver cell type abundances of proximal and distal areas to metastatic sites. 
 
-2.6.3.Liver_DGE_macrohpages.R: This part does DGE analysis between liver C1q+ and Ly6c+ macrophages. 
+2.6.3.1.Liver_ligand_receptor_mets_distance.R: This part first generates input files for CellPhoneDB from liver proximal and distal areas and then applies statistical analysis to analyze enrichment of L-R interactions in proximal or distal.
 
-2.6.4.1.Liver_ligand_receptor_mets_distance.R: This part first generates input files for CellPhoneDB from liver proximal and distal areas and then applies statistical analysis to analyze enrichment of L-R interactions in proximal or distal.
-
-2.6.4.2.CellPHoneDB_mets_distance.sh: This part executes CellPhoneDB analysis or input files generated in 2.6.4.1.
+2.6.3.2.CellPHoneDB_mets_distance.sh: This part executes CellPhoneDB analysis or input files generated in 2.6.4.1.
 
 3.1.Organoids_species_mixing_sphere_size_GFP_integration.R: This part integrates sphere size and GFP signal from biosorter data to data of sorted spheres of colon cancer (CRC) organoids species mixing experiment. 
 
