@@ -27,136 +27,50 @@ Input_files_CellPhoneDB_generation <- function(
   write.table(meta_data_meta, paste0(ouput_file_path,sample_name,"_meta.txt"), sep='\t', quote=F, row.names=F)
 }
 
-###Function to generate score matrix of interacting pair of interest per mouse 
-Score_matrix_generation_interacting_pair_oi_per_mouse <- function(
-  cpdb_outputs_file_path,
-  samples,
-  interacting_cells_oi_pair,
-  ouput_file_path,
-  sample_name
-){
-  #combine significant_means files from these spheres by filling in 0s for no score 
-  my_files <- paste0(cpdb_outputs_file_path,
-                     samples,"/significant_means.txt")
-  
-  my_data <- list()
-  for (i in seq_along(my_files)) {
-    my_data[[i]] <- read.table(file = my_files[i],header = TRUE,sep = "\t")
-    my_data[[i]][is.na(my_data[[i]])] <- 0
-    my_data[[i]] <- my_data[[i]][,which(names(my_data[[i]]) %in% c("interacting_pair",interacting_cells_oi_pair))]
-  }
-  
-  combined_df <- Reduce(function(x, y) merge(x, y, by=1),my_data)
-  
-  combined_df$sum <-rowSums(combined_df[sapply(combined_df, is.numeric)], na.rm = TRUE)
-  
-  #remove rows with 0
-  combined_df <- combined_df[combined_df$sum !=0,]
-  combined_df$sum <- NULL
-  
-  #add barcode ID information as colnames
-  colnames(combined_df) <- c("interacting_pair",samples)
-  
-  #sort interactions decreasing by norm_sum 
-  write.csv(combined_df, file = paste0(ouput_file_path,sample_name, "_per_mouse_",interacting_cells_oi_pair,".csv"))
-}
-
-###Function for DE analysis of L-R interactions scores between two conditions
-DE_CellPhoneDB <- function(
-  csv_file_path_cond1,
-  csv_file_path_cond2,
-  samples1,
-  samples2,
-  condition1,
-  condition2,
-  ouput_file_path,
-  interaction_oi,
-  condition
-) {
-  ###load and prepare data 
-  cond1_df <- read.csv(csv_file_path_cond1)
-  cond2_df <- read.csv(csv_file_path_cond2)
-  
-  cond1_df$X <- NULL
-  cond2_df$X <- NULL
-  
-  ###DE analysis 
-  samples1 <- as.data.frame(samples1)
-  colnames(samples1) <- "sample"
-  samples1$condition <- condition1
-  samples2 <- as.data.frame(samples2)
-  colnames(samples2) <- "sample"
-  samples2$condition <- condition2
-  
-  #combine extra information 
-  extra.info <- rbind(samples1,samples2)
-  rownames(extra.info) <- extra.info$sample
-  extra.info$sample <- NULL
-  
-  df_cond_both <- merge(cond1_df,cond2_df,by = "interacting_pair",all = TRUE)
-  #put 0 instead of NA
-  df_cond_both[is.na(df_cond_both)] <- 0
-  
-  #remove duplicated rows 
-  df_cond_both <- df_cond_both[!duplicated(df_cond_both$interacting_pair),]
-  
-  #remove rows with 0 counts 
-  df_cond_both$sum <-rowSums(df_cond_both[sapply(df_cond_both, is.numeric)], na.rm = TRUE)
-  df_cond_both <- df_cond_both[df_cond_both$sum !=0,]
-  df_cond_both$sum <- NULL
-  
-  #modify "count" table 
-  rownames(df_cond_both) <- df_cond_both$interacting_pair
-  df_cond_both$interacting_pair <- NULL
-  cluster.counts <- df_cond_both
-  cluster.counts <- as(cluster.counts, "matrix")
-  
-  ##Set up edgeR object
-  y.ab <- DGEList(cluster.counts, samples = extra.info)
-  
-  y.ab$samples$condition <- factor(y.ab$samples$condition)
-  
-  ##Defining the model matrix
-  mdl <- model.matrix(~ factor(condition),y.ab$samples)
-  y <- estimateDisp(y.ab, mdl)
-  fit <- glmQLFit(y, mdl, robust=TRUE)
-  res <- glmQLFTest(fit)
-  
-  ##save results for plotting 
-  top <- topTags(res,n=nrow(y))$table
-  top$Interaction <- rownames(top)
-  write.csv(top, paste0(ouput_file_path,interaction_oi,"_",condition,"_comp_LM.csv"))
-}
-
-###Function to compare two conditions of CellPhoneDB outputs 
+###Function to compare two conditions of CellPhoneDB outputs, makes a combined dataframe with both samples + p-values 
 L_R_CellPhoneDB_comp_2samples <- function(
   interacting_cells_oi,
-  file1,
-  file2,
+  file1_mean,
+  file1_pval,
+  file2_mean,
+  file2_pval,
   ouput_file_path,
   sample_name
 ){
-  #read in significant.txt files from two conditions and merge the data frames, if no value = 0 
-  df1 <- read.table(file1,header = TRUE, sep = "\t")
+  #read in significant.txt and pvalues.txt files from two conditions and merge the data frames, if no value = 0 
+  df1_mean <- read.table(file1_mean,header = TRUE, sep = "\t")
   #convert NA to 0 
-  df1[is.na(df1)] <- 0
-  df2 <- read.table(file2,header = TRUE, sep = "\t")
-  df2[is.na(df2)] <- 0
+  df1_mean[is.na(df1_mean)] <- 0
+  df2_mean <- read.table(file2_mean,header = TRUE, sep = "\t")
+  df2_mean[is.na(df2_mean)] <- 0
+  df1_pval <- read.table(file1_pval, header = TRUE, sep = "\t")
+  df1_pval[is.na(df1_pval)] <- 0
+  df2_pval <- read.table(file2_pval, header = TRUE, sep = "\t")
+  df2_pval[is.na(df2_pval)] <- 0
   
   #merge all data frames to one containing interactions from all 
   #substract rows of interest 
-  df1 <- df1[,which(names(df1) %in% c("interacting_pair",interacting_cells_oi))]
-  df2 <- df2[,which(names(df2) %in% c("interacting_pair",interacting_cells_oi))]
+  df1_mean <- df1_mean[,which(names(df1_mean) %in% c("interacting_pair",interacting_cells_oi))]
+  df2_mean <- df2_mean[,which(names(df2_mean) %in% c("interacting_pair",interacting_cells_oi))]
   
-  merged <- merge(df1, df2, by="interacting_pair", all=TRUE) 
-  names(merged) <- c("interacting_pair","sample1","sample2")
-  merged[is.na(merged)] <- 0
+  df1_pval <- df1_pval[,which(names(df1_pval) %in% c("interacting_pair",interacting_cells_oi))]
+  df2_pval <- df2_pval[,which(names(df2_pval) %in% c("interacting_pair",interacting_cells_oi))]
   
+  #merge mean files 
+  merged <- merge(df1_mean, df2_mean,by="interacting_pair", all=TRUE) 
+  names(merged) <- c("interacting_pair","sample1_mean","sample2_mean")
+  #remove interactions with 0 
   merged$sum <-rowSums(merged[sapply(merged, is.numeric)], na.rm = TRUE)
   #remove rows with 0
   merged <-merged[merged$sum !=0,]
   merged$sum <- NULL
+  
+  #merge with pvalue files, remove all=TRUE so only interactions are merged with >0 interaction scores 
+  merged <- merge(merged, df1_pval, by="interacting_pair")
+  names(merged) <- c("interacting_pair","sample1_mean","sample2_mean","sample1_pval")
+  merged <- merge(merged, df2_pval, by="interacting_pair")
+  names(merged) <- c("interacting_pair","sample1_mean","sample2_mean","sample1_pval","sample2_pval")
+  merged[is.na(merged)] <- 0
+  
   write.csv(merged,paste0(ouput_file_path,"interactions_comp_two_cond_",interacting_cells_oi,"_",sample_name, ".csv"))
 }
-
-
