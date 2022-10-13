@@ -193,7 +193,7 @@ merged$Mets_distance <- plyr::mapvalues(x = merged$spatial_feature, from = curre
 ########## check CV and PV heps in veins you draw on ImageJ ##########
 Idents(merged) <- "annotation"
 hep <- subset(merged, idents = c("Hepatocytes_CV","Hepatocytes_PV"))
-p <- DimPlot(hep,group.by = "annotation", split.by = "vein", cols = c("#56040C","#F46042"), pt.size = 0.5) + theme(legend.title = element_text(size = 22), legend.text = element_text(size = 22)) + 
+p <- DimPlot(hep,group.by = "annotation", split.by = "vein", cols = c("#F46042","#56040C"), pt.size = 0.5) + theme(legend.title = element_text(size = 22), legend.text = element_text(size = 22)) + 
   theme(title = element_text(size = 25))+ theme(axis.text = element_text(size = 30)) 
 p + ggsave("./figures/3/split_plot_pv_cv_hep.pdf",width = 15, height = 10)
 p + ggsave("./figures/3/split_plot_pv_cv_hep.svg",width = 15, height = 10)
