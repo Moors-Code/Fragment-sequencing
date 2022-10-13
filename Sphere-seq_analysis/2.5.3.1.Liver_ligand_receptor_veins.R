@@ -82,7 +82,54 @@ p <- ggplot(df1, aes(x=interaction_score, y=reorder(interacting_pair,+interactio
   theme(plot.title = element_text(size = 15, face = "bold")) + theme(legend.text = element_text(size = 22),
                                                                      legend.title= element_text(size = 22)) + 
   guides(fill=guide_legend(title="P-value of enrichment")) 
-p + ggsave("./figures/2.5.3/Interaction_KC_T_vein_0.5.pdf", width = 12, height = 10)
-p + ggsave("./figures/2.5.3/Interaction_KC_T_vein_0.5.svg", width = 12, height = 10)
+p + ggsave("./figures/2.5.3/Interaction_KC_T_vein.pdf", width = 12, height = 10)
+p + ggsave("./figures/2.5.3/Interaction_KC_T_vein.svg", width = 12, height = 10)
+
+
+###Kupffer B cell interactions CV compared to PV 
+#combine Kupffer and B cell interactions from CV and PV analysis 
+L_R_CellPhoneDB_comp_2samples("Kupffer.B",file1_mean,file1_pval,file2_mean,file2_pval,"./figures/2.5.3/","vein")
+
+##Plotting for L-R pairs 
+df <- read.csv("./figures/2.5.3/interactions_comp_two_cond_Kupffer.B_vein.csv")
+
+#calculate difference between distal and proximal to order interacting pairs with that 
+#make values positive 
+df$diff <- df$sample1_mean - df$sample2_mean
+df$diff <- abs(df$diff)
+
+##split the plot so you can put cv and pv scores in one column for interaction_score and one for pvals
+#df <- df[df$sample1_mean == 0 | df$sample2_mean == 0,]
+
+df_cv <- df[,c("interacting_pair", "sample1_mean","sample1_pval","diff")]
+df_cv$vein <- "CV"
+colnames(df_cv) <- c("interacting_pair","interaction_score","pvalue","diff", "condition")
+#make minus to put on one axis, has to be changed to + scores later in Illustrator 
+df_cv$interaction_score <- -(df_cv$interaction_score)
+
+df_pv <- df[,c("interacting_pair", "sample2_mean","sample2_pval","diff")]
+df_pv$vein <- "PV"
+colnames(df_pv) <- c("interacting_pair","interaction_score","pvalue", "diff", "condition")
+
+df1 <- rbind(df_cv,df_pv)
+
+df1 <- df1[df1$pval < 0.05,]
+
+#make barplot 
+p <- ggplot(df1, aes(x=interaction_score, y=reorder(interacting_pair,+interaction_score))) + theme_classic() +
+  geom_bar(stat = "identity",position = "identity", fill = "#1B3360") + 
+  scale_fill_gradientn(colours = colorRampPalette(rev(brewer.pal(n = 15, name ="RdBu")))(256)) + 
+  theme(axis.text = element_text(size = 15))  + theme(axis.text.x = element_text(angle = 90)) +
+  theme(axis.title= element_text(size = 25)) + 
+  ggtitle("L-R interactions - CellPhoneDB (Kupffer|B)") + xlab("Interaction score") + 
+  ylab("L-R interaction")  +
+  theme(plot.title = element_text(size = 15, face = "bold")) + theme(legend.text = element_text(size = 22),
+                                                                     legend.title= element_text(size = 22)) + 
+  guides(fill=guide_legend(title="P-value of enrichment")) 
+p + ggsave("./figures/2.5.3/Interaction_KC_B_vein.pdf", width = 12, height = 10)
+p + ggsave("./figures/2.5.3/Interaction_KC_B_vein.svg", width = 12, height = 10)
+
+
+
 
 
