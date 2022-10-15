@@ -44,7 +44,7 @@ Data for the above publication can be found at GEO with the access number: … a
 
 #### Main analysis: 
 
-1.1.Preprocessing_MULTIseq_demux.R: This part does demultiplexing of MULTI-seq FASTQ files to allocate single cell to their sphere of origin.  
+1.1.Preprocessing_MULTIseq_demux.R: This part does demultiplexing of MULTI-seq FASTQ files to allocate single cells to their sphere of origin.  
 
 1.2.Preprocessing_WTA_MULTIseqBC_integration.R: This part integrates sphere-BC with WTA Seurat objects. 
 
@@ -52,7 +52,7 @@ Data for the above publication can be found at GEO with the access number: … a
 
 2.2.Liver_cell_type_annotation.R: This part annotates clustered liver Seurat object using marker genes from https://www.livercellatlas.org. 
 
-2.3.Liver_sphere_size_integration.R: This part integrates sphere size calculated from biosorter outputs with liver Seurat object. 
+2.3.Liver_sphere_size_integration.R: This part integrates sphere sizes calculated from biosorter outputs with merged liver Seurat object. 
 
 2.4.Liver_cells_per_sphere_cutoff.R: This part applies a cutoff of a least 5 cells per sphere in liver experiments, all other spheres are removed from further analysis. 
 
@@ -60,17 +60,17 @@ Data for the above publication can be found at GEO with the access number: … a
 
 2.5.2.Liver_zonated_gene_expression.R: This part investigates liver zonation specific gene expression in LECs and KCs. 
 
-2.5.3.1.Liver_ligand_receptor_veins.R: This part first generates input files for CellPhoneDB from liver CV and PV areas and then applies statistical analysis to analyze enrichment of L-R interactions in CV or PV. 
+2.5.3.1.Liver_ligand_receptor_veins.R: This part first generates input files for CellPhoneDB from liver CV and PV areas and then compares interactions from CV and PV. 
 
-2.5.3.2.CellPHoneDB_veins.sh: This part executes CellPhoneDB analysis or input files generated in 2.5.3.1.
+2.5.3.2.CellPHoneDB_veins.sh: This part executes CellPhoneDB analysis of input files generated in 2.5.3.1.
 
 2.6.1.Liver_metastatic_distance_classification.R: This part groups liver spheres into proximal and distal areas to metastatic sites. 
 
 2.6.2.Liver_cell_type_abundance_mets_distance.R: This part compares liver cell type abundances of proximal and distal areas to metastatic sites. 
 
-2.6.3.1.Liver_ligand_receptor_mets_distance.R: This part first generates input files for CellPhoneDB from liver proximal and distal areas and then applies statistical analysis to analyze enrichment of L-R interactions in proximal or distal.
+2.6.3.1.Liver_ligand_receptor_mets_distance.R: This part first generates input files for CellPhoneDB from liver proximal and distal areas and then compares interactions from proximal and distal. 
 
-2.6.3.2.CellPHoneDB_mets_distance.sh: This part executes CellPhoneDB analysis or input files generated in 2.6.4.1.
+2.6.3.2.CellPHoneDB_mets_distance.sh: This part executes CellPhoneDB analysis of input files generated in 2.6.3.1.
 
 3.1.Organoids_species_mixing_sphere_size_GFP_integration.R: This part integrates sphere size and GFP signal from biosorter data to data of sorted spheres of colon cancer (CRC) organoids species mixing experiment. 
 
@@ -82,9 +82,9 @@ Data for the above publication can be found at GEO with the access number: … a
 
 3.5.Organoids_species_mixing_analysis_correctly_assigned_cells.R: This part investigates the fraction of correctly and wrongly assigned cell to spheres of the organoid mixing species experiment. 
 
-4.Spleen_preliminary_analysis.R: This part analysis preliminary spleen sphere-seq data. 
+4.Spleen_preliminary_analysis.R: This part analyses preliminary spleen sphere-seq data. 
 
-5.Crohn_preliminary_analysis.R: This part analysies preliminary Crohn’s disease sphere-seq data. 
+5.Crohn_preliminary_analysis.R: This part analyses preliminary Crohn’s disease sphere-seq data. 
 
 
 
@@ -98,9 +98,9 @@ Data for the above publication can be found at GEO with the access number: … a
 
 3.Functions_DGE.R: Code contains functions for DGE analysis: between veins and between metastatic distances; Plotting of zonated gene expression in boxplots from KCs and LECs; 
 
-4.Functions_cell_type_abundance.R: Code contains function for comparing cell type abundance between two groups: differential abundance analysis between proximal and distal metastatic distance and plotting of cell type proportions from both groups in boxplots;  
+4.Functions_cell_type_abundance.R: Code contains functions for comparing cell type abundance between two groups: differential abundance analysis between proximal and distal metastatic distance and plotting of cell type proportions from both groups in boxplots;  
 
-5.Functions_cell_co_localisation.R: Code contains functions for colocalization analysis. 
+5.Functions_cell_co_localisation.R: Code contains functions for colocalization analysis; 
 
 #### Main analysis 
 
@@ -116,9 +116,7 @@ Data for the above publication can be found at GEO with the access number: … a
 
 4.1.Veins_zonated_genes_analysis.R: This part validates findings of newly found zonated genes from sphere-seq analysis. 
 
-4.2.Veins_cell_co_localisation.R: This part does cell type colocalization analysis comparing PV to CV areas. 
-
-5.1.Mets_distance_DGE_analysis.R: This part validates findings of DGE analysis between macrophage subtypes in monocytes between proximal and distal areas. 
+5.1.Mets_distance_DGE_analysis.R: This part does DGE analysis between monocytes from proximal and distal areas. 
 
 5.2.Mets_distance_cell_type_abundance.R: This part validates findings of cell type abundance analysis of sphere-seq between proximal and distal metastatic areas. 
 
@@ -138,7 +136,7 @@ Data for the above publication can be found at GEO with the access number: … a
 
 2.Merging_and_batch_effect_correction.R: This part merged both Visium samples and applies batch effect correction. 
 
-3.Spot_deconvolution.R: This part does deconvolution of spots by integrating data from sphere-seq data. 
+3.Spot_deconvolution.R: This part does deconvolution of spots by integrating data from sphere-seq. 
 
 4.Visium_public_data.R: This part uses public data from https://www.livercellatlas.org (Guilliams et al, 2022) to test newly found zonation specific genes in wild type and NAFLD mouse samples. 
 
