@@ -1,6 +1,6 @@
 ########## Part 3.1: Organoids species mixing sphere size and GFP integration ##########
 #This part integrates size and GFP signal from sorted spheres with Seurat object of single cells 
-#GFP signal gets normalized by sphere-size because the larger ar sphere the higher autofluorescence 
+#GFP signal gets normalized by sphere-size because the larger a sphere the higher the autofluorescence 
 
 ########## Prepare environment ##########
 ###Setting the working directory 
@@ -36,7 +36,7 @@ bead_df$bead_size <- c(rep(60, nrow(standard60)), rep(125, nrow(standard125)), r
 ###fit a linear model with TOF 
 lm.bead_tof <- lm(bead_size ~ TOF, data = bead_df)
 
-########## Read data from biosorter outputs #####
+########## Read data from biosorter outputs ##########
 Plate1 <- read.table("./data/OrgMix_plate1_h_2.txt", sep = "\t", 
                      header = TRUE, blank.lines.skip = FALSE, stringsAsFactors = FALSE)
 Plate1 <- Plate1[1:(which(Plate1$Id == "")[1] - 1),]
@@ -96,7 +96,7 @@ Biosorter_data_seurat_integration(
 ###load R object 
 org_mix <- readRDS("./data_files_generated/SpS_Organoid_mixing_BS.Rda")
 
-###annotated human and mouse wells based on sorting and based on prior knowledge that 19,36 and 106 contain 100% mouse cells 
+###annotated human and mouse wells based on sorting and based on prior knowledge that Bar19,36 and 106 contain 100% mouse cells 
 #even though they were GFP negative (sorting error)
 human_wells <- paste("Bar",c(1:18,20:35,37:48,97:105,107:144,194:240), sep = "")
 mouse_wells <- paste("Bar",c(49:96,145:193,241:288,19,36,106), sep = "")
