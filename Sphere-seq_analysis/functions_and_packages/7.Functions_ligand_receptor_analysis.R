@@ -9,8 +9,8 @@ Input_files_CellPhoneDB_generation <- function(
   sample_name,
   ouput_file_path
 ){
-  #generating counts file 
-  # take raw data and normalize it
+  ###generating counts file 
+  #take raw data and normalize it
   count_raw_meta <- GetAssayData(object = seurat_object, slot = "counts")[,colnames(x = seurat_object)]
   count_norm_meta <- apply(count_raw_meta, 2, function(x) (x/sum(x))*10000)
   genesV2 = getLDS(attributes = c("mgi_symbol"), filters = "mgi_symbol", values = rownames(count_norm_meta) , mart = mouse, attributesL = c("hgnc_symbol","hgnc_id",'ensembl_gene_id'), martL = human, uniqueRows=T)
@@ -21,7 +21,7 @@ Input_files_CellPhoneDB_generation <- function(
   rownames(matrixA) <- matrixB$gene
   #save count matrix as text file 
   write.table(matrixA, paste0(ouput_file_path,sample_name,"_count.txt"), sep='\t', quote=F, row.names = T)
-  # generating meta file based on cell type annotation of Seurat object 
+  ###generating meta file based on cell type annotation of Seurat object 
   meta_data_meta <- cbind(rownames(seurat_object@meta.data), seurat_object@meta.data[,annotation_column, drop=F])  
   #save meta file as text file 
   write.table(meta_data_meta, paste0(ouput_file_path,sample_name,"_meta.txt"), sep='\t', quote=F, row.names=F)
@@ -48,7 +48,7 @@ L_R_CellPhoneDB_comp_2samples <- function(
   df2_pval <- read.table(file2_pval, header = TRUE, sep = "\t")
   df2_pval[is.na(df2_pval)] <- 0
   
-  #merge all data frames to one containing interactions from all 
+  #merge interactions of an interacting cell pair of interest to one data frame 
   #substract rows of interest 
   df1_mean <- df1_mean[,which(names(df1_mean) %in% c("interacting_pair",interacting_cells_oi))]
   df2_mean <- df2_mean[,which(names(df2_mean) %in% c("interacting_pair",interacting_cells_oi))]
@@ -72,5 +72,6 @@ L_R_CellPhoneDB_comp_2samples <- function(
   names(merged) <- c("interacting_pair","sample1_mean","sample2_mean","sample1_pval","sample2_pval")
   merged[is.na(merged)] <- 0
   
+  #save data frame for plotting 
   write.csv(merged,paste0(ouput_file_path,"interactions_comp_two_cond_",interacting_cells_oi,"_",sample_name, ".csv"))
 }
