@@ -1,4 +1,4 @@
-########## Part 2.6.2: Cell type abundance between proximal and distal distances from metastatic sites##########
+########## Part 2.6.2: Cell type abundance between proximal and distal distances from metastatic sites ##########
 #This part compares cell type abundance of proximal and distal distances from metastatic sites 
 
 ########## Prepare environment ##########
@@ -48,10 +48,10 @@ mono <- subset(metastasis, idents = "Monocytes")
 ###run DA analysis 
 DA_analysis_cell_type_abundance_Mets_distance(mono,mono$annotation,"./figures/2.6.2/","mono_subtypes")
 
-###read result for p-values in boxplot 
+###read result for p-values 
 top <- read.csv("./figures/2.6.2/Mets_distance_mono_subtypes_cell_type_abundance_Sphere_seq.csv")
 
-########## Plot proportions in boxplots proximal vs. distal of cell types ##########
+########## Plot cell type proportions in boxplots proximal vs. distal ##########
 ###create table of cell type proportions per sample 
 Idents(metastasis) <- "orig.ident"
 S4 <- subset(metastasis, idents = "4M1")
