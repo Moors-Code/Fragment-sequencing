@@ -128,11 +128,12 @@ boxplot_LECs_per_spatial_area <- function(
   names(AE_df2) <- c("vein_area",gene_oi)
   AE_df2[is.na(AE_df2)] <- 0
   m <- reshape2::melt(AE_df2, id.vars = "vein_area", meature.vars = gene_oi)
+  #specify the position of CV and PV and add as condition in an additional column 
   m$vein <- NA
   m[c(1:23,40:46,53:56,62:74,83:89,94:128),]$vein <- "CV" 
   m[c(24:39,47:52,57:61,75:82,90:93,129:155),]$vein <- "PV" 
   
-  
+  #plot in boxplot 
   ggplot(m, aes(x=vein, y=value, fill=variable)) + theme_classic() +
     geom_boxplot(fill = color_oi,outlier.shape = NA) + theme(axis.text = element_text(size = 30))  + theme(axis.text.x = element_text(angle = 90)) +
     geom_jitter(color="black", size=1, alpha=0.9) +
@@ -167,10 +168,12 @@ boxplot_KCs_per_spatial_area <- function(
   names(AE_df2) <- c("vein_area",gene_oi)
   AE_df2[is.na(AE_df2)] <- 0
   m <- reshape2::melt(AE_df2, id.vars = "vein_area", meature.vars = gene_oi)
+  #specify the position of CV and PV and add as condition in an additional column
   m$vein <- NA
   m[c(1:23,40:46,53:56,62:74,83:89,94:128),]$vein <- "CV" 
   m[c(24:39,47:52,57:61,75:82,90:93,129:155),]$vein <- "PV" 
   
+  #plot in boxplot 
   ggplot(m, aes(x=vein, y=value, fill=variable)) + theme_classic() +
     geom_boxplot(fill = color_oi,outlier.shape = NA) + theme(axis.text = element_text(size = 30))  + theme(axis.text.x = element_text(angle = 90)) +
     geom_jitter(color="black", size=1, alpha=0.9) +
