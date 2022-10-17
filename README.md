@@ -33,7 +33,7 @@ Data for the above publication can be found at GEO with the access number: … a
 
 3.Functions_sphere_size_GFP_integration.R: Code contains functions for integrating sphere-seq with large fragment sorter outputs: calculating sphere-size and normalized GFP signals per sphere; plotting of sphere-size per sphere and sample; 
 
-4.Functions_cells_per_spehre_cutoff.R: Code contains function for extracting spheres with an required amount of cells. 
+4.Functions_cells_per_sphere_cutoff.R: Code contains function for extracting spheres with an required amount of cells. 
 
 5.Functions_lobule_layer.R: Code contains the following functions for zonated gene expression analysis: assignment of spheres to their lobule layer (L1-L10) and vein of origin (L1-L5 = central vein (CV); L5-L10 = portal vein (PV)) by calculating a zonation coordinate (ZC) per sphere; DGE analysis to find new zonation specific genes in a cell type of interest; plotting of gene expression in spheres across a scaled distance from CV to PV in Liver endothelial cells (LECs) and Kupffer cells (KCs);  
 
