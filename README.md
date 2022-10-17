@@ -3,7 +3,7 @@
 This repository contains code from data analysis of sphere-sequencing split into 3 parts: 
 
 - Sphere-sequencing analysis 
-- Analysis of Highly multiplexed FISH (Molecular Cartography(TM)) data for validation of findings from sphere-sequencing
+- Analysis of Highly multiplexed FISH (Molecular Cartography) data for validation of findings from sphere-sequencing
 - Visium data analysis to compare sphere-sequencing
 
 
@@ -13,11 +13,11 @@ The code in this repository pertains to publication:
 
 Sphere-sequencing unveils local tissue microenvionments at single cell resolution  
 
-Kristina Handler1, Karsten Bach1, Costanza Borrelli1, Xenia Ficht1, Ilhan E. Acar1, Andreas E. Moor1
+Kristina Handler, Karsten Bach, Costanza Borrelli, Xenia Ficht, Ilhan E. Acar, Andreas E. Moor
 
 
 ## Data
-Data for the above publication can be found at GEO with the access number: … and zenodo.org with the access number: …
+Data for the above publication can be found at GEO with the access number: … and zenodo.org with the access number: 10.5281/zenodo.7197154.
 
 
 ## Code description: 
