@@ -1,5 +1,5 @@
 ########## Part 4.1: Veins zonated genes analysis ##########
-#This part validates findings of new zonated genes from sphere-seq analysis 
+#This part validates findings of zonated genes found in sphere-seq analysis 
 
 ########## Prepare environment ##########
 ###Setting the working directory 
@@ -68,8 +68,9 @@ boxplot_LECs_per_spatial_area(veins,"Galnt15","darkgoldenrod2","./figures/4.1/",
 
 
 ########## Kupffer cells ##########
-###DGE analysis and vulcano plotting 
+###DGE analysis 
 DGE_between_veins_hmFISH(veins, "annotation","Kupffer","vein", "./figures/4.1/") 
+#check P-value of Vcam1
 top <- read.csv("./figures/4.1/vein_Kupffer_DGE_hmFISH.csv")
 
 ###plot Vcam1 in boxplot 
