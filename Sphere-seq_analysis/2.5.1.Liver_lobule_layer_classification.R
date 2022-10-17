@@ -13,7 +13,7 @@ source("./functions_and_packages/5.Functions_lobule_layers.R")
 liverSpS5C <- readRDS("./data_files_generated/LiverMerged_afterBC_anno_BS_5cells.Rda")
 
 ########## Add zonation coordinate (ZC), remove spheres without LECs and group into 8 lobule areas ##########
-#lobule areas: L1-L3, L4, L5, L6, L7, L8-L10, nor many spheres for most central and most portal therefore group into L1-L3 and L8-L10
+#lobule areas: L1-L3, L4, L5, L6, L7, L8-L10, not many spheres for most central and most portal therefore group into L1-L3 and L8-L10
 add_zonation_coefficient(
   "./data_files_generated/LiverMerged_afterBC_anno_BS_5cells.Rda",
   "./data_files_generated/LiverMerged_afterBC_anno_BS_5cells_zC.Rda")
