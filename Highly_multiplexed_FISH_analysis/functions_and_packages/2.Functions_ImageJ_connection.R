@@ -9,7 +9,7 @@ extracting_x_y_info_Resolve <- function(
 }
 
 ###Function to generate text files with cell type annotation per slide for the overlay with the Dapi image in ImageJ 
-#it produces Text files for each slide or cell type with the Cell number ID in one column and the cell annotation in another column 
+#it produces text files for each slide or cell type with the cell number ID in the first column and the cell annotation in the second column 
 text_file_generation_anno_resolve <- function(
   seurat_object,
   cell_type,
