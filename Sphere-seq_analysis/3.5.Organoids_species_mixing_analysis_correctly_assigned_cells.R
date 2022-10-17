@@ -169,38 +169,3 @@ p + ggsave("./figures/3.5/barplot_wrong_and_correct_cells.pdf", width = 8, heigh
 p + ggsave("./figures/3.5/barplot_wrong_and_correct_cells.svg", width = 8, height = 8)
 
 
-########## Barplot of fraction of spheres with at least 90% of correctly assigned cells ##########
-merged_df_percent2 <- merged_df_percent
-
-#add 'correct' if 90% of cells within a sphere are correct; 'wrong' if less than 90% of cells within a sphere are correct 
-merged_df_percent2$correct90percent <- NA
-merged_df_percent2 <- merged_df_percent2 %>%
-  mutate(correct90percent = case_when(
-    percent.wrong <= 10 ~ "correct",
-    percent.wrong >10 ~ "wrong",
-    TRUE ~ NA_character_))
-
-#split wrong and correct and count the spheres for each condition 
-correct_df <- merged_df_percent2[merged_df_percent2$correct90percent %in% "correct",]
-wrong_df <- merged_df_percent2[merged_df_percent2$correct90percent %in% "wrong",]
-
-correct <- length(correct_df$sphere)
-wrong <- length(wrong_df$sphere)
-
-condition <- c("correct","wrong")
-cell_number <- c(correct,wrong)
-
-df <- data.frame(condition,cell_number)
-
-#barplot 
-p <- ggplot(df, aes( y=cell_number, x = condition)) + 
-  geom_bar( stat="identity") + 
-  xlab("Condition") + ylab("Cell number") +ggtitle("Spheres correct with at least 90% correct spheres") + 
-  theme(axis.text = element_text(size = 30)) + 
-  theme(axis.title= element_text(size = 25)) + 
-  theme(plot.title = element_text(size = 25, face = "bold")) + 
-  theme(legend.title = element_text(size = 30), legend.text = element_text(size = 30)) 
-p + ggsave("./figures/3.5/barplot_spheres_90_percent_correct.pdf", width = 8, height = 8)
-p + ggsave("./figures/3.5/barplot_spheres_90_percent_correct.svg", width = 8, height = 8)
-
-
