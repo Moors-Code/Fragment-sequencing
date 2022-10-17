@@ -83,8 +83,7 @@ res <- do.call(rbind,res.list)
 ###We can visualize this now by summing across the slides the ones that were significant at alpha = 0.01 & more than 30% difference
 res$FC <- (res$Edges + res$EdgeDiff_To_distal) / res$Edges
 res$FC[is.nan(res$FC)] <- 0
-#dplyr package gives error, however it helps to log off R studio and when logging in only load dpyr package first, 
-#run res.sum and then load the rest and run rest of the code 
+
 res.sum <- group_by(res, From, To) %>%
   summarize(Score = sum((Pval <= 0.01 & abs(FC) > 1.3) * sign(EdgeDiff_To_distal))/n())
 
