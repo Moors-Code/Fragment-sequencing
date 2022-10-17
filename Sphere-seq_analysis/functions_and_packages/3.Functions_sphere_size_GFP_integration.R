@@ -38,7 +38,7 @@ Biosorter_output_managing <- function(
   biosorter_files_plate2 <- subset(biosorter_files, plate_id == "plate_2")
   biosorter_files_plate3 <- subset(biosorter_files, plate_id == "plate_3")
   
-  #add sphere_id to the biosorter data by matching of plate ids 
+  #add sphere_id to the biosorter data by matching with plate ids 
   biosorter_files_plate1 <- merge(biosorter_files_plate1, plate1)
   biosorter_files_plate2 <- merge(biosorter_files_plate2, plate2)
   biosorter_files_plate3 <- merge(biosorter_files_plate3, plate3)
@@ -62,7 +62,7 @@ Biosorter_data_seurat_integration <- function(
   #match with sphere-size and Green (GFP) of biosorter files 
   seurat_object$sphere_size <- biosorter_files$sphere_size[match(seurat_object$sphere,biosorter_files$sphere)]
   seurat_object$GFP <- biosorter_files$Green[match(seurat_object$sphere,biosorter_files$sphere)]
-  #normalize GFP per sphere_size 
+  #normalize GFP with sphere_size 
   seurat_object$GFP <- as.character(seurat_object$GFP)
   seurat_object$GFP <- as.numeric(seurat_object$GFP)
   seurat_object$sphere_size <- as.character(seurat_object$sphere_size)
