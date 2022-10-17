@@ -44,14 +44,14 @@ Data for the above publication can be found at GEO with the access number: … a
 
 #### Main analysis: 
 
-1.Pre-processing: 
+##### 1.Pre-processing: 
 
 1.1.Preprocessing_MULTIseq_demux.R: This part does demultiplexing of MULTI-seq FASTQ files to allocate single cells to their sphere of origin.  
 
 1.2.Preprocessing_WTA_MULTIseqBC_integration.R: This part integrates sphere-BC with WTA Seurat objects. 
 
 
-2.Mouse metastatic liver sphere-seq anaysis: 
+##### 2.Mouse metastatic liver sphere-seq anaysis: 
 
 2.1.Liver_batch_effect_correction_and_clustering.R: This part merges all samples by applying bath effect correction; then, all samples undergo quality control, normalization, scaling and clustering. 
 
@@ -78,7 +78,7 @@ Data for the above publication can be found at GEO with the access number: … a
 2.6.3.2.CellPHoneDB_mets_distance.sh: This part executes CellPhoneDB analysis of input files generated in 2.6.3.1.
 
 
-3. CRC organoid mixing species sphere-seq analysis: 
+##### 3.CRC organoid mixing species sphere-seq analysis: 
 
 3.1.Organoids_species_mixing_sphere_size_GFP_integration.R: This part integrates sphere size and GFP signal from biosorter data to data of sorted spheres. 
 
@@ -91,7 +91,7 @@ Data for the above publication can be found at GEO with the access number: … a
 3.5.Organoids_species_mixing_analysis_correctly_assigned_cells.R: This part investigates the fraction of correctly and wrongly assigned cell. 
 
 
-4.Preliminary sphere-seq analysis of spleen and Crohn's disease biopsies: 
+##### Preliminary sphere-seq analysis of spleen and Crohn's disease biopsies: 
 
 4.Spleen_preliminary_analysis.R: This part analyses preliminary spleen sphere-seq data. 
 
