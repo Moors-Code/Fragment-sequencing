@@ -13,9 +13,8 @@ source("./functions_and_packages/7.Functions_ligand_receptor_analysis.R")
 ###load R object
 metastasis <- readRDS("./data_files_generated/LiverMerged_afterBC_anno_BS_5cells_zC_lobules_mets_distance.Rda")
 
-########## CellPhoneDB input file generation per Mets distance and per mouse ##########
+########## CellPhoneDB input file generation per Mets distance ##########
 #files are then used in code 2.6.4.2.CellPhoneDB_mets_distance.sh
-#we need CellPhoneDB analysis of proximal and distal over all samples and of proximal/distal from each individual mouse for statistical analysis 
 
 #load human and mouse ensemble symbols
 human <- useMart("ensembl", dataset = "hsapiens_gene_ensembl", host = "https://dec2021.archive.ensembl.org/") 
@@ -33,28 +32,28 @@ Input_files_CellPhoneDB_generation(distal,'annotation.broad',"distal","./CellPho
 ########## Run CellPhoneDB_mets_distance.sh ##########
 #/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/2.6.3.2.CellPHoneDB_mets_distance.sh
 
-########## Comparison of L-R interactions between proximal and distal areas of Monocytes and T cells ##########
+########## Comparison of L-R interactions between proximal and distal areas ##########
+
+###read in ouput files
 file1_mean <- "./CellPhoneDB/Mets_distance/distal/significant_means.txt"
 file1_pval <- "./CellPhoneDB/Mets_distance/distal/pvalues.txt"
 
 file2_mean <- "./CellPhoneDB/Mets_distance/proximal/significant_means.txt"
 file2_pval <- "./CellPhoneDB/Mets_distance/proximal/pvalues.txt"
 
-###Monocytes T cell interactions CV compared to PV 
-#combine Monocytes and T cell interactions from CV and PV analysis 
+###Monocytes T cell interactions distal compared to proximal 
+#combine Monocytes and T cell interactions from distal and proximal analysis 
 L_R_CellPhoneDB_comp_2samples("Monocytes.T",file1_mean,file1_pval,file2_mean,file2_pval,"./figures/2.6.3/","Mets_distance")
 
-##Plotting for L-R pairs 
+##Plotting 
 df <- read.csv("./figures/2.6.3/interactions_comp_two_cond_Monocytes.T_Mets_distance.csv")
 
-#calculate difference between distal and proximal to order interacting pairs with that 
+#calculate difference between distal and proximal to order interacting pairs in decrasing order
 #make values positive 
 df$diff <- df$sample1_mean - df$sample2_mean
 df$diff <- abs(df$diff)
 
-##split the plot so you can put proximal and distal scores in one column for interaction_score and one for pvals
-#df <- df[df$sample1_mean == 0 | df$sample2_mean == 0,]
-
+##split the plot so you can put distal and proximal scores in one column for interaction_score and one for pvals
 df_dist <- df[,c("interacting_pair", "sample1_mean","sample1_pval","diff")]
 df_dist$Mets_distance <- "distal"
 colnames(df_dist) <- c("interacting_pair","interaction_score","pvalue","diff", "condition")
@@ -83,5 +82,7 @@ p <- ggplot(df1, aes(x=interaction_score, y=reorder(interacting_pair,+diff),fill
   guides(fill=guide_legend(title="P-value of enrichment")) 
 p + ggsave("./figures/2.6.3/Interaction_Mono_T_vein_0.5.pdf", width = 12, height = 10)
 p + ggsave("./figures/2.6.3/Interaction_Mono_T_vein_0.5.svg", width = 12, height = 10)
+
+
 
 
