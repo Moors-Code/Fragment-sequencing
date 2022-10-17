@@ -39,48 +39,59 @@ Data for the above publication can be found at GEO with the access number: … a
 
 6.Functions_Cell_type_abundance.R: Code contains function for cell type abundance analysis: Differential abundance analysis between two conditions and plotting of cell type proportion of interest between two conditions.  
 
-7.Functions_ligand_receptor_analysis.R: Code contains function for L-R interaction analysis: Generation of input files for CellPhoneDB analysis; Generation of a matrix that contains interaction scores and p-values from CellPhoneDB comparing two conditions of interacting cell types of interest. 
+7.Functions_ligand_receptor_analysis.R: Code contains functions for L-R interaction analysis: Generation of input files for CellPhoneDB analysis; Generation of a matrix that contains interaction scores and p-values from CellPhoneDB comparing two conditions of interacting cell types of interest. 
 
 
 #### Main analysis: 
+
+1.Pre-processing: 
 
 1.1.Preprocessing_MULTIseq_demux.R: This part does demultiplexing of MULTI-seq FASTQ files to allocate single cells to their sphere of origin.  
 
 1.2.Preprocessing_WTA_MULTIseqBC_integration.R: This part integrates sphere-BC with WTA Seurat objects. 
 
-2.1.Liver_batch_effect_correction_and_clustering.R: This part merges all liver samples by applying bath effect correction; after all samples undergo quality control, normalization, scaling and clustering. 
 
-2.2.Liver_cell_type_annotation.R: This part annotates clustered liver Seurat object using marker genes from https://www.livercellatlas.org. 
+2.Mouse metastatic liver sphere-seq anaysis: 
 
-2.3.Liver_sphere_size_integration.R: This part integrates sphere sizes calculated from biosorter outputs with merged liver Seurat object. 
+2.1.Liver_batch_effect_correction_and_clustering.R: This part merges all samples by applying bath effect correction; then, all samples undergo quality control, normalization, scaling and clustering. 
 
-2.4.Liver_cells_per_sphere_cutoff.R: This part applies a cutoff of a least 5 cells per sphere in liver experiments, all other spheres are removed from further analysis. 
+2.2.Liver_cell_type_annotation.R: This part annotates clustered Seurat object using marker genes from https://www.livercellatlas.org. 
 
-2.5.1.Liver_lobule_layer_classification.R: This part allocates liver spheres into lobule layers between central and portal veins depending on landmark gene expression in LECs. 
+2.3.Liver_sphere_size_integration.R: This part integrates sphere sizes calculated from biosorter outputs with merged Seurat object. 
 
-2.5.2.Liver_zonated_gene_expression.R: This part investigates liver zonation specific gene expression in LECs and KCs. 
+2.4.Liver_cells_per_sphere_cutoff.R: This part applies a cutoff of a least 5 cells per sphere, all other spheres are removed from further analysis. 
 
-2.5.3.1.Liver_ligand_receptor_veins.R: This part first generates input files for CellPhoneDB from liver CV and PV areas and then compares interactions from CV and PV. 
+2.5.1.Liver_lobule_layer_classification.R: This part allocates spheres into lobule layers between central and portal veins depending on landmark gene expression in LECs. 
+
+2.5.2.Liver_zonated_gene_expression.R: This part investigates zonation specific gene expression in LECs and KCs. 
+
+2.5.3.1.Liver_ligand_receptor_veins.R: This part first generates input files for CellPhoneDB from CV and PV areas and then compares interactions from CV and PV. 
 
 2.5.3.2.CellPHoneDB_veins.sh: This part executes CellPhoneDB analysis of input files generated in 2.5.3.1.
 
-2.6.1.Liver_metastatic_distance_classification.R: This part groups liver spheres into proximal and distal areas to metastatic sites. 
+2.6.1.Liver_metastatic_distance_classification.R: This part groups spheres into proximal and distal areas to metastatic sites. 
 
-2.6.2.Liver_cell_type_abundance_mets_distance.R: This part compares liver cell type abundances of proximal and distal areas to metastatic sites. 
+2.6.2.Liver_cell_type_abundance_mets_distance.R: This part compares cell type abundances of proximal and distal areas. 
 
-2.6.3.1.Liver_ligand_receptor_mets_distance.R: This part first generates input files for CellPhoneDB from liver proximal and distal areas and then compares interactions from proximal and distal. 
+2.6.3.1.Liver_ligand_receptor_mets_distance.R: This part first generates input files for CellPhoneDB from proximal and distal areas and then compares interactions from proximal and distal. 
 
 2.6.3.2.CellPHoneDB_mets_distance.sh: This part executes CellPhoneDB analysis of input files generated in 2.6.3.1.
 
-3.1.Organoids_species_mixing_sphere_size_GFP_integration.R: This part integrates sphere size and GFP signal from biosorter data to data of sorted spheres of colon cancer (CRC) organoids species mixing experiment. 
 
-3.2.Organoids_species_mixing_QC.R: This part applies quality control measures and normalization to organoid species mixing experiment.
+3. CRC organoid mixing species sphere-seq analysis: 
 
-3.3.Organoids_species_mixing_decontX.R: This part applies decontX to remove cell free RNA in organoid species mixing experiment. 
+3.1.Organoids_species_mixing_sphere_size_GFP_integration.R: This part integrates sphere size and GFP signal from biosorter data to data of sorted spheres. 
 
-3.4.Organoids_species_mixing_cell_type_annotation.R: This part clusters and annotates cells as human and mouse from the organoid mixing species experiment. 
+3.2.Organoids_species_mixing_QC.R: This part applies quality control measures and normalization.
 
-3.5.Organoids_species_mixing_analysis_correctly_assigned_cells.R: This part investigates the fraction of correctly and wrongly assigned cell to spheres of the organoid mixing species experiment. 
+3.3.Organoids_species_mixing_decontX.R: This part applies decontX to remove cell free RNA. 
+
+3.4.Organoids_species_mixing_cell_type_annotation.R: This part clusters and annotates cells as human and mouse. 
+
+3.5.Organoids_species_mixing_analysis_correctly_assigned_cells.R: This part investigates the fraction of correctly and wrongly assigned cell. 
+
+
+4.Preliminary sphere-seq analysis of spleen and Crohn's disease biopsies: 
 
 4.Spleen_preliminary_analysis.R: This part analyses preliminary spleen sphere-seq data. 
 
@@ -98,7 +109,7 @@ Data for the above publication can be found at GEO with the access number: … a
 
 3.Functions_DGE.R: Code contains functions for DGE analysis: between veins and between metastatic distances; Plotting of zonated gene expression in boxplots from KCs and LECs; 
 
-4.Functions_cell_type_abundance.R: Code contains functions for comparing cell type abundance between two groups: differential abundance analysis between proximal and distal metastatic distance and plotting of cell type proportions from both groups in boxplots;  
+4.Functions_cell_type_abundance.R: Code contains functions for comparing cell type abundance between two groups: differential abundance analysis between proximal and distal and plotting of cell type proportions from both groups in boxplots;  
 
 5.Functions_cell_co_localisation.R: Code contains functions for colocalization analysis; 
 
@@ -108,13 +119,13 @@ Data for the above publication can be found at GEO with the access number: … a
 
 1.2.Process_Segmentation.sh: This part generates count matrices of genes per single cell. 
 
-1.3.Build_SCE_Object.R: This part produces a single cell experiment object of counts per segmented cell. 
+1.3.Build_SCE_Object.R: This part produces a single cell experiment object of counts per cell. 
 
 2.Preprocessing_Feature_integration.R: This part does preprocessing of SCE object and integrates x and y coordinates of manually drawn spatial areas (CV, PV, Metastasis).
 
-3.Clustering_annotation.R: This part does clustering and annotation on Molecular Cartography data. 
+3.Clustering_annotation.R: This part does clustering and annotation of Molecular Cartography data. 
 
-4.1.Veins_zonated_genes_analysis.R: This part validates findings of newly found zonated genes from sphere-seq analysis. 
+4.1.Veins_zonated_genes_analysis.R: This part validates findings of zonated genes found from sphere-seq analysis. 
 
 5.1.Mets_distance_DGE_analysis.R: This part does DGE analysis between monocytes from proximal and distal areas. 
 
