@@ -12,7 +12,7 @@ source("./functions_and_packages/1.Packages.R")
 ###load R object
 liverSpS5C <- readRDS("./data_files_generated/LiverMerged_afterBC_anno_BS_5cells_zC_lobules.Rda")
 
-#Injectes samples  
+#Injected samples  
 Idents(liverSpS5C) <- "orig.ident"
 Injected <- subset(liverSpS5C, idents = c("M1","M3","M4","4M1","4M2","M5","6M1","6M2","6M3"))
 
@@ -35,7 +35,7 @@ p + ggsave("./figures/2.6.1/barplot_mets_cells.svg", width = 12, height = 10)
 Idents(Injected) <- "orig.ident"
 metastasis <- subset(Injected, idents = c("4M1","M5","6M1"))
 
-########## Add proximal and distal identity depending on the presence of metastatic cells #####
+########## Add proximal and distal identity depending on the presence of metastatic cells ##########
 ###subset metastatic cells and generate vector with sphere-BCs of spheres containing metastatic cells 
 Idents(metastasis) <- "annotation"
 sub_mets <- subset(metastasis, idents = c("Metastasis"))
@@ -43,7 +43,7 @@ mets_spheres <- as.data.frame(table(sub_mets$sphere))$Var1
 all_spheres <- as.data.frame(table(metastasis$sphere))$Var1
 no_mets_spheres <- setdiff(all_spheres,mets_spheres)
 
-###add meta data with the identity of proximal and distal #####
+###add meta data with the identity of proximal and distal 
 metastasis$Mets_distance <- NA
 metastasis@meta.data <- metastasis@meta.data %>%
   mutate(Mets_distance = case_when(
@@ -54,7 +54,7 @@ metastasis@meta.data <- metastasis@meta.data %>%
 ###save object with new meta-data column 
 saveRDS(metastasis,"./data_files_generated/LiverMerged_afterBC_anno_BS_5cells_zC_lobules_mets_distance.Rda")
 
-########## Make split plot of cells within close and far area ##########
+########## Make split plot of cells within distal and proximal area ##########
 ###colours 
 #B cells (orange): B_mem: #EF975B; B_plasma: #F4741E    
 #Granulocytes (yellow): Basophils:#56595B; Neutrophils: #AEAEAF  
