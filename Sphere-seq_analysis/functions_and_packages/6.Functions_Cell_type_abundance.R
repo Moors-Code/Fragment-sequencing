@@ -1,4 +1,4 @@
-###Function to test Cell type abundances between Mets_distance for annotation column of interest 
+###Function to test cell type abundances between Mets_distance 
 #following workflow of: http://bioconductor.org/books/3.15/OSCA.multisample/differential-abundance.html#performing-the-da-analysis 
 DA_analysis_cell_type_abundance_Mets_distance <- function(
   seurat_object,
