@@ -1,4 +1,4 @@
-########## Part 5.2 DGE analysis between Monocytes of differnet Mets distances ##########
+########## Part 5.2 DGE analysis between Monocytes of different Mets distances ##########
 #This part validates findings of DGE analysis between macrophage subtypes in Monocytes of highly multiplexed FISH 
 
 ########## Prepare environment ##########
