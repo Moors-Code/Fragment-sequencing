@@ -1,6 +1,6 @@
 ########## Part 2: Pre-processing and feature area integration ##########
 #This part does pre-processing on single cell object after cell segmentation 
-#then x and y coordinates of manually drawn feature areas (pv, cv and mets) were integrated with x and y coordinates of Seurat object of segmented single cells 
+#then x and y coordinates of manually drawn feature areas (pv, cv and mets) were integrated with x and y coordinates of Seurat object 
 
 ########## Prepare environment ##########
 ###Setting the working directory 
@@ -186,7 +186,7 @@ A1_1@meta.data <- A1_1@meta.data %>%
     imageJ_coordinate %in% m5 ~ "s1_m5",
     TRUE ~ NA_character_))
 
-##save objects 
+##save object
 saveRDS(A1_1, file = "./data_files_generated/mets_A1_1.rds")
 
 ##A2_1
@@ -243,7 +243,7 @@ A2_1@meta.data <- A2_1@meta.data %>%
     TRUE ~ NA_character_))
 
 
-##save objects 
+##save object
 saveRDS(A2_1, file = "./data_files_generated/noMets_A2_1.rds")
 
 ##A2_2
@@ -290,7 +290,7 @@ A2_2@meta.data <- A2_2@meta.data %>%
     imageJ_coordinate %in% cv_4 ~ "s3_cv_4",
     TRUE ~ NA_character_))
 
-##save objects 
+##save object
 saveRDS(A2_2, file = "./data_files_generated/noMets_A2_2.rds")
 
 ##B1_1
@@ -381,7 +381,7 @@ B1_1@meta.data <- B1_1@meta.data %>%
     imageJ_coordinate %in% m3 ~ "s4_m3",
     TRUE ~ NA_character_))
 
-##save objects 
+##save object 
 saveRDS(B1_1, file = "./data_files_generated/mets_B1_1.rds")
 
 ##B1_2
@@ -452,7 +452,7 @@ B1_2@meta.data <- B1_2@meta.data %>%
     TRUE ~ NA_character_))
 
 
-##save objects 
+##save object 
 saveRDS(B1_2, file = "./data_files_generated/mets_B1_2.rds")
 
 ##B2_1
@@ -612,7 +612,7 @@ B2_1@meta.data <- B2_1@meta.data %>%
     imageJ_coordinate %in% cv_35 ~ "s6_cv_35",
     TRUE ~ NA_character_))
 
-##save objects 
+##save object
 saveRDS(B2_1, file = "./data_files_generated/noMets_B2_1.rds")
 
 ########## Combine all slides with added spatial area information ##########
@@ -625,7 +625,7 @@ A2_1 <- readRDS(file = "./data_files_generated/noMets_A2_1.rds")
 A2_2 <- readRDS(file = "./data_files_generated/noMets_A2_2.rds")
 B2_1 <- readRDS(file = "./data_files_generated/noMets_B2_1.rds")
 
-###add prefix to the sphere name 
+###merge objects 
 mets_samples <- merge(B1_2,c(B1_1,A1_1))
 noMets_samples <- merge(B2_1,c(A2_1,A2_2))
 
