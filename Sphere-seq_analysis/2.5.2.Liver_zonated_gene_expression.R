@@ -1,4 +1,4 @@
-########## Part 2.5.2: Liver lobule layer zonated gene expression analysis##########
+########## Part 2.5.2: Liver lobule layer zonated gene expression analysis ##########
 #This part investigates zonation specific gene expression in LECs and KCs
 
 ########## Prepare environment ##########
@@ -88,14 +88,10 @@ p + ggsave("./figures/2.5.2/LECs_CV_PV_SpS_vulcano.svg",width = 12, height = 10)
 #CV zonated 
 boxplot_zonation_genes_LECs_injected(Injected,"Plpp1","red","./figures/2.5.2/","Injected",".pdf")
 boxplot_zonation_genes_LECs_injected(Injected,"Plpp1","red","./figures/2.5.2/","Injected",".svg")
-boxplot_zonation_genes_LECs_injected(Injected,"Lhx6","red","./figures/2.5.2/","Injected",".pdf")
-boxplot_zonation_genes_LECs_injected(Injected,"Lhx6","red","./figures/2.5.2/","Injected",".svg")
 
 #PV zonated 
 boxplot_zonation_genes_LECs_injected(Injected,"Cd36","darkgoldenrod2","./figures/2.5.2/","Injected",".pdf")
 boxplot_zonation_genes_LECs_injected(Injected,"Cd36","darkgoldenrod2","./figures/2.5.2/","Injected",".svg")
-boxplot_zonation_genes_LECs_injected(Injected,"Galnt15","darkgoldenrod2","./figures/2.5.2/","Injected",".pdf")
-boxplot_zonation_genes_LECs_injected(Injected,"Galnt15","darkgoldenrod2","./figures/2.5.2/","Injected",".svg")
 
 ###Kupffer cells 
 DE_zonated_genes(Injected,"annotation.broad","Kupffer","./data/","Injected")
@@ -114,11 +110,11 @@ boxplot_zonation_genes_KCs_injected(Injected,"Vcam1","purple","./figures/2.5.2/"
 ###LECs 
 boxplot_zonation_genes_LECs_WT(WT,"Plpp1","red","./figures/2.5.2/","WT",".pdf")
 boxplot_zonation_genes_LECs_WT(WT,"Plpp1","red","./figures/2.5.2/","WT",".svg")
-boxplot_zonation_genes_LECs_WT(WT,"Lhx6","red","./figures/2.5.2/","WT",".pdf")
-boxplot_zonation_genes_LECs_WT(WT,"Lhx6","red","./figures/2.5.2/","WT",".svg")
 
-boxplot_zonation_genes_LECs_WT(WT,"Cd36","darkgoldenrod2","./figures/2.5.2/","WT",".pdf")
-boxplot_zonation_genes_LECs_WT(WT,"Cd36","darkgoldenrod2","./figures/2.5.2/","WT",".svg")
 boxplot_zonation_genes_LECs_WT(WT,"Galnt15","darkgoldenrod2","./figures/2.5.2/","WT",".pdf")
 boxplot_zonation_genes_LECs_WT(WT,"Galnt15","darkgoldenrod2","./figures/2.5.2/","WT",".svg")
+
+###KCs
+boxplot_zonation_genes_KCs_WT(WT,"Vcam1","purple","./figures/2.5.2/","WT",".pdf")
+
 
