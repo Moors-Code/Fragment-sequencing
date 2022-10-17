@@ -24,15 +24,3 @@ text_file_generation_anno_resolve <- function(
   write.table(text_file, paste0(sample_name, "_", cell_type, ".txt"),row.names = FALSE, quote = F, sep = "\t")
 }
 
-text_file_generation_per_slide_resolve <- function(
-  seurat_object,
-  slide_name,
-  slide_name2
-) {
-  Idents(seurat_object) <- "Slide"
-  text_file <- subset(seurat_object, idents = slide_name)
-  text_file <- as.data.frame(text_file@meta.data)
-  text_file <- text_file[,c(10,24)]
-  text_file$Cell <- gsub(slide_name2, "Cell", rownames(text_file))
-  write.table(text_file, paste0(slide_name, "_", ".txt"),row.names = FALSE, quote = F, sep = "\t")
-}
