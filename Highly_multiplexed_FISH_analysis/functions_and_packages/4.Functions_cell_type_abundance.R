@@ -1,11 +1,11 @@
-###Function to test Cell type abundances between two groups 
+###Function to test cell type abundances between two groups, in this case distal vs. proximal  
 #following workflow of: http://bioconductor.org/books/3.15/OSCA.multisample/differential-abundance.html#performing-the-da-analysis 
 DA_analysis_cell_type_abundance_Mets_distance_hmFISH <- function(
   seurat_object,
   output_file_path
 ) {
   ###load and prepare data 
-  #add extra meta data column that combines cell type and vein
+  #add extra meta data column that combines cell type and Mets_distance
   seurat_object$sample_mets_dist <- paste0(seurat_object$sampleID,"_",seurat_object$Mets_distance)
   #convert to SCE object 
   sce <- as.SingleCellExperiment(seurat_object)
@@ -34,7 +34,7 @@ DA_analysis_cell_type_abundance_Mets_distance_hmFISH <- function(
 }
 
 
-###Function to get proportions of cell types per feature area  
+###Function to get proportions of cell types per spatial feature area  
 create_table_cell_type_prop_resolve <- function(
   seurat_object, 
   ident_of_interest1,
@@ -53,7 +53,7 @@ create_table_cell_type_prop_resolve <- function(
   write.csv(ann_tab_pct, file = paste0(output_file_path,sample_name,"_proportions_",ident_of_interest1,"_",ident_of_interest2,".csv"))
 }
 
-###Function to generate boxplot per cell type of interest 
+###Function to generate boxplots per cell type of interest 
 #save as pdf or svg
 boxplot_cell_prop <- function(
   df,
