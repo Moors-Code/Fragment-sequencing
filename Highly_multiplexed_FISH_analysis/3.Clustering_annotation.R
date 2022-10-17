@@ -31,7 +31,7 @@ merged <- FindClusters(merged, resolution = 0.2, random.seed = 2, algorithm = 1,
 merged <- RunUMAP(merged, dims = 1:10, seed.use = 5, reduction = "pca")
 DimPlot(merged, reduction = "umap", label = TRUE)
 
-###remove all the little random cluster, these are probably low quality cells only expression a view molecules 
+###remove all the little random cluster, these are probably low quality cells only expressing a view molecules 
 Idents(merged) <- "seurat_clusters"
 merged <- subset(merged, idents = c(0,1,2,3,4,5))
 DimPlot(merged, reduction = "umap", label = TRUE) 
@@ -93,10 +93,7 @@ DotPlot(liverSpS5C, features =c("Lhx6","Spp1","Pglyrp1","App","Fn1","Jup"))
 
 #cluster 22,23,24 only express one gene, remove from the analysis
 
-#Clusters 22
-DotPlot(liverSpS5C, features =c("Pglyrp1","Gpx2","App","Spp1","Mecom","Jup"))
-
-
+#rename clusters to annotated cell types 
 current.cluster.ids <- c(0:24)
 new.cluster.ids <- c("Hepatocytes_PV","Metastasis","Hepatocytes_CV","Hepatocytes_CV","Metastasis","LECs","Monocytes",
                      "Hepatocytes_PV","Kupffer","LECs","Stellate","T_B","Fibroblasts",
@@ -128,7 +125,7 @@ new.cluster.ids <- c("Fibroblasts","Hepatocytes_CV","Hepatocytes_PV","Kupffer","
 merged$annotation <- plyr::mapvalues(x = merged$sub.cluster, from = current.cluster.ids, to = new.cluster.ids)
 DimPlot(merged, reduction = "umap", label = TRUE, group.by = "annotation", label.size = 3)
 
-#remove Remove cluster 
+###remove 'Remove' cluster 
 Idents(merged) <- "annotation"
 merged <- subset(merged, idents = c("Fibroblasts","Hepatocytes_CV","Hepatocytes_PV","Kupffer","LECs","Metastasis","Monocytes","Stellate",
                                     "T","B"))
@@ -149,7 +146,6 @@ marker_genes <- c("Pglyrp1","Gpx2", #Metastasis
 )
 
 Idents(merged) <- "annotation"
-#define order of cell types 
 p <- DotPlot(merged,features = marker_genes) + theme(axis.text.x = element_text(angle = 90)) + 
   ggtitle("Marker genes in annotation of Resolve data") + 
   theme(legend.title = element_text(size = 22), legend.text = element_text(size = 22)) + 
@@ -179,7 +175,7 @@ p + ggsave("./figures/3/annotated_umap.svg",width = 15, height = 10)
 #T #2323E5 
 #B #EF975B
 
-###change identity to have a vein meta data column and then combine sm and nm to distal and mets to proximal in Mets_distance
+###change identity to have a vein meta data column and then combine with sm and nm to 'distal' and mets to 'proximal' in Mets_distance
 current.cluster.ids <- c("cv","cv_nm","cv_sm","mets","pv","pv_nm","pv_sm")
 new.cluster.ids <- c("CV","CV","CV","Mets","PV","PV","PV")
 merged$vein <- plyr::mapvalues(x = merged$spatial_feature, from = current.cluster.ids, to = new.cluster.ids)
@@ -188,7 +184,7 @@ current.cluster.ids <- c("cv","cv_nm","cv_sm","mets","pv","pv_nm","pv_sm")
 new.cluster.ids <- c("distal","distal","distal","proximal","distal","distal","distal")
 merged$Mets_distance <- plyr::mapvalues(x = merged$spatial_feature, from = current.cluster.ids, to = new.cluster.ids)
 
-########## check CV and PV heps in veins you draw on ImageJ ##########
+########## check CV and PV hepatocytes in vein areas manually drawn in ImageJ ##########
 Idents(merged) <- "annotation"
 hep <- subset(merged, idents = c("Hepatocytes_CV","Hepatocytes_PV"))
 p <- DimPlot(hep,group.by = "annotation", split.by = "vein", cols = c("#F46042","#56040C"), pt.size = 0.5) + theme(legend.title = element_text(size = 22), legend.text = element_text(size = 22)) + 
@@ -196,7 +192,7 @@ p <- DimPlot(hep,group.by = "annotation", split.by = "vein", cols = c("#F46042",
 p + ggsave("./figures/3/split_plot_pv_cv_hep.pdf",width = 15, height = 10)
 p + ggsave("./figures/3/split_plot_pv_cv_hep.svg",width = 15, height = 10)
 
-#change to sample ids 
+#add sampleID in meta data which is mets or no-mets condition of slides 
 current.cluster.ids <- c("Slide1_A1-1" ,"Slide1_A2-1"   ,"Slide1_A2-2"     ,"Slide1_B1-1" ,"Slide1_B1-2"  ,"Slide1_B2-1" )
 new.cluster.ids <- c("metsA1","no_metsA2","no_metsA2","metsB1","metsB1","no_metsB2")
 merged$sampleID <- plyr::mapvalues(x = merged$Slide, from = current.cluster.ids, to = new.cluster.ids)
@@ -205,6 +201,7 @@ merged$sampleID <- plyr::mapvalues(x = merged$Slide, from = current.cluster.ids,
 saveRDS(merged,file = "./data_files_generated/Resolve_seurat_anno.rds")
 
 ########## Get cell annotation per slide and celltype ##########
+#this can then be used to overlay cell type annotation with DAPI images 
 setwd("./data_files_generated/annotation_file_for_ImageJ")
 Idents(merged) <- "Slide"
 
@@ -248,17 +245,3 @@ Idents(B2_1) <- "annotation"
 for (i in cell_types_noMets) {
   text_file_generation_anno_resolve(B2_1,i,"^Slide1_B2-1_Cell","B2_1")
 }
-
-##per slide all cell types 
-Idents(merged) <- "Slide"
-merged_slides <- c("^Slide1_A1-1_Cell","^Slide1_A2-1_Cell","^Slide1_A2-2_Cell","^Slide1_B1-1_Cell",
-                   "^Slide1_B1-2_Cell","^Slide1_B2-1_Cell")
-
-slides_names <- as.data.frame(table(merged$Slide))$Var1
-
-text_file_generation_per_slide_resolve(merged,"Slide1_A1-1","^Slide1_A1-1_Cell")
-text_file_generation_per_slide_resolve(merged,"Slide1_A2-1","^Slide1_A2-1_Cell")
-text_file_generation_per_slide_resolve(merged,"Slide1_A2-2","^Slide1_A2-2_Cell")
-text_file_generation_per_slide_resolve(merged,"Slide1_B1-1","^Slide1_B1-1_Cell")
-text_file_generation_per_slide_resolve(merged,"Slide1_B1-2","^Slide1_B1-2_Cell")
-text_file_generation_per_slide_resolve(merged,"Slide1_B2-1","^Slide1_B2-1_Cell")
