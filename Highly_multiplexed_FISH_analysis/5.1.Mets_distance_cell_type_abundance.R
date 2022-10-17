@@ -16,7 +16,7 @@ merged <- readRDS(file = "./data_files_generated/Resolve_seurat_anno.rds")
 Idents(merged) <- "samples"
 mets_samples <- subset(merged, idents = "mets")
 
-########## DA abundance analysis ##########
+########## Differential abundance analysis ##########
 DA_analysis_cell_type_abundance_Mets_distance_hmFISH(mets_samples,"./figures/5.1/")
 
 top <- read.csv("./figures/5.1/Cell_type_abundance_Mets_distance_hmFISH.csv")
