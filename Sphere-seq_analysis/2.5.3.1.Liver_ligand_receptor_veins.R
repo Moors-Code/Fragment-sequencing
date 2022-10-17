@@ -17,9 +17,8 @@ liverSpS5C <- readRDS("./data_files_generated/LiverMerged_afterBC_anno_BS_5cells
 Idents(liverSpS5C) <- "orig.ident"
 Injected <- subset(liverSpS5C, idents = c("M1","M3","M4","4M1","4M2","M5","6M1","6M2","6M3"))
 
-########## CellPhoneDB input file generation per vein and per mouse ##########
-#files are then used in code 2.5.3.1.CellPhoneDB_veins.sh
-#we need CellPhoneDB analysis of CV and PV over all samples and of CV/PV from each individual mouse for statistical analysis 
+########## CellPhoneDB input file generation per vein ##########
+#files are then used in code 2.5.3.2.CellPhoneDB_veins.sh
 
 #load human and mouse ensemble symbols
 human <- useMart("ensembl", dataset = "hsapiens_gene_ensembl", host = "https://dec2021.archive.ensembl.org/") 
@@ -36,6 +35,8 @@ Input_files_CellPhoneDB_generation(pv,'annotation.broad',"pv","./CellPhoneDB/Vei
 
 ########## Run CellPhoneDB_veins.sh ##########
 #/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/2.5.3.2.CellPHoneDB_veins.sh
+
+###read in output files 
 file1_mean <- "./CellPhoneDB/Vein/cv/significant_means.txt"
 file1_pval <- "./CellPhoneDB/Vein/cv/pvalues.txt"
 
@@ -46,26 +47,31 @@ file2_pval <- "./CellPhoneDB/Vein/pv/pvalues.txt"
 #combine Kupffer and T cell interactions from CV and PV analysis 
 L_R_CellPhoneDB_comp_2samples("Kupffer.T",file1_mean,file1_pval,file2_mean,file2_pval,"./figures/2.5.3/","vein")
 
-##Plotting for L-R pairs 
+##Plotting 
 df <- read.csv("./figures/2.5.3/interactions_comp_two_cond_Kupffer.T_vein.csv")
 
-#calculate difference between distal and proximal to order interacting pairs with that 
+#calculate difference between distal and proximal to order interacting pairs in decreasing order
 #make values positive 
 df$diff <- df$sample1_mean - df$sample2_mean
 df$diff <- abs(df$diff)
 
-##split the plot so you can put cv and pv scores in one column for interaction_score and one for pvals
-#df <- df[df$sample1_mean == 0 | df$sample2_mean == 0,]
+#order dataframe decreasing based on the difference of interaction scores 
+df <- df[order(df$diff,decreasing = TRUE),]
 
+##split the plot so you can put cv and pv scores in one column for interaction_score and one for pvals
 df_cv <- df[,c("interacting_pair", "sample1_mean","sample1_pval","diff")]
 df_cv$vein <- "CV"
 colnames(df_cv) <- c("interacting_pair","interaction_score","pvalue","diff", "condition")
 #make minus to put on one axis, has to be changed to + scores later in Illustrator 
 df_cv$interaction_score <- -(df_cv$interaction_score)
+#take only the top 15 interactions for plotting
+df_cv <- df_cv[1:15,]
 
 df_pv <- df[,c("interacting_pair", "sample2_mean","sample2_pval","diff")]
 df_pv$vein <- "PV"
 colnames(df_pv) <- c("interacting_pair","interaction_score","pvalue", "diff", "condition")
+#take only the top 15 interactions for plotting
+df_pv <- df_pv[1:15,]
 
 df1 <- rbind(df_cv,df_pv)
 
@@ -81,9 +87,9 @@ p <- ggplot(df1, aes(x=interaction_score, y=reorder(interacting_pair,+interactio
   ylab("L-R interaction")  +
   theme(plot.title = element_text(size = 15, face = "bold")) + theme(legend.text = element_text(size = 22),
                                                                      legend.title= element_text(size = 22)) + 
-  guides(fill=guide_legend(title="P-value of enrichment")) 
-p + ggsave("./figures/2.5.3/Interaction_KC_T_vein.pdf", width = 12, height = 10)
-p + ggsave("./figures/2.5.3/Interaction_KC_T_vein.svg", width = 12, height = 10)
+  guides(fill=guide_legend(title="P-value")) 
+p + ggsave("./figures/2.5.3/Interaction_KC_T_vein.pdf", width = 12, height = 5)
+p + ggsave("./figures/2.5.3/Interaction_KC_T_vein.svg", width = 12, height = 5)
 
 
 ###Kupffer B cell interactions CV compared to PV 
@@ -93,14 +99,12 @@ L_R_CellPhoneDB_comp_2samples("Kupffer.B",file1_mean,file1_pval,file2_mean,file2
 ##Plotting for L-R pairs 
 df <- read.csv("./figures/2.5.3/interactions_comp_two_cond_Kupffer.B_vein.csv")
 
-#calculate difference between distal and proximal to order interacting pairs with that 
+#calculate difference between distal and proximal to order interacting pairs in decreasing order
 #make values positive 
 df$diff <- df$sample1_mean - df$sample2_mean
 df$diff <- abs(df$diff)
 
 ##split the plot so you can put cv and pv scores in one column for interaction_score and one for pvals
-#df <- df[df$sample1_mean == 0 | df$sample2_mean == 0,]
-
 df_cv <- df[,c("interacting_pair", "sample1_mean","sample1_pval","diff")]
 df_cv$vein <- "CV"
 colnames(df_cv) <- c("interacting_pair","interaction_score","pvalue","diff", "condition")
@@ -128,8 +132,5 @@ p <- ggplot(df1, aes(x=interaction_score, y=reorder(interacting_pair,+interactio
   guides(fill=guide_legend(title="P-value of enrichment")) 
 p + ggsave("./figures/2.5.3/Interaction_KC_B_vein.pdf", width = 12, height = 10)
 p + ggsave("./figures/2.5.3/Interaction_KC_B_vein.svg", width = 12, height = 10)
-
-
-
 
 
