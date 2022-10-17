@@ -73,7 +73,7 @@ rownames(org_mix_ensemble_AE_df_mouse_t_df_total_df) <- rownames(org_mix_ensembl
 merged_df <- cbind(org_mix_ensemble_AE_df_human_t_df_total_df,org_mix_ensemble_AE_df_mouse_t_df_total_df)
 colnames(merged_df) <- c("human","mouse")
 
-#scatterplot --> there is still quite some cell showing human and mouse UMI counts, therefore we apply dexontX to remove cell free RNA in 3.3.
+#scatterplot --> there is still quite some cells showing human and mouse UMI counts, therefore we apply dexontX to remove cell free RNA in 3.3.
 p <- ggplot(merged_df, aes(x=human, y=mouse)) + theme_classic() + geom_point() +
   ggtitle("Mouse and human UMI counts per cell")+ xlab("Human transcripts") + ylab("Mouse transcripts") +
   theme(title = element_text(size = 25))+
