@@ -66,7 +66,7 @@ write.csv(deconvolution_crc_df, "./figures/3/deconvoluted_spots.csv")
 #load data frame 
 deconvolution_crc_df <- read.csv("./figures/3/deconvoluted_spots.csv")
 
-########## annotate spots with cell type if at elast 75% are that cell type, others are mixed ##########
+########## annotate spots with cell type if at last 75% are that cell type, others are mixed ##########
 #extract cell-barcodes for individual cell types to then match it with Seurat object 
 #assign a spot to a cell type if 75% of transcripts are assigned to one cell type 
 cDC1 <- deconvolution_crc_df[deconvolution_crc_df$cDC1 >= 0.75,] #none
