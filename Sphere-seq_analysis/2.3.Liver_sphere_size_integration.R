@@ -1,6 +1,6 @@
 ########## Part 2.3: Sphere size integration of liver samples ##########
 #This part integrates sphere size with Seurat object
-#Sphere size is calculated using acquired TOF measures of sorted spheres, which is fit into a linear model from standard size beads TOF measurements
+#Sphere size is calculated using acquired TOF measurements of sorted spheres, which is fit into a linear model from standard size beads TOF measurements
 
 ########## Prepare environment ##########
 ###Setting the working directory 
