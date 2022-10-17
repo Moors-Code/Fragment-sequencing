@@ -38,7 +38,7 @@ add_zonation_coefficient <- function(
   endo_av_CV_df <- as.data.frame(endo_av_CV)
   
   ###Calculation of zonation coordinate (ZC)
-  #normalize second time by dividing each gene by the maximum level from all spheres/cells, this makes sure that each genes get the same weight   
+  #normalize second time by dividing each gene by the maximum level from all spheres, this makes sure that each gene gets the same weight   
   output_endo_av_PV_df <- matrix(0,nrow(endo_av_PV_df), ncol(endo_av_PV_df), dimnames = list(rownames(endo_av_PV_df), colnames(endo_av_PV_df)))  
   for (i in 1:nrow(endo_av_PV_df)){          
     for (j in 1:ncol(endo_av_PV_df)){        
@@ -59,7 +59,7 @@ add_zonation_coefficient <- function(
     }
   }
   
-  #calculate colSums to get sum of counts for CV and PV genes from one cell 
+  #calculate colSums to get sum of counts for CV and PV genes from each sphere
   endo_av_PV_df_total <- rbind(output_endo_av_PV_df, Total = colSums(output_endo_av_PV_df))
   endo_av_CV_df_total <- rbind(output_endo_av_CV_df, Total = colSums(output_endo_av_CV_df))
   
@@ -217,7 +217,7 @@ DE_zonated_genes <- function(
   write.csv(top, paste0(output_file_path,sample_name,"_", ident_oi, "_LM_zonated_genes.csv"))
 }
 
-###Function to plot genes of interest in LECs across lobule layer axis in injected samples, you can save as .svg or .pdf 
+###Function to plot genes of interest in LECs across the lobule layer axis in injected samples, you can save as .svg or .pdf 
 boxplot_zonation_genes_LECs_injected <- function(
   seurat_object,
   gene_oi,
@@ -239,6 +239,7 @@ boxplot_zonation_genes_LECs_injected <- function(
   names(AE_df2) <- c("zonation_coordinate",gene_oi)
   AE_df2[is.na(AE_df2)] <- 0
   m <- reshape2::melt(AE_df2, id.vars = "zonation_coordinate", meature.vars = gene_oi)
+  #specify the position of different lobule layers based on ZCs and add in an additional column 
   m$lobule_layer <- NA
   m[1:137,]$lobule_layer <- "L1-L3" 
   m[138:351,]$lobule_layer <- "L4" 
@@ -247,6 +248,7 @@ boxplot_zonation_genes_LECs_injected <- function(
   m[1163:1358,]$lobule_layer <- "L7" 
   m[1359:1384,]$lobule_layer <- "L8-L10" 
   
+  #plot boxplot 
   p <- ggplot(m, aes(x=lobule_layer, y=value, fill=variable)) +  theme_classic() +
     geom_boxplot(fill = color_oi,outlier.shape = NA) + theme(axis.text = element_text(size = 30))  + theme(axis.text.x = element_text(angle = 90)) +
     geom_jitter(color="black", size=1, alpha=0.9) +theme(axis.title= element_text(size = 25)) + 
@@ -281,6 +283,7 @@ boxplot_zonation_genes_KCs_injected <- function(
   names(AE_df2) <- c("zonation_coordinate",gene_oi)
   AE_df2[is.na(AE_df2)] <- 0
   m <- reshape2::melt(AE_df2, id.vars = "zonation_coordinate", meature.vars = gene_oi)
+  #specify the position of different lobule layers based on ZCs and add in an additional column 
   m$lobule_layer <- NA
   m[1:115,]$lobule_layer <- "L1-L3" 
   m[116:321,]$lobule_layer <- "L4" 
@@ -289,6 +292,7 @@ boxplot_zonation_genes_KCs_injected <- function(
   m[1088:1269,]$lobule_layer <- "L7" 
   m[1270:1295,]$lobule_layer <- "L8-L10" 
   
+  #plot boxplot 
   p <- ggplot(m, aes(x=lobule_layer, y=value, fill=variable)) +  theme_classic() +
     geom_boxplot(fill = color_oi,outlier.shape = NA) + theme(axis.text = element_text(size = 30))  + theme(axis.text.x = element_text(angle = 90)) +
     geom_jitter(color="black", size=1, alpha=0.9) +theme(axis.title= element_text(size = 25)) + 
@@ -325,11 +329,12 @@ boxplot_zonation_genes_LECs_WT <- function(
   names(AE_df2) <- c("vein_area",gene_oi)
   AE_df2[is.na(AE_df2)] <- 0
   m <- reshape2::melt(AE_df2, id.vars = "vein_area", meature.vars = gene_oi)
+  #specify the position of different vein areas based on ZCs and add in an additional column 
   m$vein <- NA
   m[c(1:76),]$vein <- "CV" 
   m[c(77:159),]$vein <- "PV" 
   
-  
+  #plot boxplot with wilcox test
   p <- ggplot(m, aes(x=vein, y=value, fill=variable)) + theme_classic() +
     geom_boxplot(fill = color_oi,outlier.shape = NA) + theme(axis.text = element_text(size = 30))  + theme(axis.text.x = element_text(angle = 90)) +
     geom_jitter(color="black", size=1, alpha=0.9) +
@@ -366,11 +371,12 @@ boxplot_zonation_genes_KCs_WT <- function(
   names(AE_df2) <- c("vein_area",gene_oi)
   AE_df2[is.na(AE_df2)] <- 0
   m <- reshape2::melt(AE_df2, id.vars = "vein_area", meature.vars = gene_oi)
+  #specify the position of different vein areas based on ZCs and add in an additional column 
   m$vein <- NA
   m[1:67,]$vein <- "CV" 
   m[68:141,]$vein <- "PV" 
   
-  
+  #plot boxplot with wilcox test
   p <- ggplot(m, aes(x=vein, y=value, fill=variable)) + theme_classic() +
     geom_boxplot(fill = color_oi,outlier.shape = NA) + theme(axis.text = element_text(size = 30))  + theme(axis.text.x = element_text(angle = 90)) +
     geom_jitter(color="black", size=1, alpha=0.9) +
