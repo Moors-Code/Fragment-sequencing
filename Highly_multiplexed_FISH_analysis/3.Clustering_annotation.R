@@ -70,9 +70,6 @@ View(dge_genes %>% group_by(cluster) %>% top_n(n =10, wt = avg_log2FC))
 liverSpS5C <- readRDS("/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/data_files_generated/LiverMerged_afterBC_anno.Rda")
 Idents(liverSpS5C) <- "annotation.broad"
 
-dge_genes <- FindAllMarkers(merged, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
-View(dge_genes %>% group_by(cluster) %>% top_n(n =10, wt = avg_log2FC))
-
 #Clusters 12 --> non conclusive --> remove
 DotPlot(liverSpS5C, features =c("App","Pglyrp1","Dhrs3","Nrp1","Spp1"))
 
@@ -132,6 +129,7 @@ merged$annotation <- plyr::mapvalues(x = merged$sub.cluster, from = current.clus
 DimPlot(merged, reduction = "umap", label = TRUE, group.by = "annotation", label.size = 3)
 
 #remove Remove cluster 
+Idents(merged) <- "annotation"
 merged <- subset(merged, idents = c("Fibroblasts","Hepatocytes_CV","Hepatocytes_PV","Kupffer","LECs","Metastasis","Monocytes","Stellate",
                                     "T","B"))
 
