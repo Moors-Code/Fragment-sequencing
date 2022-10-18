@@ -9,9 +9,9 @@ This repository contains code from data analysis of sphere-sequencing split into
 
 ## Citation 
 
-The code in this repository pertains to publication: 
+###The code in this repository pertains to publication: 
 
-Sphere-sequencing unveils local tissue microenvionments at single cell resolution  
+####Sphere-sequencing unveils local tissue microenvionments at single cell resolution  
 
 Kristina Handler, Karsten Bach, Costanza Borrelli, Xenia Ficht, Ilhan E. Acar, Andreas E. Moor
 
