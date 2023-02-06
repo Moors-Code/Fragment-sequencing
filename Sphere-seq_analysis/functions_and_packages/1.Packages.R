@@ -15,6 +15,8 @@ library(ggrepel)
 library(plyr)
 library(singleCellTK)
 library(RColorBrewer)
+library(ggforce)
+library(ggpattern)
 
 
 
