@@ -429,7 +429,7 @@ p <- DimPlot(merged_cl, label = TRUE,label.size = 5, group.by = "annotation", pt
                       "#464EE8")) + 
   theme(legend.title = element_text(size = 22), legend.text = element_text(size = 22)) +
   theme(title = element_text(size = 25))+ theme(axis.text = element_text(size = 30)) +
-  ggtitle("Annotation 5 cells per sphere") 
+  ggtitle("Annotation 5 cells per sphere inflamed vs. non-inflamed") 
 p + ggsave("./figures/umap_infl_non_infl.pdf", width = 15, height = 10)
 p + ggsave("./figures/umap_infl_non_infl.svg", width = 15, height = 10)
 
