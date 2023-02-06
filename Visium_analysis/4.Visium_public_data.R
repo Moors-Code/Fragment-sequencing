@@ -46,12 +46,13 @@ WT <- subset(WT, idents = c("Central","Mid","Periportal","Portal"))
 Idents(WT) <- "zonationGroup"
 WT@active.ident <- factor(x = WT@active.ident, 
                           levels = c("Central","Mid","Periportal","Portal"))
-p <- DotPlot(WT, features = c("Plpp1","Galnt15","Vcam1"), dot.scale = 10) +
+p <- DotPlot(WT, features = c("Plpp1","Galnt15", 
+                              "Vcam1","Itgb1","Ccl3","Ccr5"), dot.scale = 10) +
   theme(legend.title = element_text(size = 22), legend.text = element_text(size = 22)) + 
   theme(title = element_text(size = 25))+ theme(axis.text = element_text(size = 30)) +
   ggtitle("Public WT")  +  theme(axis.text.x = element_text(angle = 90)) 
-p + ggsave("./figures/4/WT_public.pdf",width = 12, height = 10)
-p + ggsave("./figures/4/WT_public.svg",width = 12, height = 10)
+p + ggsave("./figures/4/WT_public2.pdf",width = 12, height = 10)
+p + ggsave("./figures/4/WT_public2.svg",width = 12, height = 10)
 
 ########## NAFLD sample analysis ##########
 #match spot with zonationGroup to get annotation in Seurat object 
@@ -75,12 +76,10 @@ Idents(Nafld) <- "zonationGroup"
 Nafld <- subset(Nafld, idents = c("Central","Mid","Periportal","Portal"))
 
 ###analyse zonated genes found in sphere-seq 
-Idents(Nafld) <- "zonationGroup"
-Nafld@active.ident <- factor(x = Nafld@active.ident, 
-                          levels = c("Central","Mid","Periportal","Portal"))
-p <- DotPlot(Nafld, features = c("Plpp1","Galnt15","Vcam1"), dot.scale = 10) +
+p <- DotPlot(Nafld, features = c("Plpp1","Galnt15", 
+                              "Vcam1","Itgb1","Ccl3","Ccr5"), dot.scale = 10) +
   theme(legend.title = element_text(size = 22), legend.text = element_text(size = 22)) + 
   theme(title = element_text(size = 25))+ theme(axis.text = element_text(size = 30)) +
-  ggtitle("Public NAfld")  +  theme(axis.text.x = element_text(angle = 90)) 
-p + ggsave("./figures/4/Nafld_public.pdf",width = 12, height = 10)
-p + ggsave("./figures/4/Nafld_public.svg",width = 12, height = 10)
+  ggtitle("Public Nafld")  +  theme(axis.text.x = element_text(angle = 90)) 
+p + ggsave("./figures/4/Nafld_public2.pdf",width = 12, height = 10)
+p + ggsave("./figures/4/Nafld_public2.svg",width = 12, height = 10)
