@@ -97,7 +97,17 @@ Data for the above publication can be found at GEO with the access number: … a
 
 5.Crohn_preliminary_analysis.R: This part analyses preliminary Crohn’s disease sphere-seq data. 
 
+##### Additional Sphere-seq analysis from CRC injected liver samples 
 
+6.Sphere_size_cell_counts_bias.R: This part investigates if there are any biases introduced due to different sphere sizes and minimum cells per sphere cutoffs. 
+
+6.1.CellPHoneDB_veins_bias_sphere_size_counts.sh: This part analyses L-R interactions from input data generated in 6.
+
+7.Biosorter_efficiency_and_sphere_size_per_tissue.R: This part generated plots to show efficiency of the biosorter single sphere sorting and compares distribution of sphere-sizes between different tissues. 
+
+8.Liver_SpS_comp_scRNAseq.R: This part compares sphere-seq to conventional scRNA-seq.
+
+9.Liver_sphere_seq_vs_MC.R: This part compares cell types from sphere-seq to Molecular Cartography data. 
 
 ### Highly_multiplexed_FISH_analysis (Molecular Cartography)
 
