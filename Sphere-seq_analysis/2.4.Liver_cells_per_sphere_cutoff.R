@@ -166,6 +166,21 @@ ct <- rbind(ct,ct21)
 ct <- rbind(ct,ct22)
 ct <- rbind(ct,ct23)
 
+#define order of spheres based on precence of KCs
+df_sort <- table(liverSpS5C$sphere,liverSpS5C$annotation)
+df_sort <- cbind(df_sort, Total = rowSums(df_sort))
+df_sort <- as.data.frame(df_sort)
+df_sort_pct = lapply(df_sort[,], function(x) {
+  x/df_sort$Total
+})
+df_sort_pct <- as.data.frame(df_sort_pct)
+rownames(df_sort_pct) <- rownames(df_sort)
+
+#order decreasing base on KCs
+df_sort_pct <- df_sort_pct[order(df_sort_pct$Kupffer, decreasing = TRUE), ]
+
+ct$sphere <- factor(ct$sphere, levels = rownames(df_sort_pct))
+
 ###plot with colors to match cell types in UMAP 
 p <- ggplot(ct, aes(fill=annotation, y=proportion, x=sphere)) + theme_classic() +
   geom_bar(position="stack", stat="identity" ) + 
