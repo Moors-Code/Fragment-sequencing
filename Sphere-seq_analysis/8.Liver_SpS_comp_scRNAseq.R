@@ -561,4 +561,204 @@ Msc2 <- Annotation_mouse(dge)
 Msc2_S <- CreateSeuratObject(Msc2, "sc2",min.cells = 3, min.features = 200)
 
 
+########## Investigation of quality measuremnts after downasmpling to 30K reads/cell ###################
+#downsampled to 30K reads/cell, cells that have more reads are downsampled, cells that do not reach this threshold are removed 
+#####annotate the zUMI output 
+dge <- readRDS("/home/khandler/NAS/Kristina/Mets_sc1.dgecounts.rds")
+Msc1 <- Annotation_mouse_downsampled(dge)
+Msc1_S <- CreateSeuratObject(Msc1, "sc1",min.cells = 3, min.features = 200)
+
+dge <- readRDS("/home/khandler/NAS/Kristina/Mets_sc2.dgecounts.rds")
+Msc2 <- Annotation_mouse_downsampled(dge)
+Msc2_S <- CreateSeuratObject(Msc2, "sc2",min.cells = 3, min.features = 200)
+
+dge <- readRDS("/home/khandler/NAS/Kristina/SpSM1.dgecounts.rds")
+S1 <- Annotation_mouse_downsampled(dge)
+S1 <- CreateSeuratObject(S1, "M1",min.cells = 3, min.features = 200)
+
+dge <- readRDS("/home/khandler/NAS/Kristina/SpSM3.dgecounts.rds")
+S2 <- Annotation_mouse_downsampled(dge)
+S2 <- CreateSeuratObject(S2, "M3",min.cells = 3, min.features = 200)
+
+dge <- readRDS("/home/khandler/NAS/Kristina/SpSM4.dgecounts.rds")
+S3 <- Annotation_mouse_downsampled(dge)
+S3 <- CreateSeuratObject(S3, "M4",min.cells = 3, min.features = 200)
+
+dge <- readRDS("/home/khandler/NAS/Kristina/SpSM5.dgecounts.rds")
+S4 <- Annotation_mouse_downsampled(dge)
+S4 <- CreateSeuratObject(S4, "M5",min.cells = 3, min.features = 200)
+
+dge <- readRDS("/home/khandler/NAS/Kristina/SpS4M1.dgecounts.rds")
+S5 <- Annotation_mouse_downsampled(dge)
+S5 <- CreateSeuratObject(S5, "4M1",min.cells = 3, min.features = 200)
+
+dge <- readRDS("/home/khandler/NAS/Kristina/SpS6M1.dgecounts.rds")
+S7 <- Annotation_mouse_downsampled(dge)
+S7 <- CreateSeuratObject(S7, "6M1",min.cells = 3, min.features = 200)
+
+dge <- readRDS("/home/khandler/NAS/Kristina/SpS6M2.dgecounts.rds")
+S8 <- Annotation_mouse_downsampled(dge)
+S8 <- CreateSeuratObject(S8, "6M2",min.cells = 3, min.features = 200)
+
+dge <- readRDS("/home/khandler/NAS/Kristina/SpS6M3.dgecounts.rds")
+S9 <- Annotation_mouse_downsampled(dge)
+S9 <- CreateSeuratObject(S9, "6M3",min.cells = 3, min.features = 200)
+
+dge <- readRDS("/home/khandler/NAS/Kristina/SpSWT.dgecounts.rds")
+S10 <- Annotation_mouse_downsampled(dge)
+S10 <- CreateSeuratObject(S10, "WT",min.cells = 3, min.features = 200)
+
+#####Ratio mito/cytopl genes 
+mito.features <- grep(pattern = "^mt-", x = rownames(x = Msc1_S), value = TRUE)
+percent.mito <- Matrix::colSums(x = GetAssayData(object = Msc1_S, slot = 'counts')[mito.features, ]) / Matrix::colSums(x = GetAssayData(object = Msc1_S, slot = 'counts'))
+Msc1_S <- AddMetaData(object = Msc1_S, metadata = percent.mito, col.name = "percent.mito")
+
+mito.features <- grep(pattern = "^mt-", x = rownames(x = Msc2_S), value = TRUE)
+percent.mito <- Matrix::colSums(x = GetAssayData(object = Msc2_S, slot = 'counts')[mito.features, ]) / Matrix::colSums(x = GetAssayData(object = Msc2_S, slot = 'counts'))
+Msc2_S <- AddMetaData(object = Msc2_S, metadata = percent.mito, col.name = "percent.mito")
+
+mito.features <- grep(pattern = "^mt-", x = rownames(x = S1), value = TRUE)
+percent.mito <- Matrix::colSums(x = GetAssayData(object = S1, slot = 'counts')[mito.features, ]) / Matrix::colSums(x = GetAssayData(object = S1, slot = 'counts'))
+S1 <- AddMetaData(object = S1, metadata = percent.mito, col.name = "percent.mito")
+
+mito.features <- grep(pattern = "^mt-", x = rownames(x = S2), value = TRUE)
+percent.mito <- Matrix::colSums(x = GetAssayData(object = S2, slot = 'counts')[mito.features, ]) / Matrix::colSums(x = GetAssayData(object = S2, slot = 'counts'))
+S2 <- AddMetaData(object = S2, metadata = percent.mito, col.name = "percent.mito")
+
+mito.features <- grep(pattern = "^mt-", x = rownames(x = S3), value = TRUE)
+percent.mito <- Matrix::colSums(x = GetAssayData(object = S3, slot = 'counts')[mito.features, ]) / Matrix::colSums(x = GetAssayData(object = S3, slot = 'counts'))
+S3 <- AddMetaData(object = S3, metadata = percent.mito, col.name = "percent.mito")
+
+mito.features <- grep(pattern = "^mt-", x = rownames(x = S4), value = TRUE)
+percent.mito <- Matrix::colSums(x = GetAssayData(object = S4, slot = 'counts')[mito.features, ]) / Matrix::colSums(x = GetAssayData(object = S4, slot = 'counts'))
+S4 <- AddMetaData(object = S4, metadata = percent.mito, col.name = "percent.mito")
+
+mito.features <- grep(pattern = "^mt-", x = rownames(x = S5), value = TRUE)
+percent.mito <- Matrix::colSums(x = GetAssayData(object = S5, slot = 'counts')[mito.features, ]) / Matrix::colSums(x = GetAssayData(object = S5, slot = 'counts'))
+S5 <- AddMetaData(object = S5, metadata = percent.mito, col.name = "percent.mito")
+
+mito.features <- grep(pattern = "^mt-", x = rownames(x = S7), value = TRUE)
+percent.mito <- Matrix::colSums(x = GetAssayData(object = S7, slot = 'counts')[mito.features, ]) / Matrix::colSums(x = GetAssayData(object = S7, slot = 'counts'))
+S7 <- AddMetaData(object = S7, metadata = percent.mito, col.name = "percent.mito")
+
+mito.features <- grep(pattern = "^mt-", x = rownames(x = S8), value = TRUE)
+percent.mito <- Matrix::colSums(x = GetAssayData(object = S8, slot = 'counts')[mito.features, ]) / Matrix::colSums(x = GetAssayData(object = S8, slot = 'counts'))
+S8 <- AddMetaData(object = S8, metadata = percent.mito, col.name = "percent.mito")
+
+mito.features <- grep(pattern = "^mt-", x = rownames(x = S9), value = TRUE)
+percent.mito <- Matrix::colSums(x = GetAssayData(object = S9, slot = 'counts')[mito.features, ]) / Matrix::colSums(x = GetAssayData(object = S9, slot = 'counts'))
+S9 <- AddMetaData(object = S9, metadata = percent.mito, col.name = "percent.mito")
+
+mito.features <- grep(pattern = "^mt-", x = rownames(x = S10), value = TRUE)
+percent.mito <- Matrix::colSums(x = GetAssayData(object = S10, slot = 'counts')[mito.features, ]) / Matrix::colSums(x = GetAssayData(object = S10, slot = 'counts'))
+S10 <- AddMetaData(object = S10, metadata = percent.mito, col.name = "percent.mito")
+
+sc1_m <- median(Msc1_S@meta.data$percent.mito)
+sc2_m <- median(Msc2_S@meta.data$percent.mito)
+S1_m <- median(S1@meta.data$percent.mito)
+S2_m <- median(S2@meta.data$percent.mito)
+S3_m <- median(S3@meta.data$percent.mito)
+S4_m <- median(S4@meta.data$percent.mito)
+S5_m <- median(S5@meta.data$percent.mito)
+S7_m <- median(S7@meta.data$percent.mito)
+S8_m <- median(S8@meta.data$percent.mito)
+S9_m <- median(S9@meta.data$percent.mito)
+S10_m <- median(S10@meta.data$percent.mito)
+
+a <- c(sc1_m,sc2_m,S1_m,S2_m,S3_m,S4_m,S5_m,S7_m,S8_m,S9_m,S10_m)
+b <- c("sc1","sc2","SpS1","SpS2","SpS3","SpS4","Sp5", "SpS7","SpS8","SpS9","SpS10")
+c <- c("sc","sc","SpS","SpS","SpS","SpS","SpS","SpS", "SpS","SpS","SpS")
+
+df <- data.frame(a,b,c)
+colnames(df) <- c("percent.mito","Sample","Type")
+
+###plot Proportions to compare
+p <- ggplot(df,aes(x = Type,y = percent.mito, fill = Type)) +theme_classic() +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(position = position_jitter(seed = 1, width =0.4),size = 3) + 
+  theme(axis.text = element_text(size = 30))  + scale_y_continuous(limits=c(0, 0.1)) + 
+  ggtitle("Percent mito") + xlab("Protocol") + 
+  ylab("Percent mito") + theme(axis.title= element_text(size = 25)) + 
+  theme(plot.title = element_text(size = 25, face = "bold"))  +
+  theme(legend.title = element_text(size = 30), legend.text = element_text(size = 30)) +
+  theme(legend.title = element_text(size = 30), legend.text = element_text(size = 30)) +
+  ggsignif::geom_signif(comparisons = list(c("sc", "SpS")),
+                        textsize=7,
+                        test = "wilcox.test",map_signif_level = c("***"=0.001,"**"=0.01,"*"=0.05))
+p + ggsave("./figures/8/Percent_mito_sc_SpS.pdf",width = 12, height = 10)  
+p + ggsave("./figures/8/Percent_mito_sc_SpS.svg",width = 12, height = 10)  
+
+#####nFeature 
+sc1_m <- median(Msc1_S@meta.data$nFeature_RNA)
+sc2_m <- median(Msc2_S@meta.data$nFeature_RNA)
+S1_m <- median(S1@meta.data$nFeature_RNA)
+S2_m <- median(S2@meta.data$nFeature_RNA)
+S3_m <- median(S3@meta.data$nFeature_RNA)
+S4_m <- median(S4@meta.data$nFeature_RNA)
+S5_m <- median(S5@meta.data$nFeature_RNA)
+S7_m <- median(S7@meta.data$nFeature_RNA)
+S8_m <- median(S8@meta.data$nFeature_RNA)
+S9_m <- median(S9@meta.data$nFeature_RNA)
+S10_m <- median(S10@meta.data$nFeature_RNA)
+
+a <- c(sc1_m,sc2_m,S1_m,S2_m,S3_m,S4_m,S5_m,S7_m,S8_m,S9_m,S10_m)
+b <- c("sc1","sc2","SpS1","SpS2","SpS3","SpS4","SpS5", "SpS7","SpS8","SpS9","SpS10")
+c <- c("sc","sc","SpS","SpS","SpS","SpS","SpS","SpS", "SpS","SpS","SpS")
+
+df <- data.frame(a,b,c)
+colnames(df) <- c("nFeature","Sample","Type")
+
+###plot Proportions to compare
+p <- ggplot(df,aes(x = Type,y = nFeature, fill = Type)) +theme_classic() +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(position = position_jitter(seed = 1, width =0.4),size = 3) + 
+  theme(axis.text = element_text(size = 30)) + scale_y_continuous(limits=c(0, 6000)) + 
+  ggtitle("nFeature RNA") + xlab("Protocol") + 
+  ylab("nFeature RNA") + theme(axis.title= element_text(size = 25)) + 
+  theme(plot.title = element_text(size = 25, face = "bold")) +
+  theme(legend.title = element_text(size = 30), legend.text = element_text(size = 30)) +
+  theme(legend.title = element_text(size = 30), legend.text = element_text(size = 30)) + 
+  ggsignif::geom_signif(comparisons = list(c("sc", "SpS")),
+                        textsize=7,
+                        test = "wilcox.test",map_signif_level = c("***"=0.001,"**"=0.01,"*"=0.05))
+p + ggsave("./figures/8/nFeature_sc_SpS.pdf",width = 12, height = 10)  
+p + ggsave("./figures/8/nFeature_sc_SpS.svg",width = 12, height = 10)  
+
+
+#####UMI counts 
+sc1_m <- median(Msc1_S@meta.data$nCount_RNA)
+sc2_m <- median(Msc2_S@meta.data$nCount_RNA)
+S1_m <- median(S1@meta.data$nCount_RNA)
+S2_m <- median(S2@meta.data$nCount_RNA)
+S3_m <- median(S3@meta.data$nCount_RNA)
+S4_m <- median(S4@meta.data$nCount_RNA)
+S5_m <- median(S5@meta.data$nCount_RNA)
+S7_m <- median(S7@meta.data$nCount_RNA)
+S8_m <- median(S8@meta.data$nCount_RNA)
+S9_m <- median(S9@meta.data$nCount_RNA)
+S10_m <- median(S10@meta.data$nCount_RNA)
+
+a <- c(sc1_m,sc2_m,S1_m,S2_m,S3_m,S4_m,S5_m,S7_m,S8_m,S9_m,S10_m)
+b <- c("sc1","sc2","SpS1","SpS2","SpS3","SpS4","SpS5", "SpS7","SpS8","SpS9","SpS10")
+c <- c("sc","sc","SpS","SpS","SpS","SpS","SpS","SpS", "SpS","SpS","SpS")
+
+df <- data.frame(a,b,c)
+colnames(df) <- c("nCounts","Sample","Type")
+
+###plot Proportions to compare
+p <- ggplot(df,aes(x = Type,y = nCounts, fill = Type)) +theme_classic() +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(position = position_jitter(seed = 1, width =0.4),size = 3) + 
+  theme(axis.text = element_text(size = 30)) +
+  ggtitle("nCount RNA") + xlab("species well") + 
+  ylab("nCountRNA") + theme(axis.title= element_text(size = 25)) + 
+  theme(plot.title = element_text(size = 25, face = "bold"))  + scale_colour_discrete("Species") +
+  theme(legend.title = element_text(size = 30), legend.text = element_text(size = 30)) +
+  theme(legend.title = element_text(size = 30), legend.text = element_text(size = 30))  + ylim(0,20000) + 
+  ggsignif::geom_signif(comparisons = list(c("sc", "SpS")),
+                        textsize=7,
+                        test = "wilcox.test",map_signif_level = c("***"=0.001,"**"=0.01,"*"=0.05))
+p + ggsave("./figures/8/nCount_sc_SpS.pdf",width = 12, height = 10)  
+p + ggsave("./figures/8/nCount_sc_SpS.svg",width = 12, height = 10)  
+
 
