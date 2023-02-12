@@ -324,3 +324,38 @@ MULTIseq_WTA_integration_zUMIoutputBD_ensembleIDs <- function(
   saveRDS(dgeS,file = Seurat_object_save_directory)
 }
 
+###Function to change ensemble IDs of zUMI outputs to gene name IDs - Mouse from downsampled reads 
+Annotation_mouse_downsampled <- function(zUMI_output) {
+  ##load ensemble gene ID data from mmusculus 
+  #ensembl<-useEnsembl(biomart="ensembl")
+  #list<-listDatasets(ensembl)
+  #mart <- useEnsembl(biomart="ensembl", dataset="mmusculus_gene_ensembl",version = 95)
+  #attributes<-listAttributes(mart)
+  #add GFP and mCherry, it was added to the STAR index with the ID "CellTagUTR" and "sLPmCherry"
+  #rename to "GFP" and "mCherry" 
+  gfp_id <- data.frame(ensembl_gene_id_version = "CellTagUTR",external_gene_name= "GFP")
+  sLP_mCherry_id <- data.frame(ensembl_gene_id_version = "sLPmCherry",external_gene_name= "mCherry")
+  #gene_ids <- getBM(attributes = c("ensembl_gene_id_version","external_gene_name"), mart = mart)
+  gene_ids <- gene_ids_mouse 
+  gene_ids$X <- NULL
+  #add GFP and mCherry to Gene ID dataframe 
+  all_ids <- rbind(gene_ids,gfp_id)
+  all_ids2 <- rbind(all_ids, sLP_mCherry_id)
+  #use all exon UMI counts from zUMI output 
+  dataframe<-as.data.frame(as.matrix(zUMI_output$umicount$exon$downsampling$downsampled_30000))%>%
+    as.matrix(.)
+  #add column name "ensemble_gene_id_version" to the column of Ensemble IDs in zUMI output count matrix 
+  dataframe<-mutate(as.data.frame(dataframe),ensembl_gene_id_version=rownames(dataframe))
+  #compare ensemble IDs of zUMI count matrix with gene ID data frame to match ensemble IDs and to rename them to external gene names 
+  join<-dataframe%>%
+    left_join(dplyr::select(all_ids2,1:2))
+  #remove duplicates 
+  join<-join[!duplicated(join$external_gene_name),]
+  join[is.na(join)]<-0 #make all empty value to zero
+  #add external gene names as rownames (instead of ensemble IDs before)
+  rownames(join)<-join$external_gene_name
+  #remove unnessesary columns 
+  join<-dplyr::select(join,-ensembl_gene_id_version,-external_gene_name)
+  return(join)
+}
+
