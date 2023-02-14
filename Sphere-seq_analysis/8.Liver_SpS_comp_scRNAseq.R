@@ -674,9 +674,11 @@ colnames(df) <- c("percent.mito","Sample","Type")
 
 ###plot Proportions to compare
 p <- ggplot(df,aes(x = Type,y = percent.mito, fill = Type)) +theme_classic() +
-  geom_boxplot(outlier.shape = NA) +
+  geom_bar(stat="summary",width=0.75, fun = "mean")  +
+  stat_summary(fun.data = mean_se,  
+               geom = "errorbar", width = 0.5) +
   geom_jitter(position = position_jitter(seed = 1, width =0.4),size = 3) + 
-  theme(axis.text = element_text(size = 30))  + scale_y_continuous(limits=c(0, 0.1)) + 
+  theme(axis.text = element_text(size = 30))  + scale_y_continuous(limits=c(0, 0.1))+ 
   ggtitle("Percent mito") + xlab("Protocol") + 
   ylab("Percent mito") + theme(axis.title= element_text(size = 25)) + 
   theme(plot.title = element_text(size = 25, face = "bold"))  +
@@ -710,9 +712,11 @@ colnames(df) <- c("nFeature","Sample","Type")
 
 ###plot Proportions to compare
 p <- ggplot(df,aes(x = Type,y = nFeature, fill = Type)) +theme_classic() +
-  geom_boxplot(outlier.shape = NA) +
+ geom_bar(stat="summary",width=0.75, fun = "mean")  +
+  stat_summary(fun.data = mean_se,  
+               geom = "errorbar", width = 0.5) + 
   geom_jitter(position = position_jitter(seed = 1, width =0.4),size = 3) + 
-  theme(axis.text = element_text(size = 30)) + scale_y_continuous(limits=c(0, 6000)) + 
+  theme(axis.text = element_text(size = 30)) + scale_y_continuous(limits=c(0, 6000))  + 
   ggtitle("nFeature RNA") + xlab("Protocol") + 
   ylab("nFeature RNA") + theme(axis.title= element_text(size = 25)) + 
   theme(plot.title = element_text(size = 25, face = "bold")) +
@@ -747,9 +751,11 @@ colnames(df) <- c("nCounts","Sample","Type")
 
 ###plot Proportions to compare
 p <- ggplot(df,aes(x = Type,y = nCounts, fill = Type)) +theme_classic() +
-  geom_boxplot(outlier.shape = NA) +
+  geom_bar(stat="summary",width=0.75, fun = "mean")  +
   geom_jitter(position = position_jitter(seed = 1, width =0.4),size = 3) + 
   theme(axis.text = element_text(size = 30)) +
+  stat_summary(fun.data = mean_se,  
+               geom = "errorbar", width = 0.5) +
   ggtitle("nCount RNA") + xlab("species well") + 
   ylab("nCountRNA") + theme(axis.title= element_text(size = 25)) + 
   theme(plot.title = element_text(size = 25, face = "bold"))  + scale_colour_discrete("Species") +
