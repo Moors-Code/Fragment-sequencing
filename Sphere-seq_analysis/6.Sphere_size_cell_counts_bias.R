@@ -35,9 +35,9 @@ dfS2_size <- BS_df_for_boxplot_per_sample(subS2,"sphere","sphere_size","proximal
 #merge data frames
 size_merged_df <- rbind(dfS1_size,dfS2_size)
 
-##Plot in boxplot 
+##Plot in violinplot 
 p <- ggplot(size_merged_df,aes(x = sample,y = sphere_size, fill = sample)) +theme_classic() +
-  geom_boxplot() +
+  geom_violin() +
   geom_jitter(position = position_jitter(seed = 1, width =0.4),size = 1) + 
   theme(axis.text = element_text(size = 30))  +
   ggtitle("Sphere size per sphere - Mets cond") + xlab("Sample") + 
@@ -45,8 +45,8 @@ p <- ggplot(size_merged_df,aes(x = sample,y = sphere_size, fill = sample)) +them
   theme(plot.title = element_text(size = 25, face = "bold")) + 
   ggsignif::geom_signif(comparisons = list(c("distal", "proximal")), textsize=7,test = "wilcox.test",map_signif_level = c("***"=0.001,"**"=0.01,"*"=0.05)) + 
   theme(legend.title = element_text(size = 30), legend.text = element_text(size = 30)) 
-p + ggsave("./figures/6/Size_boxplot_Mets.pdf",width = 15, height = 10)
-p + ggsave("./figures/6/Size_boxplot_Mets.svg",width = 15, height = 10)
+p + ggsave("./figures/6/Size_violinplot_Mets.pdf",width = 15, height = 10)
+p + ggsave("./figures/6/Size_violinplot_Mets.svg",width = 15, height = 10)
 
 ###CV vs. PV 
 Idents(Injected) <- "vein"
@@ -60,9 +60,9 @@ dfS2_size <- BS_df_for_boxplot_per_sample(subS2,"sphere","sphere_size","PV")
 #merge data frames
 size_merged_df <- rbind(dfS1_size,dfS2_size)
 
-##Plot in boxplot 
+##Plot in violinplot 
 p <- ggplot(size_merged_df,aes(x = sample,y = sphere_size, fill = sample)) +theme_classic() +
-  geom_boxplot() +
+  geom_violin() +
   geom_jitter(position = position_jitter(seed = 1, width =0.4),size = 1) + 
   theme(axis.text = element_text(size = 30))  +
   ggtitle("Sphere size per sphere - vein") + xlab("Sample") + 
@@ -70,8 +70,8 @@ p <- ggplot(size_merged_df,aes(x = sample,y = sphere_size, fill = sample)) +them
   theme(plot.title = element_text(size = 25, face = "bold")) + 
   ggsignif::geom_signif(comparisons = list(c("CV", "PV")),textsize=7,test = "wilcox.test",map_signif_level = c("***"=0.001,"**"=0.01,"*"=0.05)) +
   theme(legend.title = element_text(size = 30), legend.text = element_text(size = 30)) 
-p + ggsave("./figures/6/Size_boxplot_vein.pdf",width = 15, height = 10)
-p + ggsave("./figures/6/Size_boxplot_vein.svg",width = 15, height = 10)
+p + ggsave("./figures/6/Size_violinnplot_vein.pdf",width = 15, height = 10)
+p + ggsave("./figures/6/Size_violinplot_vein.svg",width = 15, height = 10)
 
 #####Comparison of large and small spheres 
 #add small and large identity based on sphere-size, split sphere sizes in half 
@@ -551,9 +551,9 @@ colnames(df2) <- c("sphere_size","sphere", "sample")
 #merge data frames
 size_merged_df <- rbind(df1,df2)
 
-#Plot in boxplot 
+#Plot in violinplot 
 p <- ggplot(size_merged_df,aes(x = sample,y = sphere_size, fill = sample)) +theme_classic() +
-  geom_boxplot() +
+  geom_violin() +
   geom_jitter(position = position_jitter(seed = 1, width =0.4),size = 1) + 
   theme(axis.text = element_text(size = 30))  +
   ggtitle("Cell counts per sphere - Vein") + xlab("Sample") + 
@@ -584,9 +584,9 @@ colnames(df2) <- c("sphere_size","sphere", "sample")
 #merge data frames
 size_merged_df <- rbind(df1,df2)
 
-#Plot in boxplot 
+#Plot in violinplot 
 p <- ggplot(size_merged_df,aes(x = sample,y = sphere_size, fill = sample)) +theme_classic() +
-  geom_boxplot() +
+  geom_violin() +
   geom_jitter(position = position_jitter(seed = 1, width =0.4),size = 1) + 
   theme(axis.text = element_text(size = 30))  +
   ggtitle("Cell number per sphere Mets") + xlab("Sample") + 
