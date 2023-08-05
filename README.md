@@ -1,17 +1,17 @@
-# Sphere-sequencing unveils local tissue microenvionments at single cell resolution  
+# Fragment-sequencing unveils local tissue microenvionments at single cell resolution  
 
-This repository contains code from data analysis of sphere-sequencing split into 3 parts: 
+This repository contains code from data analysis of fragment-sequencing split into 3 parts: 
 
-- Sphere-sequencing analysis 
-- Analysis of Highly multiplexed FISH (Molecular Cartography) data for validation of findings from sphere-sequencing
-- Visium data analysis to compare sphere-sequencing
+- Fragment-sequencing analysis 
+- Analysis of Highly multiplexed FISH (Molecular Cartography) data for validation of findings from fragment-sequencing
+- Visium data analysis to compare fragment-sequencing
 
 
 ## Citation 
 
 #### The code in this repository pertains to publication: 
 
-### Sphere-sequencing unveils local tissue microenvionments at single cell resolution  
+### Fragment-sequencing unveils local tissue microenvionments at single cell resolution  
 
 Kristina Handler, Karsten Bach, Costanza Borrelli, Xenia Ficht, Ilhan E. Acar, Andreas E. Moor
 
@@ -23,19 +23,19 @@ Data for the above publication can be found at GEO with the access number: … a
 ## Code description: 
 
 
-### Sphere-seq_analysis:
+### Fragment-seq_analysis:
 
 #### Functions_and_packages: 
 
 1.Packages.R: Code to load libraries of the required packages. 
 
-2.Functions_preprocessing.R: Code contains functions for preprocessing steps: Demultiplexing of MULTI-seq libraries; Assignment of cells to their sphere-BCs (MULTI-seq BCs); Annotation of zUMI outputs with Gene IDs instead of Ensemble IDs; 
+2.Functions_preprocessing.R: Code contains functions for preprocessing steps: Demultiplexing of MULTI-seq libraries; Assignment of cells to their fragment-BCs (MULTI-seq BCs); Annotation of zUMI outputs with Gene IDs instead of Ensemble IDs; 
 
-3.Functions_sphere_size_GFP_integration.R: Code contains functions for integrating sphere-seq with large fragment sorter outputs: calculating sphere-size and normalized GFP signals per sphere; plotting of sphere-size per sphere and sample; 
+3.Functions_fragment_size_GFP_integration.R: Code contains functions for integrating fragment-seq with large fragment sorter outputs: calculating fragment-size and normalized GFP signals per fragment; plotting of fragment-size per fragment and sample; 
 
-4.Functions_cells_per_sphere_cutoff.R: Code contains function for extracting spheres with an required amount of cells. 
+4.Functions_cells_per_fragment_cutoff.R: Code contains function for extracting fragments with an required amount of cells. 
 
-5.Functions_lobule_layer.R: Code contains the following functions for zonated gene expression analysis: assignment of spheres to their lobule layer (L1-L10) and vein of origin (L1-L5 = central vein (CV); L5-L10 = portal vein (PV)) by calculating a zonation coordinate (ZC) per sphere; DGE analysis to find new zonation specific genes in a cell type of interest; plotting of gene expression in spheres across a scaled distance from CV to PV in Liver endothelial cells (LECs) and Kupffer cells (KCs);  
+5.Functions_lobule_layer.R: Code contains the following functions for zonated gene expression analysis: assignment of fragments to their lobule layer (L1-L10) and vein of origin (L1-L5 = central vein (CV); L5-L10 = portal vein (PV)) by calculating a zonation coordinate (ZC) per fragment; DGE analysis to find new zonation specific genes in a cell type of interest; plotting of gene expression in fragments across a scaled distance from CV to PV in Liver endothelial cells (LECs) and Kupffer cells (KCs);  
 
 6.Functions_Cell_type_abundance.R: Code contains function for cell type abundance analysis: Differential abundance analysis between two conditions and plotting of cell type proportion of interest between two conditions.  
 
@@ -46,22 +46,22 @@ Data for the above publication can be found at GEO with the access number: … a
 
 ##### 1.Pre-processing: 
 
-1.1.Preprocessing_MULTIseq_demux.R: This part does demultiplexing of MULTI-seq FASTQ files to allocate single cells to their sphere of origin.  
+1.1.Preprocessing_MULTIseq_demux.R: This part does demultiplexing of MULTI-seq FASTQ files to allocate single cells to their fragment of origin.  
 
-1.2.Preprocessing_WTA_MULTIseqBC_integration.R: This part integrates sphere-BC with WTA Seurat objects. 
+1.2.Preprocessing_WTA_MULTIseqBC_integration.R: This part integrates fragment-BC with WTA Seurat objects. 
 
 
-##### 2.Mouse metastatic liver sphere-seq anaysis: 
+##### 2.Mouse metastatic liver fragment-seq anaysis: 
 
 2.1.Liver_batch_effect_correction_and_clustering.R: This part merges all samples by applying bath effect correction; then, all samples undergo quality control, normalization, scaling and clustering. 
 
 2.2.Liver_cell_type_annotation.R: This part annotates clustered Seurat object using marker genes from https://www.livercellatlas.org. 
 
-2.3.Liver_sphere_size_integration.R: This part integrates sphere sizes calculated from biosorter outputs with merged Seurat object. 
+2.3.Liver_fragment_size_integration.R: This part integrates fragment sizes calculated from biosorter outputs with merged Seurat object. 
 
-2.4.Liver_cells_per_sphere_cutoff.R: This part applies a cutoff of a least 5 cells per sphere, all other spheres are removed from further analysis. 
+2.4.Liver_cells_per_fragment_cutoff.R: This part applies a cutoff of a least 5 cells per fragment, all other fragments are removed from further analysis. 
 
-2.5.1.Liver_lobule_layer_classification.R: This part allocates spheres into lobule layers between central and portal veins depending on landmark gene expression in LECs. 
+2.5.1.Liver_lobule_layer_classification.R: This part allocates fragments into lobule layers between central and portal veins depending on landmark gene expression in LECs. 
 
 2.5.2.Liver_zonated_gene_expression.R: This part investigates zonation specific gene expression in LECs and KCs. 
 
@@ -69,7 +69,7 @@ Data for the above publication can be found at GEO with the access number: … a
 
 2.5.3.2.CellPHoneDB_veins.sh: This part executes CellPhoneDB analysis of input files generated in 2.5.3.1.
 
-2.6.1.Liver_metastatic_distance_classification.R: This part groups spheres into proximal and distal areas to metastatic sites. 
+2.6.1.Liver_metastatic_distance_classification.R: This part groups fragments into proximal and distal areas to metastatic sites. 
 
 2.6.2.Liver_cell_type_abundance_mets_distance.R: This part compares cell type abundances of proximal and distal areas. 
 
@@ -78,9 +78,9 @@ Data for the above publication can be found at GEO with the access number: … a
 2.6.3.2.CellPHoneDB_mets_distance.sh: This part executes CellPhoneDB analysis of input files generated in 2.6.3.1.
 
 
-##### 3.CRC organoid mixing species sphere-seq analysis: 
+##### 3.CRC organoid mixing species fragment-seq analysis: 
 
-3.1.Organoids_species_mixing_sphere_size_GFP_integration.R: This part integrates sphere size and GFP signal from biosorter data to data of sorted spheres. 
+3.1.Organoids_species_mixing_fragment_size_GFP_integration.R: This part integrates fragment size and GFP signal from biosorter data to data of sorted fragments. 
 
 3.2.Organoids_species_mixing_QC.R: This part applies quality control measures and normalization.
 
@@ -91,23 +91,23 @@ Data for the above publication can be found at GEO with the access number: … a
 3.5.Organoids_species_mixing_analysis_correctly_assigned_cells.R: This part investigates the fraction of correctly and wrongly assigned cell. 
 
 
-##### Preliminary sphere-seq analysis of spleen and Crohn's disease biopsies: 
+##### Preliminary fragment-seq analysis of spleen and Crohn's disease biopsies: 
 
-4.Spleen_preliminary_analysis.R: This part analyses preliminary spleen sphere-seq data. 
+4.Spleen_preliminary_analysis.R: This part analyses preliminary spleen fragment-seq data. 
 
-5.Crohn_preliminary_analysis.R: This part analyses preliminary Crohn’s disease sphere-seq data. 
+5.Crohn_preliminary_analysis.R: This part analyses preliminary Crohn’s disease fragment-seq data. 
 
-##### Additional Sphere-seq analysis from CRC injected liver samples 
+##### Additional Fragment-seq analysis from CRC injected liver samples 
 
-6.Sphere_size_cell_counts_bias.R: This part investigates if there are any biases introduced due to different sphere sizes and minimum cells per sphere cutoffs. 
+6.Fragment_size_cell_counts_bias.R: This part investigates if there are any biases introduced due to different fragment sizes and minimum cells per fragment cutoffs. 
 
-6.1.CellPHoneDB_veins_bias_sphere_size_counts.sh: This part analyses L-R interactions from input data generated in 6.
+6.1.CellPHoneDB_veins_bias_fragment_size_counts.sh: This part analyses L-R interactions from input data generated in 6.
 
-7.Biosorter_efficiency_and_sphere_size_per_tissue.R: This part generated plots to show efficiency of the biosorter single sphere sorting and compares distribution of sphere-sizes between different tissues. 
+7.Biosorter_efficiency_and_fragment_size_per_tissue.R: This part generated plots to show efficiency of the biosorter single fragment sorting and compares distribution of fragment-sizes between different tissues. 
 
-8.Liver_SpS_comp_scRNAseq.R: This part compares sphere-seq to conventional scRNA-seq.
+8.Liver_SpS_comp_scRNAseq.R: This part compares fragment-seq to conventional scRNA-seq.
 
-9.Liver_sphere_seq_vs_MC.R: This part compares cell types from sphere-seq to Molecular Cartography data. 
+9.Liver_fragment_seq_vs_MC.R: This part compares cell types from fragment-seq to Molecular Cartography data. 
 
 ### Highly_multiplexed_FISH_analysis (Molecular Cartography)
 
@@ -135,11 +135,11 @@ Data for the above publication can be found at GEO with the access number: … a
 
 3.Clustering_annotation.R: This part does clustering and annotation of Molecular Cartography data. 
 
-4.1.Veins_zonated_genes_analysis.R: This part validates findings of zonated genes found from sphere-seq analysis. 
+4.1.Veins_zonated_genes_analysis.R: This part validates findings of zonated genes found from fragment-seq analysis. 
 
 5.1.Mets_distance_DGE_analysis.R: This part does DGE analysis between monocytes from proximal and distal areas. 
 
-5.2.Mets_distance_cell_type_abundance.R: This part validates findings of cell type abundance analysis of sphere-seq between proximal and distal metastatic areas. 
+5.2.Mets_distance_cell_type_abundance.R: This part validates findings of cell type abundance analysis of fragment-seq between proximal and distal metastatic areas. 
 
 5.3.Mets_distance_cell_co_localisation.R: This part does cell colocalization analysis comapring proximal and distal areas. 
 
@@ -153,11 +153,11 @@ Data for the above publication can be found at GEO with the access number: … a
 
 #### Main analysis: 
 
-1.Clustering_anno_nFeature_comp.R: This part does preprocesing of Visium data, annotation of spatial areas and comparison of number of gene features between different spatial areas with sphere-seq data. 
+1.Clustering_anno_nFeature_comp.R: This part does preprocesing of Visium data, annotation of spatial areas and comparison of number of gene features between different spatial areas with fragment-seq data. 
 
 2.Merging_and_batch_effect_correction.R: This part merged both Visium samples and applies batch effect correction. 
 
-3.Spot_deconvolution.R: This part does deconvolution of spots by integrating data from sphere-seq. 
+3.Spot_deconvolution.R: This part does deconvolution of spots by integrating data from fragment-seq. 
 
 4.Visium_public_data.R: This part uses public data from https://www.livercellatlas.org (Guilliams et al, 2022) to test newly found zonation specific genes in wild type and NAFLD mouse samples. 
 

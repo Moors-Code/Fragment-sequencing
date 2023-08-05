@@ -3,7 +3,7 @@
 
 ########## Prepare environment ##########
 ###Setting the working directory 
-setwd("/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/")
+setwd("/mnt/khandler/R_projects/Fragment-sequencing/Fragment-seq_analysis/")
 
 ###Load packages and functions 
 source("./functions_and_packages/1.Packages.R")

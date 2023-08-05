@@ -4,7 +4,7 @@
 
 ########## Prepare environment ##########
 ###Setting the working directory 
-setwd("/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/")
+setwd("/mnt/khandler/R_projects/Fragment-sequencing/Fragment-seq_analysis/")
 
 ###Load packages and functions 
 source("./functions_and_packages/1.Packages.R")
@@ -34,7 +34,7 @@ Input_files_CellPhoneDB_generation(cv,'annotation.broad',"cv","./CellPhoneDB/Vei
 Input_files_CellPhoneDB_generation(pv,'annotation.broad',"pv","./CellPhoneDB/Vein/") 
 
 ########## Run CellPhoneDB_veins.sh ##########
-#/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/2.5.3.2.CellPHoneDB_veins.sh
+#/mnt/khandler/R_projects/Fragment-sequencing/Fragment-seq_analysis/2.5.3.2.CellPHoneDB_veins.sh
 
 ###read in output files 
 file1_mean <- "./CellPhoneDB/Vein/cv/significant_means.txt"

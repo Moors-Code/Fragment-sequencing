@@ -3,7 +3,7 @@
 
 ########## Prepare environment ##########
 ###Setting the working directory 
-setwd("/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/")
+setwd("/mnt/khandler/R_projects/Fragment-sequencing/Fragment-seq_analysis/")
 
 ###Load packages and functions 
 source("./functions_and_packages/1.Packages.R")
@@ -74,7 +74,7 @@ p <- ggplot(top, aes(x=logFC, y=-log10(FDR))) +
   geom_point(aes(color = Expression),size=3) +
   geom_text_repel(aes(label=ifelse(top$genelabels, top$Gene,"")),size=8) +
   xlab("logFC") + 
-  ylab("-log10(FDR)") + ggtitle("LECs - Sphere-seq (FDR ≤ 0.05, logFC >0.5") + 
+  ylab("-log10(FDR)") + ggtitle("LECs - Fragment-seq (FDR ≤ 0.05, logFC >0.5") + 
   scale_color_manual(values = c("red", "darkgoldenrod2", "gray50"),guide = "none") + theme_classic() + 
   theme(axis.title= element_text(size = 25)) + theme(axis.text = element_text(size = 30))  + 
   theme(plot.title = element_text(size = 25, face = "bold"))  + 

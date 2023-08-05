@@ -5,7 +5,7 @@
 
 ########## Prepare environment ##########
 ###Setting the working directory 
-setwd("/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/")
+setwd("/mnt/khandler/R_projects/Fragment-sequencing/Fragment-seq_analysis/")
 
 ###Load packages and functions 
 source("./functions_and_packages/1.Packages.R")
@@ -22,17 +22,17 @@ S8 <- readRDS(file = "./data_files_generated/SpS_LiverMets_sample8.Rda")
 S9 <- readRDS(file = "./data_files_generated/SpS_LiverMets_sample9.Rda")
 S10 <- readRDS(file = "./data_files_generated/SpS_LiverWT_sample10.Rda")
 
-#add prefix to the sphere ID 
-S1$sphere <- paste(S1$sphere, "_1", sep="")
-S2$sphere <- paste(S2$sphere, "_2", sep="")
-S3$sphere <- paste(S3$sphere, "_3", sep="")
-S4$sphere <- paste(S4$sphere, "_4", sep="")
-S5$sphere <- paste(S5$sphere, "_5", sep="")
-S6$sphere <- paste(S6$sphere, "_6", sep="")
-S7$sphere <- paste(S7$sphere, "_7", sep="")
-S8$sphere <- paste(S8$sphere, "_8", sep="")
-S9$sphere <- paste(S9$sphere, "_9", sep="")
-S10$sphere <- paste(S10$sphere, "_10", sep="")
+#add prefix to the fragment ID 
+S1$fragment <- paste(S1$fragment, "_1", sep="")
+S2$fragment <- paste(S2$fragment, "_2", sep="")
+S3$fragment <- paste(S3$fragment, "_3", sep="")
+S4$fragment <- paste(S4$fragment, "_4", sep="")
+S5$fragment <- paste(S5$fragment, "_5", sep="")
+S6$fragment <- paste(S6$fragment, "_6", sep="")
+S7$fragment <- paste(S7$fragment, "_7", sep="")
+S8$fragment <- paste(S8$fragment, "_8", sep="")
+S9$fragment <- paste(S9$fragment, "_9", sep="")
+S10$fragment <- paste(S10$fragment, "_10", sep="")
 
 ########## Merging and Clustering of samples before batch effect correction ##########
 #merge Seurat objects

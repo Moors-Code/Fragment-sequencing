@@ -3,7 +3,7 @@
 
 ########## Prepare environment ##########
 ###Setting the working directory 
-setwd("/mnt/khandler/R_projects/Sphere-sequencing/Highly_multiplexed_FISH_analysis/")
+setwd("/mnt/khandler/R_projects/Fragment-sequencing/Highly_multiplexed_FISH_analysis/")
 
 ###Load packages and functions 
 source("./functions_and_packages/1.Packages.R")
@@ -43,7 +43,7 @@ merged <- RunUMAP(merged, dims = 1:10, seed.use = 5, reduction = "pca")
 DimPlot(merged, reduction = "umap", label = TRUE) 
 
 ########## Annotation ##########
-###first broad annotation, for clusters that are not clear do DGE and compare top genes with Sphere-seq analysis 
+###first broad annotation, for clusters that are not clear do DGE and compare top genes with Fragment-seq analysis 
 marker_genes <- c("Pglyrp1","Gpx2", #Metastasis 1,4
                   "Cyp2e1","Cyp1a2" , #Hepatocytes CV 2,3,14
                   "Fgb","Cyp2f2",  #Hepatocytes PV 0,7,18
@@ -62,12 +62,12 @@ DotPlot(merged,features = marker_genes) + theme(axis.text.x = element_text(angle
 #non conclusive 12,13,16,17,19,20,21,22,23,24
 #recluster T and B cluster 11
 
-###check top DEGs from clusters that are non-conclusive and compare top genes with sphere-seq data 
+###check top DEGs from clusters that are non-conclusive and compare top genes with fragment-seq data 
 dge_genes <- FindAllMarkers(merged, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
 View(dge_genes %>% group_by(cluster) %>% top_n(n =10, wt = avg_log2FC))
 
-#load sphere-seq data 
-liverSpS5C <- readRDS("/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/data_files_generated/LiverMerged_afterBC_anno.Rda")
+#load fragment-seq data 
+liverSpS5C <- readRDS("/mnt/khandler/R_projects/Fragment-sequencing/Fragment-seq_analysis/data_files_generated/LiverMerged_afterBC_anno.Rda")
 Idents(liverSpS5C) <- "annotation.broad"
 
 #Clusters 12 --> non conclusive --> remove

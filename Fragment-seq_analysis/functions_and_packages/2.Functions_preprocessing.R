@@ -197,8 +197,8 @@ MULTIseq_WTA_integration_zUMIoutputBD_mouse <- function(
   hash_table <- hash_table[! hash_table$Row.names %in% extra.cells$Row.names,]
   #extract common barcodes from both 
   common_barcodes <- intersect(rownames(dgeS@meta.data), hash_table$Row.names)
-  #match cell IDs from classified table and zUMI output and add sphere BC (MUTLI-seq BC)
-  dgeS@meta.data <- cbind(dgeS@meta.data, sphere = hash_table[rownames(dgeS@meta.data), "Barcode"] )
+  #match cell IDs from classified table and zUMI output and add fragment BC (MUTLI-seq BC)
+  dgeS@meta.data <- cbind(dgeS@meta.data, fragment = hash_table[rownames(dgeS@meta.data), "Barcode"] )
   saveRDS(dgeS,file = Seurat_object_save_directory)
 }
 
@@ -233,7 +233,7 @@ MULTIseq_WTA_integration_zUMIoutputBD_human <- function(
   extra.cells <- data.frame(Row.names = cells_in_hash_table)
   hash_table <- hash_table[! hash_table$Row.names %in% extra.cells$Row.names,]
   common_barcodes <- intersect(rownames(dgeS@meta.data), hash_table$Row.names)
-  dgeS@meta.data <- cbind(dgeS@meta.data, sphere = hash_table[rownames(dgeS@meta.data), "Barcode"] )
+  dgeS@meta.data <- cbind(dgeS@meta.data, fragment = hash_table[rownames(dgeS@meta.data), "Barcode"] )
   saveRDS(dgeS,file = Seurat_object_save_directory)
 }
 
@@ -268,7 +268,7 @@ MULTIseq_WTA_integration_zUMIoutputBD_human_mouse <- function(
   extra.cells <- data.frame(Row.names = cells_in_hash_table)
   hash_table <- hash_table[! hash_table$Row.names %in% extra.cells$Row.names,]
   common_barcodes <- intersect(rownames(dgeS@meta.data), hash_table$Row.names)
-  dgeS@meta.data <- cbind(dgeS@meta.data, sphere = hash_table[rownames(dgeS@meta.data), "Barcode"] )
+  dgeS@meta.data <- cbind(dgeS@meta.data, fragment = hash_table[rownames(dgeS@meta.data), "Barcode"] )
   saveRDS(dgeS,file = Seurat_object_save_directory)
 }
 
@@ -285,10 +285,9 @@ MULTIseq_WTA_integration_10X <- function(
   extra.cells <- data.frame(Row.names = cells_in_hash_table)
   hash_table <- hash_table[! hash_table$Row.names %in% extra.cells$Row.names,]
   common_barcodes <- intersect(str_sub(rownames(Seurat_object@meta.data), 1, str_length(rownames(Seurat_object@meta.data))-2), rownames(hash_table))
-  Seurat_object@meta.data <- cbind(Seurat_object@meta.data, sphere = hash_table[str_sub(rownames(Seurat_object@meta.data), 1, str_length(rownames(Seurat_object@meta.data))-2), "Barcode"] )
+  Seurat_object@meta.data <- cbind(Seurat_object@meta.data, fragment = hash_table[str_sub(rownames(Seurat_object@meta.data), 1, str_length(rownames(Seurat_object@meta.data))-2), "Barcode"] )
   saveRDS(Seurat_object, file = Seurat_object_save_directory)
 }
-
 
 ###Function to integrate MULTIseq BC with WTA of zUMI output of BD Rhapsody data while keeping ensemble IDs 
 MULTIseq_WTA_integration_zUMIoutputBD_ensembleIDs <- function(
@@ -320,7 +319,7 @@ MULTIseq_WTA_integration_zUMIoutputBD_ensembleIDs <- function(
   extra.cells <- data.frame(Row.names = cells_in_hash_table)
   hash_table <- hash_table[! hash_table$Row.names %in% extra.cells$Row.names,]
   common_barcodes <- intersect(rownames(dgeS@meta.data), hash_table$Row.names)
-  dgeS@meta.data <- cbind(dgeS@meta.data, sphere = hash_table[rownames(dgeS@meta.data), "Barcode"] )
+  dgeS@meta.data <- cbind(dgeS@meta.data, fragment = hash_table[rownames(dgeS@meta.data), "Barcode"] )
   saveRDS(dgeS,file = Seurat_object_save_directory)
 }
 
@@ -358,4 +357,3 @@ Annotation_mouse_downsampled <- function(zUMI_output) {
   join<-dplyr::select(join,-ensembl_gene_id_version,-external_gene_name)
   return(join)
 }
-

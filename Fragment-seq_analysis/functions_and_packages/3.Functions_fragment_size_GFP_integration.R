@@ -3,10 +3,10 @@ Biosorter_output_managing <- function(
   biosorter_files, 
   seurat_object_prefix
 ){
-  ###predict sphere size based on linear model fit and add to a column in dataframe 
+  ###predict fragment size based on linear model fit and add to a column in dataframe 
   predicted_size <- predict.lm(lm.bead_tof, biosorter_files)
   #round sizes to integers 
-  biosorter_files$sphere_size <- round(predicted_size)
+  biosorter_files$fragment_size <- round(predicted_size)
   ###remove columns not needed 
   #Sorted status: 0 = just acquiring, 6= sorted (this we want!), 9= coincidence with previous, 10 = coincidence with following 
   #Clog should be N, remove if not 
@@ -16,21 +16,21 @@ Biosorter_output_managing <- function(
                                                                            "PW.Extinction","PC.Extinction","PH.Violet",
                                                                            "PW.Violet","PC.Violet","PH.Green","PW.Green",
                                                                            "PC.Green","PH.Red","PW.Red","PC.Red","X"))]
-  ###add sphere ID by matching the Row and Column ID with the plate ID of MULTI-seq barcodes 
-  sphere1 <- paste0("Bar", c(1:96), seurat_object_prefix)
-  sphere2 <- paste0("Bar", c(97:192), seurat_object_prefix)
-  sphere3 <- paste0("Bar", c(193:288), seurat_object_prefix)
+  ###add fragment ID by matching the Row and Column ID with the plate ID of MULTI-seq barcodes 
+  fragment1 <- paste0("Bar", c(1:96), seurat_object_prefix)
+  fragment2 <- paste0("Bar", c(97:192), seurat_object_prefix)
+  fragment3 <- paste0("Bar", c(193:288), seurat_object_prefix)
   biosorter_id <- c(paste0("A ", c(1:12)),paste0("B ", c(1:12)), paste0("C ", c(1:12)),paste0("D ", c(1:12)),
                     paste0("E ", c(1:12)),paste0("F ", c(1:12)),paste0("G ", c(1:12)),paste0("H ", c(1:12)))
   
-  plate1 <- data.frame(sphere1,biosorter_id)
-  colnames(plate1) <- c("sphere","biosorter_id")
-  plate2 <- data.frame(sphere2,biosorter_id)
-  colnames(plate2) <- c("sphere","biosorter_id")
-  plate3 <- data.frame(sphere3,biosorter_id)
-  colnames(plate3) <- c("sphere","biosorter_id")
+  plate1 <- data.frame(fragment1,biosorter_id)
+  colnames(plate1) <- c("fragment","biosorter_id")
+  plate2 <- data.frame(fragment2,biosorter_id)
+  colnames(plate2) <- c("fragment","biosorter_id")
+  plate3 <- data.frame(fragment3,biosorter_id)
+  colnames(plate3) <- c("fragment","biosorter_id")
   
-  #combine Row and Column (f.e. A1 in the end) in dataframe to then merge it with the sphere ids 
+  #combine Row and Column (f.e. A1 in the end) in dataframe to then merge it with the fragment ids 
   biosorter_files$biosorter_id <- paste(biosorter_files$Row, biosorter_files$Column)
   
   #subset per plate 
@@ -38,7 +38,7 @@ Biosorter_output_managing <- function(
   biosorter_files_plate2 <- subset(biosorter_files, plate_id == "plate_2")
   biosorter_files_plate3 <- subset(biosorter_files, plate_id == "plate_3")
   
-  #add sphere_id to the biosorter data by matching with plate ids 
+  #add fragment_id to the biosorter data by matching with plate ids 
   biosorter_files_plate1 <- merge(biosorter_files_plate1, plate1)
   biosorter_files_plate2 <- merge(biosorter_files_plate2, plate2)
   biosorter_files_plate3 <- merge(biosorter_files_plate3, plate3)
@@ -49,30 +49,30 @@ Biosorter_output_managing <- function(
   return(biosorter_files_all_plates)
 }  
 
-###Function to integrate biosorter sphere-size information into Seurat object 
+###Function to integrate biosorter fragment-size information into Seurat object 
 Biosorter_data_seurat_integration <- function(
   seurat_object_file_path,
   biosorter_files,
   output_Seurat_object_file_path_name
 ){
-  #add an empty column in meta.data for sphere-size 
+  #add an empty column in meta.data for fragment-size 
   seurat_object <- readRDS(file = seurat_object_file_path)
-  seurat_object$sphere_size <- NA
+  seurat_object$fragment_size <- NA
   seurat_object$GFP <- NA
-  #match with sphere-size and Green (GFP) of biosorter files 
-  seurat_object$sphere_size <- biosorter_files$sphere_size[match(seurat_object$sphere,biosorter_files$sphere)]
-  seurat_object$GFP <- biosorter_files$Green[match(seurat_object$sphere,biosorter_files$sphere)]
-  #normalize GFP with sphere_size 
+  #match with fragment-size and Green (GFP) of biosorter files 
+  seurat_object$fragment_size <- biosorter_files$fragment_size[match(seurat_object$fragment,biosorter_files$fragment)]
+  seurat_object$GFP <- biosorter_files$Green[match(seurat_object$fragment,biosorter_files$fragment)]
+  #normalize GFP with fragment_size 
   seurat_object$GFP <- as.character(seurat_object$GFP)
   seurat_object$GFP <- as.numeric(seurat_object$GFP)
-  seurat_object$sphere_size <- as.character(seurat_object$sphere_size)
-  seurat_object$sphere_size <- as.numeric(seurat_object$sphere_size)
-  seurat_object$GFP.norm <- (seurat_object$GFP / seurat_object$sphere_size)
+  seurat_object$fragment_size <- as.character(seurat_object$fragment_size)
+  seurat_object$fragment_size <- as.numeric(seurat_object$fragment_size)
+  seurat_object$GFP.norm <- (seurat_object$GFP / seurat_object$fragment_size)
   #save R object 
   saveRDS(seurat_object, file = output_Seurat_object_file_path_name)
 }    
 
-###Function to produce data frames for boxplot plotting of sphere size signal 
+###Function to produce data frames for boxplot plotting of fragment size signal 
 BS_df_for_boxplot_per_sample <- function(
   sub_seurat_obj, 
   ident_of_interest1,
@@ -89,4 +89,6 @@ BS_df_for_boxplot_per_sample <- function(
   df[,2] <- as.numeric(df[,2])
   return(df)
 }
+
+
 

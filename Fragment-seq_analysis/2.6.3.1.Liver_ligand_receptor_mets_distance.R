@@ -4,7 +4,7 @@
 
 ########## Prepare environment ##########
 ###Setting the working directory 
-setwd("/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/")
+setwd("/mnt/khandler/R_projects/Fragment-sequencing/Fragment-seq_analysis/")
 
 ###Load packages and functions 
 source("./functions_and_packages/1.Packages.R")
@@ -30,7 +30,7 @@ Input_files_CellPhoneDB_generation(proximal,'annotation.broad',"proximal","./Cel
 Input_files_CellPhoneDB_generation(distal,'annotation.broad',"distal","./CellPhoneDB/Mets_distance/") 
 
 ########## Run CellPhoneDB_mets_distance.sh ##########
-#/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/2.6.3.2.CellPHoneDB_mets_distance.sh
+#/mnt/khandler/R_projects/Fragment-sequencing/Fragment-seq_analysis/2.6.3.2.CellPHoneDB_mets_distance.sh
 
 ########## Comparison of L-R interactions between proximal and distal areas ##########
 

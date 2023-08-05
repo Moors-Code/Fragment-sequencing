@@ -4,7 +4,7 @@
 
 ########## Prepare environment ##########
 ###Setting the working directory 
-setwd("/mnt/khandler/R_projects/Sphere-sequencing/Visium_analysis/")
+setwd("/mnt/khandler/R_projects/Fragment-sequencing/Visium_analysis/")
 
 ###Load packages and functions 
 source("./functions_and_packages/1.Packages.R")
@@ -42,7 +42,7 @@ WT@meta.data <- WT@meta.data %>%
 Idents(WT) <- "zonationGroup"
 WT <- subset(WT, idents = c("Central","Mid","Periportal","Portal"))
 
-###analyse zonated genes found in sphere-seq 
+###analyse zonated genes found in Fragment-seq 
 Idents(WT) <- "zonationGroup"
 WT@active.ident <- factor(x = WT@active.ident, 
                           levels = c("Central","Mid","Periportal","Portal"))
@@ -75,7 +75,7 @@ Nafld@meta.data <- Nafld@meta.data %>%
 Idents(Nafld) <- "zonationGroup"
 Nafld <- subset(Nafld, idents = c("Central","Mid","Periportal","Portal"))
 
-###analyse zonated genes found in sphere-seq 
+###analyse zonated genes found in Fragment-seq 
 p <- DotPlot(Nafld, features = c("Plpp1","Galnt15", 
                               "Vcam1","Itgb1","Ccl3","Ccr5"), dot.scale = 10) +
   theme(legend.title = element_text(size = 22), legend.text = element_text(size = 22)) + 

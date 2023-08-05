@@ -3,7 +3,7 @@
 
 ########## Prepare environment ##########
 ###Setting the working directory 
-setwd("/mnt/khandler/R_projects/Sphere-sequencing/Visium_analysis/")
+setwd("/mnt/khandler/R_projects/Fragment-sequencing/Visium_analysis/")
 
 ###Load packages and functions 
 source("./functions_and_packages/1.Packages.R")
@@ -16,7 +16,7 @@ merged <- readRDS("./data_files_generated/Visium_merged_batch_corrected.rds")
 merged = merged[, merged$nFeature_Spatial > 200 ]
 
 ########## Prepare reference for deconvolution ##########
-reference <- readRDS(file = "/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/data_files_generated/LiverMerged_afterBC_anno.Rda")
+reference <- readRDS(file = "/mnt/khandler/R_projects/Fragment-sequencing/Fragment-seq_analysis/data_files_generated/LiverMerged_afterBC_anno.Rda")
 #select 200 cells per subclass, fist set subclass as active.ident
 Idents(reference) <- reference$annotation
 reference <- subset(reference, cells = WhichCells(reference, downsample = 200))

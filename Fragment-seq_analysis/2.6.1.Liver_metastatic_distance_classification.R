@@ -1,10 +1,10 @@
 ########## Part 2.6.1: Metastatic distance classification of liver samples ##########
-#This part groups spheres into proximal and distal distances to metastatic sites
-#proximal = spheres with metastatic cells, distal = spheres without metastatic cells 
+#This part groups fragments into proximal and distal distances to metastatic sites
+#proximal = fragments with metastatic cells, distal = fragments without metastatic cells 
 
 ########## Prepare environment ##########
 ###Setting the working directory 
-setwd("/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/")
+setwd("/mnt/khandler/R_projects/Fragment-sequencing/Fragment-seq_analysis/")
 
 ###Load packages and functions 
 source("./functions_and_packages/1.Packages.R")
@@ -36,19 +36,19 @@ Idents(Injected) <- "orig.ident"
 metastasis <- subset(Injected, idents = c("4M1","M5","6M1"))
 
 ########## Add proximal and distal identity depending on the presence of metastatic cells ##########
-###subset metastatic cells and generate vector with sphere-BCs of spheres containing metastatic cells 
+###subset metastatic cells and generate vector with fragment-BCs of fragments containing metastatic cells 
 Idents(metastasis) <- "annotation"
 sub_mets <- subset(metastasis, idents = c("Metastasis"))
-mets_spheres <- as.data.frame(table(sub_mets$sphere))$Var1
-all_spheres <- as.data.frame(table(metastasis$sphere))$Var1
-no_mets_spheres <- setdiff(all_spheres,mets_spheres)
+mets_fragments <- as.data.frame(table(sub_mets$fragment))$Var1
+all_fragments <- as.data.frame(table(metastasis$fragment))$Var1
+no_mets_fragments <- setdiff(all_fragments,mets_fragments)
 
 ###add meta data with the identity of proximal and distal 
 metastasis$Mets_distance <- NA
 metastasis@meta.data <- metastasis@meta.data %>%
   mutate(Mets_distance = case_when(
-    sphere %in% mets_spheres ~ "proximal",
-    sphere %in% no_mets_spheres ~ "distal",
+    fragment %in% mets_fragments ~ "proximal",
+    fragment %in% no_mets_fragments ~ "distal",
     TRUE ~ NA_character_))
 
 ###save object with new meta-data column 
@@ -82,23 +82,23 @@ p + ggsave("./figures/2.6.1/Split_plot_mets_noMets.svg", width = 15, height = 10
 
 
 
-########## Metastatic cells per sphere ##########
+########## Metastatic cells per fragment ##########
 ###subset proximal area 
 Idents(metastasis) <- "Mets_distance"
-mets_spheres <- subset(metastasis,idents = "proximal")
+mets_fragments <- subset(metastasis,idents = "proximal")
 
 ###subset metastasis cells from proximal area
-Idents(mets_spheres) <- "annotation"
-mets_spheres_mets_cells <- subset(mets_spheres, idents = "Metastasis")
+Idents(mets_fragments) <- "annotation"
+mets_fragments_mets_cells <- subset(mets_fragments, idents = "Metastasis")
 
 ###plot counts in boxplot in decreasing order
-mets_spheres_mets_cells_df <- as.data.frame(table(mets_spheres_mets_cells$sphere))
-p <- ggplot(mets_spheres_mets_cells_df, aes( y=Freq, x=reorder(Var1,-Freq), Var1)) + theme_classic() +
+mets_fragments_mets_cells_df <- as.data.frame(table(mets_fragments_mets_cells$fragment))
+p <- ggplot(mets_fragments_mets_cells_df, aes( y=Freq, x=reorder(Var1,-Freq), Var1)) + theme_classic() +
   geom_bar( stat="identity", fill = "#F90606") + 
-  xlab("Sphere") + ylab("Cell count") +ggtitle("Amount of metastastatic cells per sphere") + 
+  xlab("fragment") + ylab("Cell count") +ggtitle("Amount of metastastatic cells per fragment") + 
   theme(axis.text = element_text(size = 10)) +  theme(axis.text.x = element_text(angle = 90)) +
   theme(axis.title= element_text(size = 25)) + 
   theme(plot.title = element_text(size = 25, face = "bold")) + 
   theme(legend.title = element_text(size = 30), legend.text = element_text(size = 30)) 
-p + ggsave("./figures/2.6.1/barplot_mets_cells_per_sphere.pdf", width = 12, height = 10)
-p + ggsave("./figures/2.6.1/barplot_mets_cells_per_sphere.svg", width = 12, height = 10)
+p + ggsave("./figures/2.6.1/barplot_mets_cells_per_fragment.pdf", width = 12, height = 10)
+p + ggsave("./figures/2.6.1/barplot_mets_cells_per_fragment.svg", width = 12, height = 10)

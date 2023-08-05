@@ -3,7 +3,7 @@
 
 ########## Prepare environment ##########
 ###Setting the working directory 
-setwd("/mnt/khandler/R_projects/Sphere-sequencing/Visium_analysis/")
+setwd("/mnt/khandler/R_projects/Fragment-sequencing/Visium_analysis/")
 
 ###Load packages and functions 
 source("./functions_and_packages/1.Packages.R")
@@ -81,7 +81,7 @@ Idents(V2) <- "Mets_distance"
 V2_proximal <- subset(V2, idents = "proximal")
 V2_distal <- subset(V2, idents = "distal")
 
-########## Plot number of Features per sample and feature area and compare with sphere-seq data ##########
+########## Plot number of Features per sample and feature area and compare with fragment-seq data ##########
 ###Visium sample 1
 V1_nFeature_RNA_proximal <- median(V1_proximal@meta.data$nFeature_Spatial)
 V1_nFeature_RNA_distal <- median(V1_distal@meta.data$nFeature_Spatial)
@@ -90,12 +90,12 @@ V1_nFeature_RNA_distal <- median(V1_distal@meta.data$nFeature_Spatial)
 V2_nFeature_RNA_proximal <- median(V2_proximal@meta.data$nFeature_Spatial)
 V2_nFeature_RNA_distal <- median(V2_distal@meta.data$nFeature_Spatial)
 
-###get number of features of sphere-seq data
-sphereSeq_mets <- readRDS("/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/data_files_generated/LiverMerged_afterBC_anno_BS_5cells_zC_lobules_mets_distance.Rda")
+###get number of features of fragment-seq data
+fragmentSeq_mets <- readRDS("/mnt/khandler/R_projects/Fragment-sequencing/Fragment-seq_analysis/data_files_generated/LiverMerged_afterBC_anno_BS_5cells_zC_lobules_mets_distance.Rda")
 
-Idents(sphereSeq_mets) <- "orig.ident"
-SpS1 <- subset(sphereSeq_mets, idents = "6M1")
-SpS2 <- subset(sphereSeq_mets, idents = "4M1")
+Idents(fragmentSeq_mets) <- "orig.ident"
+SpS1 <- subset(fragmentSeq_mets, idents = "6M1")
+SpS2 <- subset(fragmentSeq_mets, idents = "4M1")
 
 Idents(SpS1) <- "Mets_distance"
 proximal_SpS1 <- subset(SpS1, idents = "proximal") 

@@ -1,11 +1,11 @@
 ########## Part 8: Liver comp scRNAseq ##########
-#This part compares sphere-seq data with conventional scRNA-seq
+#This part compares fragment-seq data with conventional scRNA-seq
 #For comparing cell types all objects will be annotated together 
 #For comparison of UMI counts, gene counts and ratio mito/cytopl genes zUMI outputs were used with 50000 reads/cell downsampling 
 
 ########## Prepare environment ##########
 ###Setting the working directory 
-setwd("/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/")
+setwd("/mnt/khandler/R_projects/Fragment-sequencing/Fragment-seq_analysis/")
 
 ###Load packages and functions 
 source("./functions_and_packages/1.Packages.R")
@@ -57,16 +57,16 @@ S9 <- readRDS(file = "./data_files_generated/SpS_LiverMets_sample9.Rda")
 S11 <- readRDS(file = "./data_files_generated/scRNAseq_sample1.Rda")
 S12 <- readRDS(file = "./data_files_generated/scRNAseq_sample2.Rda")
 
-#add prefix to the sphere ID 
-S1$sphere <- paste(S1$sphere, "_1", sep="")
-S2$sphere <- paste(S2$sphere, "_2", sep="")
-S3$sphere <- paste(S3$sphere, "_3", sep="")
-S4$sphere <- paste(S4$sphere, "_4", sep="")
-S5$sphere <- paste(S5$sphere, "_5", sep="")
-S6$sphere <- paste(S6$sphere, "_6", sep="")
-S7$sphere <- paste(S7$sphere, "_7", sep="")
-S8$sphere <- paste(S8$sphere, "_8", sep="")
-S9$sphere <- paste(S9$sphere, "_9", sep="")
+#add prefix to the fragment ID 
+S1$fragment <- paste(S1$fragment, "_1", sep="")
+S2$fragment <- paste(S2$fragment, "_2", sep="")
+S3$fragment <- paste(S3$fragment, "_3", sep="")
+S4$fragment <- paste(S4$fragment, "_4", sep="")
+S5$fragment <- paste(S5$fragment, "_5", sep="")
+S6$fragment <- paste(S6$fragment, "_6", sep="")
+S7$fragment <- paste(S7$fragment, "_7", sep="")
+S8$fragment <- paste(S8$fragment, "_8", sep="")
+S9$fragment <- paste(S9$fragment, "_9", sep="")
 
 #####Merging and Clustering of samples before batch effect correction 
 #merge Seurat objects
@@ -269,7 +269,6 @@ new.cluster.ids <- c("B","Basophils","cDC1","cDC2", "Cholangiocytes","LSECs","LS
                      "Neutrophils","RBC","Stellate_Stromal_Fib", "T_NK")
 merged_cl_subCl$annotation <- plyr::mapvalues(x = merged_cl_subCl$sub.cluster, from = current.cluster.ids, to = new.cluster.ids)
 DimPlot(merged_cl_subCl, reduction = "umap", label = TRUE, group.by = "annotation", label.size = 3)
-
 
 ###T and NK cells
 merged_cl <- merged_cl_subCl
@@ -548,7 +547,6 @@ p <- DoHeatmap(subset(sc, downsample = 100), features = marker_genes, assay = "R
 p + ggsave("./figures/8/Heatmap_anno.png", width = 15, height = 10)
 p + ggsave("./figures/8/Heatmap_anno.svg", width = 15, height = 10)
 
-
 ########## Comparison of cellular quality sc vs. SpS ##########
 #downsampled to 50K reads/cell, cells that have more are downsampled, cells that do not reach this threshold are removed 
 #####annotate the zUMI output 
@@ -559,7 +557,6 @@ Msc1_S <- CreateSeuratObject(Msc1, "sc1",min.cells = 3, min.features = 200)
 dge <- readRDS("/home/khandler/NAS/Kristina/Mets_sc2.dgecounts.rds")
 Msc2 <- Annotation_mouse(dge)
 Msc2_S <- CreateSeuratObject(Msc2, "sc2",min.cells = 3, min.features = 200)
-
 
 ########## Investigation of quality measuremnts after downasmpling to 30K reads/cell ###################
 #downsampled to 30K reads/cell, cells that have more reads are downsampled, cells that do not reach this threshold are removed 
@@ -728,7 +725,6 @@ p <- ggplot(df,aes(x = Type,y = nFeature, fill = Type)) +theme_classic() +
 p + ggsave("./figures/8/nFeature_sc_SpS.pdf",width = 12, height = 10)  
 p + ggsave("./figures/8/nFeature_sc_SpS.svg",width = 12, height = 10)  
 
-
 #####UMI counts 
 sc1_m <- median(Msc1_S@meta.data$nCount_RNA)
 sc2_m <- median(Msc2_S@meta.data$nCount_RNA)
@@ -766,5 +762,7 @@ p <- ggplot(df,aes(x = Type,y = nCounts, fill = Type)) +theme_classic() +
                         test = "wilcox.test",map_signif_level = c("***"=0.001,"**"=0.01,"*"=0.05))
 p + ggsave("./figures/8/nCount_sc_SpS.pdf",width = 12, height = 10)  
 p + ggsave("./figures/8/nCount_sc_SpS.svg",width = 12, height = 10)  
+
+
 
 

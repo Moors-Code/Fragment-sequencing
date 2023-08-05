@@ -1,10 +1,10 @@
 ########## Part 3.3: Organoids species mixing decontX ##########
 #This part applies dexontX to remove cell free RNA because when plotting mouse and human UMI counts per cell there was a lot of cells showing mouse and human UMI counts 
-#these we need to remove because they would negatively impact the mouse and human UMI counts per sphere 
+#these we need to remove because they would negatively impact the mouse and human UMI counts per fragment 
 
 ########## Prepare environment ##########
 ###Setting the working directory 
-setwd("/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/")
+setwd("/mnt/khandler/R_projects/Fragment-sequencing/Fragment-seq_analysis/")
 
 ###Load packages and functions 
 source("./functions_and_packages/1.Packages.R")

@@ -22,7 +22,7 @@ DGE_between_veins_hmFISH <- function(
   
   #Sum across the spatial_feature_number
   sumd <- aggregateAcrossCells(sce,ids=sce$spatial_feature_number)
-  #Only consider spheres with at least 5 cells
+  #Only consider fragments with at least 5 cells
   sumd <- sumd[,sumd$ncells >= 5]
   
   ###Set up edgeR object
@@ -73,9 +73,9 @@ DGE_between_Mets_distance_hmFISH <- function(
   
   sce <- SingleCellExperiment(assays=list(counts=m),colData=DataFrame(pD))
   
-  #Sum across the spheres
+  #Sum across the fragments
   sumd <- aggregateAcrossCells(sce,ids=sce$spatial_feature_number)
-  #Only consider spheres with at least 5 cells
+  #Only consider fragments with at least 5 cells
   sumd <- sumd[,sumd$ncells >= 5]
   
   ###Set up edgeR object

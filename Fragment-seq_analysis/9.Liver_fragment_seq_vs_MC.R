@@ -1,16 +1,16 @@
-########## Part 9: Liver sphere_seq_vs_MC ##########
-#This part compares cell type proportions between sphere-seq and MC data of CRC injected liver samples 
+########## Part 9: Liver fragment_seq_vs_MC ##########
+#This part compares cell type proportions between fragment-seq and MC data of CRC injected liver samples 
 
 ########## Prepare environment ##########
 ###Setting the working directory 
-setwd("/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/")
+setwd("/mnt/khandler/R_projects/Fragment-sequencing/Fragment-seq_analysis/")
 
 ###Load packages and functions 
 source("./functions_and_packages/1.Packages.R")
 
 ########## plot proportions in one plot ##########
 #load R objects
-MC <- readRDS("/mnt/khandler/R_projects/Sphere-sequencing/Highly_multiplexed_FISH_analysis/data_files_generated/Resolve_seurat_anno.rds")
+MC <- readRDS("/mnt/khandler/R_projects/Fragment-sequencing/Highly_multiplexed_FISH_analysis/data_files_generated/Resolve_seurat_anno.rds")
 SpS <- readRDS("./data_files_generated/LiverMerged_afterBC_anno.Rda")
 
 #remove WT sample 

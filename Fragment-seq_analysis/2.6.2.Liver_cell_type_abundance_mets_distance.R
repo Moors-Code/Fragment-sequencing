@@ -3,7 +3,7 @@
 
 ########## Prepare environment ##########
 ###Setting the working directory 
-setwd("/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/")
+setwd("/mnt/khandler/R_projects/Fragment-sequencing/Fragment-seq_analysis/")
 
 ###Load packages and functions 
 source("./functions_and_packages/1.Packages.R")
@@ -17,7 +17,7 @@ metastasis <- readRDS("./data_files_generated/LiverMerged_afterBC_anno_BS_5cells
 DA_analysis_cell_type_abundance_Mets_distance(metastasis,metastasis$annotation.broad,"./figures/2.6.2/","all_cells")
 
 ###plot results of DA analysis in vulcano plot 
-top <- read.csv("./figures/2.6.2/Mets_distance_all_cells_cell_type_abundance_Sphere_seq.csv")
+top <- read.csv("./figures/2.6.2/Mets_distance_all_cells_cell_type_abundance_Fragment_seq.csv")
 
 top <- top %>% 
   mutate(
@@ -30,15 +30,15 @@ p <- ggplot(top, aes(x=logFC, y=-log10(FDR))) +
   geom_point(aes(color = Expression),size=5) +
   geom_text(data=top[top$FDR<1 & abs(top$logFC) > 0,], aes(label=Gene),size=8) +
   xlab("logFC") + 
-  ylab("-log10(FDR)") + ggtitle("Cell type prop - Sphere-seq (FDR ≤ 0.05, logFC >0.3") + 
+  ylab("-log10(FDR)") + ggtitle("Cell type prop - Fragment-seq (FDR ≤ 0.05, logFC >0.3") + 
   scale_color_manual(values = c("firebrick3","dodgerblue3", "gray50"),guide = "none") + theme_classic() + 
   theme(axis.title= element_text(size = 25)) + theme(axis.text = element_text(size = 30))  + 
   theme(plot.title = element_text(size = 25, face = "bold"))  + 
   guides(colour = guide_legend(override.aes = list(size=1.5))) + 
   theme(legend.title = element_text(size = 15), legend.text = element_text(size = 15))  + 
   geom_vline(xintercept = c(-0.3,0.3), linetype = "dashed", color = "gray50") 
-p + ggsave("./figures/2.6.2/Cell_type_abundance_mets_distance_allCells_sphereSeq.pdf",width = 12, height = 10)
-p + ggsave("./figures/2.6.2/Cell_type_abundance_mets_distance_allCells_sphereSeq.svg",width = 12, height = 10)
+p + ggsave("./figures/2.6.2/Cell_type_abundance_mets_distance_allCells_fragmentSeq.pdf",width = 12, height = 10)
+p + ggsave("./figures/2.6.2/Cell_type_abundance_mets_distance_allCells_fragmentSeq.svg",width = 12, height = 10)
 
 ########## Differential abundance analysis of monocytes subtypes ##########
 ###subset monocytes
@@ -49,7 +49,7 @@ mono <- subset(metastasis, idents = "Monocytes")
 DA_analysis_cell_type_abundance_Mets_distance(mono,mono$annotation,"./figures/2.6.2/","mono_subtypes")
 
 ###read result for p-values 
-top <- read.csv("./figures/2.6.2/Mets_distance_mono_subtypes_cell_type_abundance_Sphere_seq.csv")
+top <- read.csv("./figures/2.6.2/Mets_distance_mono_subtypes_cell_type_abundance_Fragment_seq.csv")
 
 ########## Plot cell type proportions in boxplots proximal vs. distal ##########
 ###create table of cell type proportions per sample 

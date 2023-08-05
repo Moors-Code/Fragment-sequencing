@@ -32,7 +32,7 @@ DA_analysis_cell_type_abundance_Mets_distance <- function(
   ###save results for plotting 
   top <- topTags(res,n=nrow(y))$table
   top$Gene <- rownames(top)
-  write.csv(top,paste0(output_file_path,"Mets_distance","_",sample_name, "_cell_type_abundance_Sphere_seq.csv"))
+  write.csv(top,paste0(output_file_path,"Mets_distance","_",sample_name, "_cell_type_abundance_Fragment_seq.csv"))
 }
 
 ###Function to create table with cell type proportions per sample  
@@ -65,7 +65,7 @@ boxplot_cell_prop <- function(
   p <- ggplot(df, aes(x=X, y=df[[cell_type]], fill=X)) + theme_classic() +
     geom_boxplot(fill = color_oi,outlier.shape = NA) + theme(axis.text = element_text(size = 30))   +
     geom_jitter(color="black", size=5, alpha=0.9) +theme(axis.title= element_text(size = 25)) + 
-    ggtitle(paste0(cell_type," proportion - sphere-seq")) + xlab("Condition") + 
+    ggtitle(paste0(cell_type," proportion - fragment-seq")) + xlab("Condition") + 
     ylab("Cell type proportion") + 
     theme(plot.title = element_text(size = 25, face = "bold")) + theme(legend.position="none")
   p + ggsave(paste0(output_file_path,cell_type,save_as),width = 7, height = 10)

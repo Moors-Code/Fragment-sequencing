@@ -3,7 +3,7 @@
 
 ########## Prepare environment ##########
 ###Setting the working directory 
-setwd("/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/")
+setwd("/mnt/khandler/R_projects/Fragment-sequencing/Fragment-seq_analysis/")
 
 ###Load packages and functions 
 source("./functions_and_packages/1.Packages.R")
@@ -13,17 +13,17 @@ org_mix <- readRDS("./data_files_generated/SpS_Organoid_mixing_BS.Rda")
 org_mix_ensemble <- readRDS("./data_files_generated/SpS_Organoid_mixing_ensembleIDs_BS.Rda")
 
 ########## remove Doublets and Negatives ##########
-spheres <- as.data.frame(table(org_mix$sphere))$Var1
-spheres <- as.character(spheres)
-spheres <- spheres[!spheres %in% c("Negative","Doublet")]
-Idents(org_mix) <- "sphere"
-org_mix <- subset(org_mix, idents = spheres)
+fragments <- as.data.frame(table(org_mix$fragment))$Var1
+fragments <- as.character(fragments)
+fragments <- fragments[!fragments %in% c("Negative","Doublet")]
+Idents(org_mix) <- "fragment"
+org_mix <- subset(org_mix, idents = fragments)
 
-spheres <- as.data.frame(table(org_mix_ensemble$sphere))$Var1
-spheres <- as.character(spheres)
-spheres <- spheres[!spheres %in% c("Negative","Doublet")]
-Idents(org_mix_ensemble) <- "sphere"
-org_mix_ensemble <- subset(org_mix_ensemble, idents = spheres)
+fragments <- as.data.frame(table(org_mix_ensemble$fragment))$Var1
+fragments <- as.character(fragments)
+fragments <- fragments[!fragments %in% c("Negative","Doublet")]
+Idents(org_mix_ensemble) <- "fragment"
+org_mix_ensemble <- subset(org_mix_ensemble, idents = fragments)
 
 ########## apply mitochondrial QC cutoff to remove low quality cells ##########
 mito.features <- grep(pattern = "^MT-|^mt-", x = rownames(x = org_mix), value = TRUE)
@@ -84,6 +84,3 @@ p + ggsave("./figures/3.2/Orgnoid_Mixing_species_singleCells_preDecontX.svg",wid
 ########## save R objects ##########
 saveRDS(org_mix, file = "./data_files_generated/SpS_Organoid_mixing_BS_mito0.3.Rda")
 saveRDS(org_mix_ensemble, file = "./data_files_generated/SpS_Organoid_mixing_ensembleIDs_BS_mito0.3.Rda")
-
-
-

@@ -1,33 +1,33 @@
 ########## Part 4: Spleen preliminary analysis ##########
-#This part analyses preliminary spleen sphere-seq data  
+#This part analyses preliminary spleen fragment-seq data  
 
 ########## Prepare environment ##########
 ###Setting the working directory 
-setwd("/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/")
+setwd("/mnt/khandler/R_projects/Fragment-sequencing/Fragment-seq_analysis/")
 
 ###Load packages and functions 
 source("./functions_and_packages/1.Packages.R")
-source("./functions_and_packages/4.Functions_cells_per_sphere_cutoff.R")
+source("./functions_and_packages/4.Functions_cells_per_fragment_cutoff.R")
 
 ###Load data 
 spleenS1 <- readRDS("./data_files_generated/SpS_Spleen_Sample1.Rda")
 spleenS2 <- readRDS("./data_files_generated/SpS_Spleen_Sample2.Rda")
 
 ########## merge samples and cluster ##########
-###add prefix to sphere for sample ID
-spleenS1$sphere <- paste(spleenS1$sphere, "_1", sep="")
-spleenS2$sphere <- paste(spleenS2$sphere, "_2", sep="")
+###add prefix to fragment for sample ID
+spleenS1$fragment <- paste(spleenS1$fragment, "_1", sep="")
+spleenS2$fragment <- paste(spleenS2$fragment, "_2", sep="")
 
 ###merge
 merged <- merge(spleenS1, spleenS2)
 
 ###Remove negative and doublets from Seurat object 
-spheres <- as.data.frame(table(merged$sphere))$Var1
-spheres <- as.character(spheres)
-spheres <- spheres[!spheres %in% c("Negative_1","Negative_2",
+fragments <- as.data.frame(table(merged$fragment))$Var1
+fragments <- as.character(fragments)
+fragments <- fragments[!fragments %in% c("Negative_1","Negative_2",
                                    "Doublet_1","Doublet_2")]
-Idents(merged) <- "sphere"
-merged <- subset(merged, idents = spheres)
+Idents(merged) <- "fragment"
+merged <- subset(merged, idents = fragments)
 
 ###Remove low quality cells
 #add percentage of mitochondrial features
@@ -45,8 +45,8 @@ merged <- subset(merged, subset = nFeature_RNA > 200 & nFeature_RNA < 6000 & per
 #save R object 
 saveRDS(merged,"./data_files_generated/Spleen_merged.Rda")
 
-###apply 5 cells per sphere cutoff 
-Sphere_cell_cutoff("./data_files_generated/Spleen_merged.Rda",5,
+###apply 5 cells per fragment cutoff 
+Fragment_cell_cutoff("./data_files_generated/Spleen_merged.Rda",5,
                    "./data_files_generated/Spleen_merged_5cells.Rda")
 
 ###clustering 
@@ -118,57 +118,56 @@ p + ggsave("./figures/4/annotated_umap.svg")
 #B cell areas: Blue colors:  B #1C3EE5, B CD21 high #1CA7E5
 #Marginal zones MZ: purple colors: Mono Ly6c low #D2E51C, mono ly6c high #E5A21C, Mac #EFCD8B, pDC #EFEF8B, Neut #F2EB08
 
-
 ########## Barplot of cell type proportions ##########
-df_sphere_cell_type <- table(merged_cl$sphere,merged_cl$annotation)
+df_fragment_cell_type <- table(merged_cl$fragment,merged_cl$annotation)
 
 #include Total column
-df_sphere_cell_type <- cbind(df_sphere_cell_type, Total = rowSums(df_sphere_cell_type))
+df_fragment_cell_type <- cbind(df_fragment_cell_type, Total = rowSums(df_fragment_cell_type))
 
-#cell type breakdown per sphere in percentage, generates at data frame with percentages  
-df_sphere_cell_type <- as.data.frame(df_sphere_cell_type)
+#cell type breakdown per fragment in percentage, generates at data frame with percentages  
+df_fragment_cell_type <- as.data.frame(df_fragment_cell_type)
 
-df_sphere_cell_type_pct = lapply(df_sphere_cell_type[,], function(x) {
-  x/df_sphere_cell_type$Total
+df_fragment_cell_type_pct = lapply(df_fragment_cell_type[,], function(x) {
+  x/df_fragment_cell_type$Total
 })
-df_sphere_cell_type_pct <- as.data.frame(df_sphere_cell_type_pct)
+df_fragment_cell_type_pct <- as.data.frame(df_fragment_cell_type_pct)
 
-#add rownames from sphere BC information 
-rownames(df_sphere_cell_type_pct) <- rownames(df_sphere_cell_type)
+#add rownames from fragment BC information 
+rownames(df_fragment_cell_type_pct) <- rownames(df_fragment_cell_type)
 
 #remove total column 
-df_sphere_cell_type_pct <- df_sphere_cell_type_pct[,-ncol(df_sphere_cell_type_pct)]
-df_sphere_cell_type_pct$sphere <- rownames(df_sphere_cell_type_pct)
+df_fragment_cell_type_pct <- df_fragment_cell_type_pct[,-ncol(df_fragment_cell_type_pct)]
+df_fragment_cell_type_pct$fragment <- rownames(df_fragment_cell_type_pct)
 #subset each celltype and add column name for cell type, then merge again 
-ct1 <- df_sphere_cell_type_pct[,colnames(df_sphere_cell_type_pct) %in% c("B","sphere")]
-colnames(ct1) <- c("proportion","sphere")
+ct1 <- df_fragment_cell_type_pct[,colnames(df_fragment_cell_type_pct) %in% c("B","fragment")]
+colnames(ct1) <- c("proportion","fragment")
 ct1$annotation <- "B"
-ct2 <- df_sphere_cell_type_pct[,colnames(df_sphere_cell_type_pct) %in% c("CD8_T","sphere")]
-colnames(ct2) <- c("proportion","sphere")
+ct2 <- df_fragment_cell_type_pct[,colnames(df_fragment_cell_type_pct) %in% c("CD8_T","fragment")]
+colnames(ct2) <- c("proportion","fragment")
 ct2$annotation <- "CD8_T"
-ct3 <- df_sphere_cell_type_pct[,colnames(df_sphere_cell_type_pct) %in% c("B_CD21_high","sphere")]
-colnames(ct3) <- c("proportion","sphere")
+ct3 <- df_fragment_cell_type_pct[,colnames(df_fragment_cell_type_pct) %in% c("B_CD21_high","fragment")]
+colnames(ct3) <- c("proportion","fragment")
 ct3$annotation <- "B_CD21_high"
-ct4 <- df_sphere_cell_type_pct[,colnames(df_sphere_cell_type_pct) %in% c("Mono_Ly6c_low","sphere")]
-colnames(ct4) <- c("proportion","sphere")
+ct4 <- df_fragment_cell_type_pct[,colnames(df_fragment_cell_type_pct) %in% c("Mono_Ly6c_low","fragment")]
+colnames(ct4) <- c("proportion","fragment")
 ct4$annotation <- "Mono_Ly6c_low"
-ct5 <- df_sphere_cell_type_pct[,colnames(df_sphere_cell_type_pct) %in% c("CD4_T","sphere")]
-colnames(ct5) <- c("proportion","sphere")
+ct5 <- df_fragment_cell_type_pct[,colnames(df_fragment_cell_type_pct) %in% c("CD4_T","fragment")]
+colnames(ct5) <- c("proportion","fragment")
 ct5$annotation <- "CD4_T"
-ct6 <- df_sphere_cell_type_pct[,colnames(df_sphere_cell_type_pct) %in% c("NK","sphere")]
-colnames(ct6) <- c("proportion","sphere")
+ct6 <- df_fragment_cell_type_pct[,colnames(df_fragment_cell_type_pct) %in% c("NK","fragment")]
+colnames(ct6) <- c("proportion","fragment")
 ct6$annotation <- "NK"
-ct7 <- df_sphere_cell_type_pct[,colnames(df_sphere_cell_type_pct) %in% c("Mono_Ly6c_high","sphere")]
-colnames(ct7) <- c("proportion","sphere")
+ct7 <- df_fragment_cell_type_pct[,colnames(df_fragment_cell_type_pct) %in% c("Mono_Ly6c_high","fragment")]
+colnames(ct7) <- c("proportion","fragment")
 ct7$annotation <- "Mono_Ly6c_high"
-ct8 <- df_sphere_cell_type_pct[,colnames(df_sphere_cell_type_pct) %in% c("Macrophages","sphere")]
-colnames(ct8) <- c("proportion","sphere")
+ct8 <- df_fragment_cell_type_pct[,colnames(df_fragment_cell_type_pct) %in% c("Macrophages","fragment")]
+colnames(ct8) <- c("proportion","fragment")
 ct8$annotation <- "Macrophages"
-ct9 <- df_sphere_cell_type_pct[,colnames(df_sphere_cell_type_pct) %in% c("Neutrophils","sphere")]
-colnames(ct9) <- c("proportion","sphere")
+ct9 <- df_fragment_cell_type_pct[,colnames(df_fragment_cell_type_pct) %in% c("Neutrophils","fragment")]
+colnames(ct9) <- c("proportion","fragment")
 ct9$annotation <- "Neutrophils"
-ct10 <- df_sphere_cell_type_pct[,colnames(df_sphere_cell_type_pct) %in% c("pDC","sphere")]
-colnames(ct10) <- c("proportion","sphere")
+ct10 <- df_fragment_cell_type_pct[,colnames(df_fragment_cell_type_pct) %in% c("pDC","fragment")]
+colnames(ct10) <- c("proportion","fragment")
 ct10$annotation <- "pDC"
 
 #merge dataframes 
@@ -182,13 +181,13 @@ ct <- rbind(ct,ct8)
 ct <- rbind(ct,ct9)
 ct <- rbind(ct,ct10)
 
-#define order of spheres based on T cell zone percentage high to low 
-df_zone <- table(merged_cl$sphere,merged_cl$zone)
+#define order of fragments based on T cell zone percentage high to low 
+df_zone <- table(merged_cl$fragment,merged_cl$zone)
 
 #include Total column
 df_zone <- cbind(df_zone, Total = rowSums(df_zone))
 
-#cell type breakdown per sphere in percentage, generates at data frame with percentages  
+#cell type breakdown per fragment in percentage, generates at data frame with percentages  
 df_zone <- as.data.frame(df_zone)
 
 df_zone_pct = lapply(df_zone[,], function(x) {
@@ -196,13 +195,13 @@ df_zone_pct = lapply(df_zone[,], function(x) {
 })
 df_zone_pct <- as.data.frame(df_zone_pct)
 
-#add rownames from sphere BC information 
+#add rownames from fragment BC information 
 rownames(df_zone_pct) <- rownames(df_zone)
 
 #order decreasing base on T zone 
 df_zone_pct <- df_zone_pct[order(df_zone_pct$B, decreasing = TRUE), ]
 
-ct$sphere <- factor(ct$sphere, levels = rownames(df_zone_pct))
+ct$fragment <- factor(ct$fragment, levels = rownames(df_zone_pct))
 
 ###Colours
 #T cell areas: red colors:  CD4 T #B50926, CD8 T#EA32EA , NK #F9AFC0
@@ -212,17 +211,14 @@ ct$sphere <- factor(ct$sphere, levels = rownames(df_zone_pct))
 #reorder cell types for plotting 
 ct$annotation <- factor(ct$annotation,levels = c("B","B_CD21_high","CD4_T","CD8_T","NK", "Macrophages","Mono_Ly6c_high",
                                                  "Mono_Ly6c_low","Neutrophils","pDC"))
-p <- ggplot(ct, aes(fill=annotation, y=proportion, x=sphere)) + theme_classic() +
+p <- ggplot(ct, aes(fill=annotation, y=proportion, x=fragment)) + theme_classic() +
   geom_bar(position="stack", stat="identity" ) + 
-  ggtitle("Cell type per sphere")+  theme(axis.text = element_text(size = 5)) + 
+  ggtitle("Cell type per fragment")+  theme(axis.text = element_text(size = 5)) + 
   theme(axis.title= element_text(size = 25))  +  theme(plot.title = element_text(size = 25, face = "bold")) + 
   theme(legend.title = element_text(size = 30), legend.text = element_text(size = 30))  + 
-  xlab("Sphere") + ylab("Cell type proportion") + 
+  xlab("Fragment") + ylab("Cell type proportion") + 
   theme(axis.text.x = element_text(angle = 90)) +
   scale_fill_manual(values=  c("#1C3EE5","#1CA7E5", "#B50926","#EA32EA", "#F9AFC0", "#EFCD8B","#E5A21C","#D2E51C","#F2EB08",
                                "#EFEF8B"))
-p + ggsave("./figures/4/Proportion_per_sphere_legend.pdf", width = 15, height = 10)
-p + ggsave("./figures/4/Proportion_per_sphere_legend.svg", width = 15, height = 10)
-
-
-
+p + ggsave("./figures/4/Proportion_per_fragment_legend.pdf", width = 15, height = 10)
+p + ggsave("./figures/4/Proportion_per_fragment_legend.svg", width = 15, height = 10)
