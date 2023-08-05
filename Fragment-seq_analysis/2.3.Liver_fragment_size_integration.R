@@ -1,14 +1,14 @@
-########## Part 2.3: Sphere size integration of liver samples ##########
-#This part integrates sphere size with Seurat object
-#Sphere size is calculated using acquired TOF measurements of sorted spheres, which is fit into a linear model from standard size beads TOF measurements
+########## Part 2.3: Fragment size integration of liver samples ##########
+#This part integrates fragment size with Seurat object
+#Fragmetn size is calculated using acquired TOF measurements of sorted fragments, which is fit into a linear model from standard size beads TOF measurements
 
 ########## Prepare environment ##########
 ###Setting the working directory 
-setwd("/mnt/khandler/R_projects/Sphere-sequencing/Sphere-seq_analysis/")
+setwd("/mnt/khandler/R_projects/Fragment-sequencing/Fragment-seq_analysis/")
 
 ###Load packages and functions 
 source("./functions_and_packages/1.Packages.R")
-source("./functions_and_packages/3.Functions_sphere_size_GFP_integration.R")
+source("./functions_and_packages/3.Functions_fragment_size_GFP_integration.R")
 
 ########## Linear model of standard sized beads ##########
 #TOF from standard sized beads (60µm, 125µm and 175µm) was acquired and a linear model was generated 
@@ -97,7 +97,7 @@ S2_Plate5$plate_id <- paste0("plate_", c(rep(3, nrow(S2_Plate5))))
 
 S2 <- full_join(S2_Plate1, S2_Plate2)
 S2 <- full_join(S2,S2_Plate3)
-#in plate 1 the plate was turned while pipetting the sphere BC, therefore switch Row and columns
+#in plate 1 the plate was turned while pipetting the fragment BC, therefore switch Row and columns
 #A=H, B=G, C=F, D=E, E=D, F=C, G=B, H=A
 #1=12,2=11,3=10,4=9,5=8,6=7,7=6,8=5,9=4,10=3,11=2,12=1
 numbers <- c(12:1,1:12,12:1,1:12,12:1,1:12,12:1,1:12)
@@ -327,8 +327,8 @@ S10 <- full_join(S10,S10_Plate3)
 S10 <- full_join(S10,S10_Plate4)
 
 
-########## Sphere size prediction and integration into Seurat object ##########
-###map output of Biosorter with sphere (MULTI-seq) ID 
+########## Fragment size prediction and integration into Seurat object ##########
+###map output of Biosorter with fragment (MULTI-seq) ID 
 S1_2 <- Biosorter_output_managing(S1,"_1")
 S2_2 <- Biosorter_output_managing(S2,"_2")
 S3_2 <- Biosorter_output_managing(S3,"_3")
@@ -351,7 +351,7 @@ biosorter_all <- full_join(biosorter_all,S8_2)
 biosorter_all <- full_join(biosorter_all,S9_2)
 biosorter_all <- full_join(biosorter_all,S10_2)
 
-###Integrate sphere-size information with Seurat object 
+###Integrate fragment-size information with Seurat object 
 Biosorter_data_seurat_integration(
   "./data_files_generated/LiverMerged_afterBC_anno.Rda",
   biosorter_all,
@@ -359,19 +359,19 @@ Biosorter_data_seurat_integration(
 
 ###Remove negative and doublets 
 liverSpS <- readRDS("./data_files_generated/LiverMerged_afterBC_anno_BS.Rda")
-spheres <- as.data.frame(table(liverSpS$sphere))$Var1
-spheres <- as.character(spheres)
-spheres <- spheres[!spheres %in% c("Negative_1","Negative_2","Negative_3","Negative_4","Negative_5",
+fragments <- as.data.frame(table(liverSpS$fragment))$Var1
+fragments <- as.character(fragments)
+fragments <- fragments[!fragments %in% c("Negative_1","Negative_2","Negative_3","Negative_4","Negative_5",
                                    "Negative_6","Negative_7","Negative_8","Negative_9","Negative_10",
                                    "Doublet_1","Doublet_2","Doublet_3","Doublet_4","Doublet_5",
                                    "Doublet_6","Doublet_7","Doublet_8","Doublet_9","Doublet_10")]
-Idents(liverSpS) <- "sphere"
-liverSpS <- subset(liverSpS, idents = spheres)
+Idents(liverSpS) <- "fragment"
+liverSpS <- subset(liverSpS, idents = fragments)
 
 ###save object 
 saveRDS(liverSpS,file = "./data_files_generated/LiverMerged_afterBC_anno_BS.Rda")
 
-########## Plot sphere size distribution per sample ##########
+########## Plot fragment size distribution per sample ##########
 ###subset each sample 
 #M1=S1, M3=S2, M4=S3, 4M1=S4, 4M2=S5, M5=S6, 6M1=S7, 6M2=S8, 6M3=S9, WTCre=S10
 Idents(liverSpS) <- "orig.ident"
@@ -386,17 +386,17 @@ subS8 <- subset(liverSpS, idents = c("6M2"))
 subS9 <- subset(liverSpS, idents = c("6M3"))
 subS10 <- subset(liverSpS, idents = c("WTCre"))
 
-###Make data frames of sphere sizes per sample
-dfS1_size <- BS_df_for_boxplot_per_sample(subS1,"sphere","sphere_size","S1")
-dfS2_size <- BS_df_for_boxplot_per_sample(subS2,"sphere","sphere_size","S2")
-dfS3_size <- BS_df_for_boxplot_per_sample(subS3,"sphere","sphere_size","S3")
-dfS4_size <- BS_df_for_boxplot_per_sample(subS4,"sphere","sphere_size","S4")
-dfS5_size <- BS_df_for_boxplot_per_sample(subS5,"sphere","sphere_size","S5")
-dfS6_size <- BS_df_for_boxplot_per_sample(subS6,"sphere","sphere_size","S6")
-dfS7_size <- BS_df_for_boxplot_per_sample(subS7,"sphere","sphere_size","S7")
-dfS8_size <- BS_df_for_boxplot_per_sample(subS8,"sphere","sphere_size","S8")
-dfS9_size <- BS_df_for_boxplot_per_sample(subS9,"sphere","sphere_size","S9")
-dfS10_size <- BS_df_for_boxplot_per_sample(subS10,"sphere","sphere_size","S10")
+###Make data frames of fragment sizes per sample
+dfS1_size <- BS_df_for_boxplot_per_sample(subS1,"fragment","fragment_size","S1")
+dfS2_size <- BS_df_for_boxplot_per_sample(subS2,"fragment","fragment_size","S2")
+dfS3_size <- BS_df_for_boxplot_per_sample(subS3,"fragment","fragment_size","S3")
+dfS4_size <- BS_df_for_boxplot_per_sample(subS4,"fragment","fragment_size","S4")
+dfS5_size <- BS_df_for_boxplot_per_sample(subS5,"fragment","fragment_size","S5")
+dfS6_size <- BS_df_for_boxplot_per_sample(subS6,"fragment","fragment_size","S6")
+dfS7_size <- BS_df_for_boxplot_per_sample(subS7,"fragment","fragment_size","S7")
+dfS8_size <- BS_df_for_boxplot_per_sample(subS8,"fragment","fragment_size","S8")
+dfS9_size <- BS_df_for_boxplot_per_sample(subS9,"fragment","fragment_size","S9")
+dfS10_size <- BS_df_for_boxplot_per_sample(subS10,"fragment","fragment_size","S10")
 
 #merge data frames
 size_merged_df <- rbind(dfS1_size,dfS2_size)
@@ -410,11 +410,11 @@ size_merged_df <- rbind(size_merged_df,dfS9_size)
 size_merged_df <- rbind(size_merged_df,dfS10_size)
 
 ###Plot in boxplot 
-p <- ggplot(size_merged_df,aes(x = sample,y = sphere_size, fill = sample)) +theme_classic() +
+p <- ggplot(size_merged_df,aes(x = sample,y = fragment_size, fill = sample)) +theme_classic() +
   geom_boxplot() +
   geom_jitter(position = position_jitter(seed = 1, width =0.4),size = 1) + 
   theme(axis.text = element_text(size = 30))  +
-  ggtitle("Sphere size per sample and sphere") + xlab("Sample") + 
+  ggtitle("Fragment size per sample and fragment") + xlab("Sample") + 
   ylab("Size (µm)") + theme(axis.title= element_text(size = 25)) + 
   theme(plot.title = element_text(size = 25, face = "bold")) + 
   theme(legend.title = element_text(size = 30), legend.text = element_text(size = 30)) 
