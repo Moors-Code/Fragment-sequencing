@@ -109,6 +109,8 @@ Data for the above publication can be found at GEO with the access number: … a
 
 9.Liver_fragment_seq_vs_MC.R: This part compares cell types from fragment-seq to Molecular Cartography data. 
 
+10.Other_spatial_reconstruction_approaches.R: This part applies an alternative reconstruction approach of fragments using marker genes from Molecular Cartography and pseudobulk clustering of fragments. 
+
 ### Highly_multiplexed_FISH_analysis (Molecular Cartography)
 
 #### functions_and_packages 
