@@ -9,7 +9,7 @@ setwd("~/")
 source("./functions_and_packages/1.Packages.R")
 
 ### load R object 
-fragment_seq <- readRDS("./Sphere-seq_analysis/data_files_generated/LiverMerged_afterBC_anno_BS_5cells_zC_lobules_Mets_distance.Rda")
+fragment_seq <- readRDS("./Fragment-seq_analysis/data_files_generated/LiverMerged_afterBC_anno_BS_5cells_zC_lobules_Mets_distance.Rda")
 MC_data <- readRDS("./Highly_multiplexed_FISH_analysis/data_files_generated/Resolve_seurat_anno.rds")
 
 ### only take M5 sample (one metastatic liver)
@@ -42,7 +42,7 @@ write.csv(a, "/Users/handler/Desktop/Sup11_a.csv")
 fragment_seq <- NormalizeData(fragment_seq, normalization.method = "LogNormalize",
                             scale.factor = 10000,
                             margin = 1, assay = "RNA")
-fragment_seq_AE <- AverageExpression(fragment_seq,assays = "RNA",slot = "data", group.by = "sphere", return.seurat = TRUE, 
+fragment_seq_AE <- AverageExpression(fragment_seq,assays = "RNA",slot = "data", group.by = "fragment", return.seurat = TRUE, 
                                    features = top_10_genes)
 fragment_seq_AE <- ScaleData(fragment_seq_AE, vars.to.regress = c("nFeature_RNA"), verbose = FALSE)
 fragment_seq_AE <- FindVariableFeatures(object = fragment_seq_AE)
@@ -72,8 +72,8 @@ cluster1_bc <- as.data.frame(table(rownames(sub2@meta.data)))$Var1
 fragment_seq$Pseudobulk_cluster <- NA
 fragment_seq@meta.data <- fragment_seq@meta.data %>%
   mutate(Pseudobulk_cluster = case_when(
-    sphere %in% cluster2_bc ~ "cluster2",
-    sphere %in% cluster1_bc ~ "cluster1",
+    fragment %in% cluster2_bc ~ "cluster2",
+    fragment %in% cluster1_bc ~ "cluster1",
     TRUE ~ NA_character_))
 
 #DimPlot
