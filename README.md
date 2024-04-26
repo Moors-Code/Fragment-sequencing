@@ -17,7 +17,7 @@ Kristina Handler, Karsten Bach, Costanza Borrelli, Xenia Ficht, Ilhan E. Acar, A
 
 
 ## Data
-Data for the above publication can be found at GEO with the access number: GSE192742 and Resolve data at zenodo.org with the doi: 10.5281/zenodo.8413572
+Data for the above publication can be found at GEO with the access number: GSE216189 and Resolve data at zenodo.org with the doi: 10.5281/zenodo.8413572
 
 
 ## Code description: 
